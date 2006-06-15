@@ -706,7 +706,7 @@ On Error GoTo ErrHand:
         Exit Sub
 694:       End If
       
-'      Set pGridLayer = pDoc.Maps.Item(lLoop).Layer(0)
+           Set pGridLayer = pDoc.Maps.Item(lLoop).Layer(0)
 697:       Set pGridSel = pGridLayer
 698:       Set pQuery = New QueryFilter
 699:       pQuery.WhereClause = pSeriesProps.IndexFieldName & " = '" & m_sPageName & "'"
@@ -715,6 +715,9 @@ On Error GoTo ErrHand:
         
 703:       If pMap.Name = "Global Indicator" Then
 704:         Set pActive = pDoc.Maps.Item(lLoop)
+
+             pActive.ScreenDisplay.DisplayTransformation.Rotation = m_dPageRotation
+
 705:         If bRefreshFlag Then pActive.Refresh
 706:       ElseIf pMap.Name = "Local Indicator" Then
 707:         Set pSpatial = New SpatialFilter
@@ -732,6 +735,9 @@ On Error GoTo ErrHand:
 719:           Set pFeature = pCursor.NextFeature
 720:         Loop
 721:         Set pActive = pMap
+
+             pActive.ScreenDisplay.DisplayTransformation.Rotation = m_dPageRotation
+
 722:         pActive.Extent = pEnv
 723:         If bRefreshFlag Then pActive.Refresh
 724:       End If
