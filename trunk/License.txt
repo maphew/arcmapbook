@@ -23,5 +23,5 @@ Redlands, California, U.S.A. 92373
 
 Email: contracts@esri.com
 
--- http://edndoc.esri.com/arcobjects/9.0/Samples/Cartography/Map_Production/DSMapBook/Visual_Basic/clsDSMapBook.htm
+-- http://edn.esri.com/index.cfm?fa=codeExch.sampleDetail&pg=/arcobjects/9.1/Samples/Cartography/Map_Production/DSMapBook/Visual_Basic/clsDSMapBook.htm
 
