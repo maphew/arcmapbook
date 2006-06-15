@@ -1,0 +1,161 @@
+Dim m_pActiveView As IActiveView
+Dim m_pMap As IMap
+
+Sub LabelTiles()
+  Dim pDoc As IMxDocument, pMap As IMap, pFLayer As IFeatureLayer
+  Dim pElem As IElement, pTextElem As ITextElement
+  Dim pGraph As IGraphicsContainer, pTextSym As ITextSymbol
+  Dim pEnumFeat As IEnumFeature, pIndexFeat As IFeature
+  Dim pSpatial As ISpatialFilter, pFeatCursor As IFeatureCursor
+  Dim pFeats As IFeature
+  Set pDoc = ThisDocument
+  Set pMap = pDoc.FocusMap
+  Set m_pActiveView = pDoc.ActiveView
+  Set pFLayer = pMap.Layer(2)
+  Set m_pMap = pMap
+  
+  Set pEnumFeat = pMap.FeatureSelection
+  Set pIndexFeat = pEnumFeat.Next
+  Set pSpatial = New SpatialFilter
+  Set pSpatial.Geometry = pIndexFeat.Shape
+  pSpatial.GeometryField = pFLayer.FeatureClass.ShapeFieldName
+  pSpatial.SpatialRel = esriSpatialRelTouches
+  Set pFeatCursor = pFLayer.Search(pSpatial, False)
+  Set pFeats = pFeatCursor.NextFeature
+  Do While Not pFeats Is Nothing
+    LabelAdjacent pFeats, pIndexFeat
+    Set pFeats = pFeatCursor.NextFeature
+  Loop
+End Sub
+
+Sub LabelAdjacent(pLabelFeat As IFeature, pIndexFeat As IFeature)
+  Dim pCommonGeom As IGeometry, pTopoOp As ITopologicalOperator
+  Dim pMidPt As IPoint, pPolyline As IPolyline, pEnv As IEnvelope
+  Dim pCenterPt As IPoint, pMapView As IActiveView, pMulti As IPointCollection
+  Dim pGraph As IGraphicsContainer, lLoop As Long, pElem As IElement
+  Dim pElemProps As IElementProperties
+  Set pTopoOp = pIndexFeat.Shape
+  Set pCommonGeom = pTopoOp.Intersect(pLabelFeat.Shape, esriGeometry1Dimension)
+  If pCommonGeom.IsEmpty Then
+    Set pCommonGeom = pTopoOp.Intersect(pLabelFeat.Shape, esriGeometry0Dimension)
+    Set pMulti = pCommonGeom
+    Set pMidPt = pMulti.Point(0)
+  Else
+    Set pPolyline = pCommonGeom
+    Set pMidPt = New Point
+    pPolyline.QueryPoint esriNoExtension, 0.5, True, pMidPt
+  End If
+    
+  'Find center point of map frame
+  Set pCenterPt = New esriCore.Point
+  Set pMapView = m_pMap
+  Set pEnv = pMapView.Extent
+  pCenterPt.X = pEnv.XMin + ((pEnv.XMax - pEnv.XMin) / 2)
+  pCenterPt.Y = pEnv.YMin + ((pEnv.YMax - pEnv.YMin) / 2)
+
+  'Get the geometry of the map frame
+  Dim pMapFrame As IMapFrame, pMapEnv As IEnvelope, pFramePoly As IPointCollection
+  Set pGraph = m_pActiveView
+  pGraph.Reset
+  Set pElem = pGraph.Next
+  Do While Not pElem Is Nothing
+    If TypeOf pElem Is IMapFrame Then
+      Set pMapFrame = pElem
+      Exit Do
+    End If
+    Set pElem = pGraph.Next
+  Loop
+  Set pMapEnv = pMapFrame.MapBounds
+  Set pFramePoly = pElem.Geometry
+  
+  'Create curves and intersect them
+  Dim pPoints As IPointCollection, pCurve As IConstructCurve, bFlag As Boolean
+  Dim pPoints2 As IPointCollection
+  Dim pPolyline2 As IPolyline
+  Set pPoints = New Polyline
+  pPoints.AddPoint pMapEnv.LowerLeft
+  pPoints.AddPoint pMapEnv.LowerRight
+  pPoints.AddPoint pMapEnv.UpperRight
+  pPoints.AddPoint pMapEnv.UpperLeft
+  
+  Set pPoints2 = New Polyline
+  pPoints2.AddPoint pCenterPt
+  pPoints2.AddPoint pMidPt
+  
+  Set pCurve = New Polyline
+  pCurve.ConstructExtended pPoints2, pPoints, 8, True
+  Set pPolyline2 = pCurve
+  
+  'Extrapolate the point on the extent to a point on the outside of the map frame
+  'Figure out which segment we are closest to
+  Dim pLine As ILine, dDist As Double, iSeg As Integer, pEndPt As IPoint
+  Dim pProx As IProximityOperator, dTmpDist As Double, pCurve2 As ICurve
+  Dim pOutPt As IPoint, dAlong As Double, dFrom As Double, bSide As Boolean
+  Set pEndPt = pPolyline2.ToPoint
+  Set pProx = pEndPt
+  dDist = 999999
+  iSeg = -1
+  For lLoop = 0 To 3
+    Set pLine = New Line
+    Select Case lLoop
+    Case 0
+      pLine.PutCoords pMapEnv.LowerLeft, pMapEnv.UpperLeft
+    Case 1
+      pLine.PutCoords pMapEnv.UpperLeft, pMapEnv.UpperRight
+    Case 2
+      pLine.PutCoords pMapEnv.UpperRight, pMapEnv.LowerRight
+    Case Else
+      pLine.PutCoords pMapEnv.LowerRight, pMapEnv.LowerLeft
+    End Select
+    
+    dTmpDist = pProx.ReturnDistance(pLine)
+    If dTmpDist < dDist Then
+      dDist = dTmpDist
+      iSeg = lLoop
+      Set pCurve2 = pLine
+    End If
+  Next lLoop
+  Set pOutPt = New esriCore.Point
+  pCurve2.QueryPointAndDistance esriNoExtension, pEndPt, True, pOutPt, dAlong, dFrom, bSide
+  
+  'We know have the segment and ratio length on that segment, so we can transfer that
+  'information to the frame geometry and find the corresponding point there
+  Dim pPt As IConstructPoint, pCurve3 As ICurve, pNewPt As IPoint
+  Dim pTextElem As ITextElement, pTextSym As ISimpleTextSymbol
+  Set pTextElem = New TextElement
+  Set pTextSym = pTextElem.Symbol
+  
+  Set pPt = New esriCore.Point
+  Set pLine = New esriCore.Line
+  Select Case iSeg
+  Case 0
+    pLine.PutCoords pFramePoly.Point(0), pFramePoly.Point(1)
+    pTextSym.Angle = 90
+    pTextSym.HorizontalAlignment = esriTHACenter
+    pTextSym.VerticalAlignment = esriTVABottom
+  Case 1
+    pLine.PutCoords pFramePoly.Point(1), pFramePoly.Point(2)
+    pTextSym.HorizontalAlignment = esriTHACenter
+    pTextSym.VerticalAlignment = esriTVABottom
+  Case 2
+    pLine.PutCoords pFramePoly.Point(2), pFramePoly.Point(3)
+    pTextSym.Angle = 270
+    pTextSym.HorizontalAlignment = esriTHACenter
+    pTextSym.VerticalAlignment = esriTVATop
+  Case 3
+    pLine.PutCoords pFramePoly.Point(3), pFramePoly.Point(0)
+    pTextSym.HorizontalAlignment = esriTHACenter
+    pTextSym.VerticalAlignment = esriTVATop
+  End Select
+  Set curve3 = pLine
+  pPt.ConstructAlong pLine, esriNoExtension, dAlong, True
+  Set pNewPt = pPt
+  
+  'Now that we have a point along the data frame, we can place the label based on
+  'that point and which side of the frame it is on
+  Set pElem = pTextElem
+  pTextElem.Text = pLabelFeat.Value(2)
+  pTextElem.Symbol = pTextSym
+  pElem.Geometry = pNewPt
+  pGraph.AddElement pElem, 0
+End Sub
