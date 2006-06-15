@@ -11,6 +11,34 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
+
+' Copyright 1995-2004 ESRI
+
+' All rights reserved under the copyright laws of the United States.
+
+' You may freely redistribute and use this sample code, with or without modification.
+
+' Disclaimer: THE SAMPLE CODE IS PROVIDED "AS IS" AND ANY EXPRESS OR IMPLIED 
+' WARRANTIES, INCLUDING THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
+' FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL ESRI OR 
+' CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, 
+' OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
+' SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+' INTERRUPTION) SUSTAINED BY YOU OR A THIRD PARTY, HOWEVER CAUSED AND ON ANY 
+' THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT ARISING IN ANY 
+' WAY OUT OF THE USE OF THIS SAMPLE CODE, EVEN IF ADVISED OF THE POSSIBILITY OF 
+' SUCH DAMAGE.
+
+' For additional information contact: Environmental Systems Research Institute, Inc.
+
+' Attn: Contracts Dept.
+
+' 380 New York Street
+
+' Redlands, California, U.S.A. 92373 
+
+' Email: contracts@esri.com
+
 Attribute VB_Ext_KEY = "SavedWithClassBuilder" ,"Yes"
 Attribute VB_Ext_KEY = "Top_Level" ,"Yes"
 Attribute VB_Ext_KEY = "SavedWithClassBuilder6" ,"Yes"
@@ -22,26 +50,26 @@ Option Explicit
 Implements IToolBarDef
 
 Private Property Get IToolBarDef_Caption() As String
-  IToolBarDef_Caption = "Map Series"
+9:   IToolBarDef_Caption = "Map Series"
 End Property
 
 Private Sub IToolBarDef_GetItemInfo(ByVal pos As Long, ByVal itemDef As IItemDef)
   Select Case pos
   Case 0
-    itemDef.ID = "DSMapBookUIPrj.CreateMapBook"
+15:     itemDef.ID = "DSMapBookUIPrj.CreateMapBook"
   Case 1
-    itemDef.ID = "DSMapBookUIPrj.PageIdentifier"
+17:     itemDef.ID = "DSMapBookUIPrj.PageIdentifier"
   Case 2
-    itemDef.ID = "DSMapBookUIPrj.clsMapGridButton"
+19:     itemDef.ID = "DSMapBookUIPrj.clsMapGridButton"
   Case 3
-    itemDef.ID = "DSMapBookUIPrj.clsStripMapButton"
-  End Select
+21:     itemDef.ID = "DSMapBookUIPrj.clsStripMapButton"
+22:   End Select
 End Sub
 
 Private Property Get IToolBarDef_ItemCount() As Long
-  IToolBarDef_ItemCount = 4
+26:   IToolBarDef_ItemCount = 4
 End Property
 
 Private Property Get IToolBarDef_name() As String
-  IToolBarDef_name = "DSMapBookUIPrj.MapSeriesBar"
+30:   IToolBarDef_name = "DSMapBookUIPrj.MapSeriesBar"
 End Property

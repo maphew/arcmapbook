@@ -11,6 +11,34 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
+
+' Copyright 1995-2004 ESRI
+
+' All rights reserved under the copyright laws of the United States.
+
+' You may freely redistribute and use this sample code, with or without modification.
+
+' Disclaimer: THE SAMPLE CODE IS PROVIDED "AS IS" AND ANY EXPRESS OR IMPLIED 
+' WARRANTIES, INCLUDING THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
+' FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL ESRI OR 
+' CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, 
+' OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
+' SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+' INTERRUPTION) SUSTAINED BY YOU OR A THIRD PARTY, HOWEVER CAUSED AND ON ANY 
+' THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT ARISING IN ANY 
+' WAY OUT OF THE USE OF THIS SAMPLE CODE, EVEN IF ADVISED OF THE POSSIBILITY OF 
+' SUCH DAMAGE.
+
+' For additional information contact: Environmental Systems Research Institute, Inc.
+
+' Attn: Contracts Dept.
+
+' 380 New York Street
+
+' Redlands, California, U.S.A. 92373 
+
+' Email: contracts@esri.com
+
 Option Explicit
 
 Implements ICommand
@@ -19,24 +47,24 @@ Implements ITool
 Dim m_pApp As IApplication
 Dim m_sName As String
 
-Private Property Get ICommand_Bitmap() As esriCore.OLE_HANDLE
-  ICommand_Bitmap = frmResources.picIdentifier.Picture.Handle
+Private Property Get ICommand_Bitmap() As esriSystem.OLE_HANDLE
+10:   ICommand_Bitmap = frmResources.picIdentifier.Picture.Handle
 End Property
 
 Private Property Get ICommand_Caption() As String
-  ICommand_Caption = "Add Identifier Frame"
+14:   ICommand_Caption = "Add Identifier Frame"
 End Property
 
 Private Property Get ICommand_Category() As String
-  ICommand_Category = "Developer Samples"
+18:   ICommand_Category = "Developer Samples"
 End Property
 
 Private Property Get ICommand_Checked() As Boolean
-  ICommand_Checked = False
+22:   ICommand_Checked = False
 End Property
 
 Private Property Get ICommand_Enabled() As Boolean
-  ICommand_Enabled = True
+26:   ICommand_Enabled = True
 End Property
 
 Private Property Get ICommand_HelpContextID() As Long
@@ -48,43 +76,43 @@ Private Property Get ICommand_HelpFile() As String
 End Property
 
 Private Property Get ICommand_Message() As String
-  ICommand_Message = "Identifier Frame"
+38:   ICommand_Message = "Identifier Frame"
 End Property
 
 Private Property Get ICommand_Name() As String
-  ICommand_Name = "DSMapBookUIPrj.PageIdentifier"
+42:   ICommand_Name = "DSMapBookUIPrj.PageIdentifier"
 End Property
 
 Private Sub ICommand_OnClick()
     'Get Identifer type
-  frmPageIdentifier.Show vbModal
-  If frmPageIdentifier.optIdentifier(0).Value Then
-    m_sName = "Local Indicator"
-  Else
-    m_sName = "Global Indicator"
-  End If
-  Unload frmPageIdentifier
+47:   frmPageIdentifier.Show vbModal
+48:   If frmPageIdentifier.optIdentifier(0).Value Then
+49:     m_sName = "Local Indicator"
+50:   Else
+51:     m_sName = "Global Indicator"
+52:   End If
+53:   Unload frmPageIdentifier
 End Sub
 
 Private Sub ICommand_OnCreate(ByVal hook As Object)
-  Set m_pApp = hook
+57:   Set m_pApp = hook
 End Sub
 
 Private Property Get ICommand_Tooltip() As String
-  ICommand_Tooltip = "Add Identifier Frame"
+61:   ICommand_Tooltip = "Add Identifier Frame"
 End Property
 
-Private Property Get ITool_Cursor() As esriCore.OLE_HANDLE
+Private Property Get ITool_Cursor() As esriSystem.OLE_HANDLE
 On Error GoTo ErrHand:
-  ITool_Cursor = frmResources.imlIcons.ListImages(1).Picture
+66:   ITool_Cursor = frmResources.imlIcons.ListImages(1).Picture
   
   Exit Property
 ErrHand:
-  MsgBox "ITool_Cursor - " & Err.Description
+70:   MsgBox "ITool_Cursor - " & Err.Description
 End Property
 
 Private Function ITool_Deactivate() As Boolean
-  ITool_Deactivate = True
+74:   ITool_Deactivate = True
 End Function
 
 Private Function ITool_OnContextMenu(ByVal X As Long, ByVal Y As Long) As Boolean
@@ -118,93 +146,93 @@ On Error GoTo ErrHand:
   Dim pMapBook As IDSMapBook
   Dim pSeriesProps As IDSMapSeriesProps, pFill2 As ISimpleFillSymbol
     
-  Set pMxApp = m_pApp
-  Set pMxDoc = m_pApp.Document
-  Set pGraphicsContainer = pMxDoc.PageLayout
-  Set pRubberBand = New RubberEnvelope
-  Set pScreenDisplay = pMxApp.Display
-  Set pGeometry = pRubberBand.TrackNew(pScreenDisplay, Nothing)
+108:   Set pMxApp = m_pApp
+109:   Set pMxDoc = m_pApp.Document
+110:   Set pGraphicsContainer = pMxDoc.PageLayout
+111:   Set pRubberBand = New RubberEnvelope
+112:   Set pScreenDisplay = pMxApp.Display
+113:   Set pGeometry = pRubberBand.TrackNew(pScreenDisplay, Nothing)
   
   'Get the index layer from the current Map Series
-  Set pMapBook = GetMapBookExtension(m_pApp)
+116:   Set pMapBook = GetMapBookExtension(m_pApp)
   If pMapBook Is Nothing Then Exit Sub
   
-  If pMapBook.ContentCount = 0 Then
-    MsgBox "You need to create a Map Series before adding a Page Identifier!!!"
+119:   If pMapBook.ContentCount = 0 Then
+120:     MsgBox "You need to create a Map Series before adding a Page Identifier!!!"
     Exit Sub
-  End If
-  Set pSeriesProps = pMapBook.ContentItem(0)
+122:   End If
+123:   Set pSeriesProps = pMapBook.ContentItem(0)
   'Find the data frame
-  Set pMap = FindDataFrame(pMxDoc, pSeriesProps.DataFrameName)
-  If pMap Is Nothing Then
-    MsgBox "Could not find map in PageIdentifier_OnMouseDown routine!!!"
+125:   Set pMap = FindDataFrame(pMxDoc, pSeriesProps.DataFrameName)
+126:   If pMap Is Nothing Then
+127:     MsgBox "Could not find map in PageIdentifier_OnMouseDown routine!!!"
     Exit Sub
-  End If
+129:   End If
   
   'Find the Index layer
-  Set pGridLayer = FindLayer(pSeriesProps.IndexLayerName, pMap)
-  If pGridLayer Is Nothing Then
-    MsgBox "Could not find index layer in PageIdentifier_OnMouseDown routine!!!"
+132:   Set pGridLayer = FindLayer(pSeriesProps.IndexLayerName, pMap)
+133:   If pGridLayer Is Nothing Then
+134:     MsgBox "Could not find index layer in PageIdentifier_OnMouseDown routine!!!"
     Exit Sub
-  End If
+136:   End If
   
   'Create a new map and layer
-  Set pMap = New Map
-  pMap.Name = m_sName
-  Set pFeatLayer = New FeatureLayer
-  Set pRend = New SimpleRenderer
-  Set pColor = New RgbColor    'Fill Outline symbol
-  Set pColor2 = New RgbColor   'Fill Symbol
-  Set pColor3 = New RgbColor   'Selection Fill symbol
-  pColor.RGB = RGB(0, 0, 0)
-  pColor2.NullColor = True
-  pColor3.RGB = RGB(180, 180, 180)
-  Set pFill = New SimpleFillSymbol
-  Set pFill2 = New SimpleFillSymbol
-  Set pLineSym = New SimpleLineSymbol
-  Set pLineSym2 = New SimpleLineSymbol
-  pLineSym.Color = pColor
-  pLineSym.Width = 1
-  pFill.Color = pColor2
-  pFill.Outline = pLineSym
-  Set pRend.Symbol = pFill
-  Set pFeatLayer.FeatureClass = pGridLayer.FeatureClass
-  pFeatLayer.Name = "Identifier Layer"
-  Set pGeoFeatLayer = pFeatLayer
-  Set pGeoFeatLayer.Renderer = pRend
-  pLineSym2.Color = pColor2
-  pFill2.Color = pColor3
-  pFill2.Outline = pLineSym
-  pMap.AddLayer pFeatLayer
-  Set pFeatSel = pFeatLayer
-  Set pFeatSel.SelectionSymbol = pFill2
-  pFeatSel.SetSelectionSymbol = True
+139:   Set pMap = New Map
+140:   pMap.Name = m_sName
+141:   Set pFeatLayer = New FeatureLayer
+142:   Set pRend = New SimpleRenderer
+143:   Set pColor = New RgbColor    'Fill Outline symbol
+144:   Set pColor2 = New RgbColor   'Fill Symbol
+145:   Set pColor3 = New RgbColor   'Selection Fill symbol
+146:   pColor.RGB = RGB(0, 0, 0)
+147:   pColor2.NullColor = True
+148:   pColor3.RGB = RGB(180, 180, 180)
+149:   Set pFill = New SimpleFillSymbol
+150:   Set pFill2 = New SimpleFillSymbol
+151:   Set pLineSym = New SimpleLineSymbol
+152:   Set pLineSym2 = New SimpleLineSymbol
+153:   pLineSym.Color = pColor
+154:   pLineSym.Width = 1
+155:   pFill.Color = pColor2
+156:   pFill.Outline = pLineSym
+157:   Set pRend.Symbol = pFill
+158:   Set pFeatLayer.FeatureClass = pGridLayer.FeatureClass
+159:   pFeatLayer.Name = "Identifier Layer"
+160:   Set pGeoFeatLayer = pFeatLayer
+161:   Set pGeoFeatLayer.Renderer = pRend
+162:   pLineSym2.Color = pColor2
+163:   pFill2.Color = pColor3
+164:   pFill2.Outline = pLineSym
+165:   pMap.AddLayer pFeatLayer
+166:   Set pFeatSel = pFeatLayer
+167:   Set pFeatSel.SelectionSymbol = pFill2
+168:   pFeatSel.SetSelectionSymbol = True
     
   'Create a new MapFrame and associate map with it
   Dim pMapFrame As IMapFrame
-  Set pMapFrame = New MapFrame
-  Set pMapFrame.Map = pMap
+172:   Set pMapFrame = New MapFrame
+173:   Set pMapFrame.Map = pMap
   
   'Set the position of the new map frame
-  Set pElement = pMapFrame
-  pElement.Geometry = pGeometry
+176:   Set pElement = pMapFrame
+177:   pElement.Geometry = pGeometry
   
   'Add mapframe to the layout
-  pGraphicsContainer.AddElement pMapFrame, 0
-  Set pActive = pMap
-  pActive.Refresh
+180:   pGraphicsContainer.AddElement pMapFrame, 0
+181:   Set pActive = pMap
+182:   pActive.Refresh
   
   'Refresh ActiveView and TOC
-  Set pActive = pMxDoc.FocusMap
-  pActive.Refresh
-  pMxDoc.CurrentContentsView.Refresh 0
+185:   Set pActive = pMxDoc.FocusMap
+186:   pActive.Refresh
+187:   pMxDoc.CurrentContentsView.Refresh 0
   
   'Deactivate the tool
-  Set m_pApp.CurrentTool = Nothing
+190:   Set m_pApp.CurrentTool = Nothing
   
   Exit Sub
 ErrHand:
-  MsgBox "PageIdentifier_OnMouseDown - " & Err.Description
+194:   MsgBox "PageIdentifier_OnMouseDown - " & Err.Description
 End Sub
 
 Private Sub ITool_OnMouseMove(ByVal Button As Long, ByVal Shift As Long, ByVal X As Long, ByVal Y As Long)
@@ -215,6 +243,6 @@ Private Sub ITool_OnMouseUp(ByVal Button As Long, ByVal Shift As Long, ByVal X A
 
 End Sub
 
-Private Sub ITool_Refresh(ByVal hdc As esriCore.OLE_HANDLE)
+Private Sub ITool_Refresh(ByVal hdc As esriSystem.OLE_HANDLE)
 
 End Sub

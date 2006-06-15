@@ -11,12 +11,41 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
+
+' Copyright 1995-2004 ESRI
+
+' All rights reserved under the copyright laws of the United States.
+
+' You may freely redistribute and use this sample code, with or without modification.
+
+' Disclaimer: THE SAMPLE CODE IS PROVIDED "AS IS" AND ANY EXPRESS OR IMPLIED
+' WARRANTIES, INCLUDING THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+' FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL ESRI OR
+' CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY,
+' OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+' SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+' INTERRUPTION) SUSTAINED BY YOU OR A THIRD PARTY, HOWEVER CAUSED AND ON ANY
+' THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT ARISING IN ANY
+' WAY OUT OF THE USE OF THIS SAMPLE CODE, EVEN IF ADVISED OF THE POSSIBILITY OF
+' SUCH DAMAGE.
+
+' For additional information contact: Environmental Systems Research Institute, Inc.
+
+' Attn: Contracts Dept.
+
+' 380 New York Street
+
+' Redlands, California, U.S.A. 92373
+
+' Email: contracts@esri.com
+
 Option Explicit
 
 Implements IDSMapSeries
 Implements IDSMapSeriesProps
 Implements IDSMapSeriesOptions
 Implements IDSMapSeriesOptions2  'Added 6/18/03 to support cross hatching of clip
+Implements IDSMapSeriesOptions3   'Added 11/23/2004 to support selection of the tile
 Implements IPersistVariant
 
 Private m_PageColl As Collection
@@ -38,303 +67,355 @@ Private m_sIndexLayerName As String
 Private m_SuppressColl As Collection
 Private m_bSupressLayers As Boolean
 Private m_lTileSelection As Long
+Private m_lStartNumber As Long
+Private m_bSelectTile As Boolean   'Added 11/23/2004 to support selection of the tile
 
 Private Sub Class_Initialize()
-  Set m_PageColl = New Collection
-  Set m_SuppressColl = New Collection
+61:   Set m_PageColl = New Collection
+62:   Set m_SuppressColl = New Collection
 End Sub
 
 Private Sub Class_Terminate()
-  Set m_PageColl = Nothing
-  Set m_SuppressColl = Nothing
+66:   Set m_PageColl = Nothing
+67:   Set m_SuppressColl = Nothing
 End Sub
 
 Private Sub IDSMapSeries_AddPage(ByVal Page As DSMapBookPrj.IDSMapPage)
-  m_PageColl.Add Page
+71:   m_PageColl.Add Page
 End Sub
 
 Private Property Get IDSMapSeries_Page(Index As Long) As DSMapBookPrj.IDSMapPage
-  If Index > -1 And Index < m_PageColl.Count Then
-    Set IDSMapSeries_Page = m_PageColl.Item(Index + 1)
-  Else
-    Set IDSMapSeries_Page = Nothing
-  End If
+75:   If Index > -1 And Index < m_PageColl.Count Then
+76:     Set IDSMapSeries_Page = m_PageColl.Item(Index + 1)
+77:   Else
+78:     Set IDSMapSeries_Page = Nothing
+79:   End If
 End Property
 
 Private Property Get IDSMapSeries_PageCount() As Long
-  IDSMapSeries_PageCount = m_PageColl.Count
+83:   IDSMapSeries_PageCount = m_PageColl.Count
 End Property
 
 Private Property Let IDSMapSeries_EnableSeries(ByVal RHS As Boolean)
-  m_bEnableSeries = RHS
+87:   m_bEnableSeries = RHS
 End Property
 
 Private Property Get IDSMapSeries_EnableSeries() As Boolean
-  IDSMapSeries_EnableSeries = m_bEnableSeries
+91:   IDSMapSeries_EnableSeries = m_bEnableSeries
 End Property
 
 Private Sub IDSMapSeries_RemovePage(Index As Long)
-  If Index > -1 And Index < m_PageColl.Count Then
-    m_PageColl.Remove Index + 1
-  End If
+95:   If Index > -1 And Index < m_PageColl.Count Then
+96:     m_PageColl.Remove Index + 1
+97:   End If
 End Sub
 
 Private Property Let IDSMapSeriesOptions_ClipData(RHS As Boolean)
-  m_bClipData = RHS
+101:   m_bClipData = RHS
 End Property
 
 Private Property Get IDSMapSeriesOptions_ClipData() As Boolean
-  IDSMapSeriesOptions_ClipData = m_bClipData
+105:   IDSMapSeriesOptions_ClipData = m_bClipData
 End Property
 
 Private Property Let IDSMapSeriesOptions_DataDrivenField(RHS As String)
-  m_sDataDrivenField = RHS
+109:   m_sDataDrivenField = RHS
 End Property
 
 Private Property Get IDSMapSeriesOptions_DataDrivenField() As String
-  IDSMapSeriesOptions_DataDrivenField = m_sDataDrivenField
+113:   IDSMapSeriesOptions_DataDrivenField = m_sDataDrivenField
 End Property
 
 Private Property Let IDSMapSeriesOptions_ExtentType(RHS As Long)
-  m_lExtentType = RHS
+117:   m_lExtentType = RHS
 End Property
 
 Private Property Get IDSMapSeriesOptions_ExtentType() As Long
-  IDSMapSeriesOptions_ExtentType = m_lExtentType
+121:   IDSMapSeriesOptions_ExtentType = m_lExtentType
 End Property
 
 Private Property Let IDSMapSeriesOptions_FixedScale(RHS As Double)
-  m_dFixedScale = RHS
+125:   m_dFixedScale = RHS
 End Property
 
 Private Property Get IDSMapSeriesOptions_FixedScale() As Double
-  IDSMapSeriesOptions_FixedScale = m_dFixedScale
+129:   IDSMapSeriesOptions_FixedScale = m_dFixedScale
 End Property
 
 Private Property Let IDSMapSeriesOptions_LabelNeighbors(RHS As Boolean)
-  m_bLabelNeighbors = RHS
+133:   m_bLabelNeighbors = RHS
 End Property
 
 Private Property Get IDSMapSeriesOptions_LabelNeighbors() As Boolean
-  IDSMapSeriesOptions_LabelNeighbors = m_bLabelNeighbors
+137:   IDSMapSeriesOptions_LabelNeighbors = m_bLabelNeighbors
 End Property
 
-Private Property Set IDSMapSeriesOptions_LabelSymbol(RHS As esriCore.ISymbol)
-  Set m_pLabelSymbol = RHS
+Private Property Set IDSMapSeriesOptions_LabelSymbol(RHS As ISymbol)
+141:   Set m_pLabelSymbol = RHS
 End Property
 
-Private Property Get IDSMapSeriesOptions_LabelSymbol() As esriCore.ISymbol
-  Set IDSMapSeriesOptions_LabelSymbol = m_pLabelSymbol
+Private Property Get IDSMapSeriesOptions_LabelSymbol() As ISymbol
+145:   Set IDSMapSeriesOptions_LabelSymbol = m_pLabelSymbol
 End Property
 
 Private Property Let IDSMapSeriesOptions_Margin(RHS As Double)
-  m_dMargin = RHS
+149:   m_dMargin = RHS
 End Property
 
 Private Property Get IDSMapSeriesOptions_Margin() As Double
-  IDSMapSeriesOptions_Margin = m_dMargin
+153:   IDSMapSeriesOptions_Margin = m_dMargin
 End Property
 
 Private Property Let IDSMapSeriesOptions_MarginType(RHS As String)
-  m_sMarginType = RHS
+157:   m_sMarginType = RHS
 End Property
 
 Private Property Get IDSMapSeriesOptions_MarginType() As String
-  IDSMapSeriesOptions_MarginType = m_sMarginType
+161:   IDSMapSeriesOptions_MarginType = m_sMarginType
 End Property
 
 Private Property Let IDSMapSeriesOptions_RotateFrame(RHS As Boolean)
-  m_bRotateFrame = RHS
+165:   m_bRotateFrame = RHS
 End Property
 
 Private Property Get IDSMapSeriesOptions_RotateFrame() As Boolean
-  IDSMapSeriesOptions_RotateFrame = m_bRotateFrame
+169:   IDSMapSeriesOptions_RotateFrame = m_bRotateFrame
 End Property
 
 Private Property Let IDSMapSeriesOptions_RotationField(RHS As String)
-  m_sRotationField = RHS
+173:   m_sRotationField = RHS
 End Property
 
 Private Property Get IDSMapSeriesOptions_RotationField() As String
-  IDSMapSeriesOptions_RotationField = m_sRotationField
+177:   IDSMapSeriesOptions_RotationField = m_sRotationField
 End Property
 
 Private Property Let IDSMapSeriesOptions2_ClipData(RHS As Long)
 'Added 6/18/03 to support cross hatching of clip
-  m_lClipData2 = RHS
+182:   m_lClipData2 = RHS
 End Property
 
 Private Property Get IDSMapSeriesOptions2_ClipData() As Long
 'Added 6/18/03 to support cross hatching of clip
-  IDSMapSeriesOptions2_ClipData = m_lClipData2
+187:   IDSMapSeriesOptions2_ClipData = m_lClipData2
+End Property
+
+Private Property Let IDSMapSeriesOptions3_SelectTile(RHS As Boolean)
+'Added 11/12/04 to support the selection of the tile
+192:   m_bSelectTile = RHS
+End Property
+
+Private Property Get IDSMapSeriesOptions3_SelectTile() As Boolean
+'Added 11/12/04 to support the selection of the tile
+197:   IDSMapSeriesOptions3_SelectTile = m_bSelectTile
 End Property
 
 Private Sub IDSMapSeriesProps_AddLayerToSuppress(ByVal LayerName As String)
-  m_SuppressColl.Add LayerName
+201:   m_SuppressColl.Add LayerName
 End Sub
 
 Private Property Let IDSMapSeriesProps_DataFrameName(RHS As String)
-  m_sDataFrameName = RHS
+205:   m_sDataFrameName = RHS
 End Property
 
 Private Property Get IDSMapSeriesProps_DataFrameName() As String
-  IDSMapSeriesProps_DataFrameName = m_sDataFrameName
+209:   IDSMapSeriesProps_DataFrameName = m_sDataFrameName
 End Property
 
 Private Property Let IDSMapSeriesProps_IndexFieldName(RHS As String)
-  m_sIndexFieldName = RHS
+213:   m_sIndexFieldName = RHS
 End Property
 
 Private Property Get IDSMapSeriesProps_IndexFieldName() As String
-  IDSMapSeriesProps_IndexFieldName = m_sIndexFieldName
+217:   IDSMapSeriesProps_IndexFieldName = m_sIndexFieldName
 End Property
 
 Private Property Let IDSMapSeriesProps_IndexLayerName(RHS As String)
-  m_sIndexLayerName = RHS
+221:   m_sIndexLayerName = RHS
 End Property
 
 Private Property Get IDSMapSeriesProps_IndexLayerName() As String
-  IDSMapSeriesProps_IndexLayerName = m_sIndexLayerName
+225:   IDSMapSeriesProps_IndexLayerName = m_sIndexLayerName
 End Property
 
 Private Sub IDSMapSeriesProps_RemoveLayerToSuppress(Index As Long)
-  If Index > -1 And Index < m_SuppressColl.Count Then
-    m_SuppressColl.Remove Index + 1
-  End If
+229:   If Index > -1 And Index < m_SuppressColl.Count Then
+230:     m_SuppressColl.Remove Index + 1
+231:   End If
 End Sub
 
+Private Property Let IDSMapSeriesProps_StartNumber(RHS As Long)
+235:   m_lStartNumber = RHS
+End Property
+
+Private Property Get IDSMapSeriesProps_StartNumber() As Long
+239:   IDSMapSeriesProps_StartNumber = m_lStartNumber
+End Property
+
 Private Property Get IDSMapSeriesProps_SuppressLayer(Index As Long) As String
-  If Index > -1 And Index < m_SuppressColl.Count Then
-    IDSMapSeriesProps_SuppressLayer = m_SuppressColl.Item(Index + 1)
-  Else
-    IDSMapSeriesProps_SuppressLayer = ""
-  End If
+243:   If Index > -1 And Index < m_SuppressColl.Count Then
+244:     IDSMapSeriesProps_SuppressLayer = m_SuppressColl.Item(Index + 1)
+245:   Else
+246:     IDSMapSeriesProps_SuppressLayer = ""
+247:   End If
 End Property
 
 Private Property Get IDSMapSeriesProps_SuppressLayerCount() As Long
-  IDSMapSeriesProps_SuppressLayerCount = m_SuppressColl.Count
+251:   IDSMapSeriesProps_SuppressLayerCount = m_SuppressColl.Count
 End Property
 
 Private Property Let IDSMapSeriesProps_SuppressLayers(ByVal RHS As Boolean)
-  m_bSupressLayers = RHS
+255:   m_bSupressLayers = RHS
 End Property
 
 Private Property Get IDSMapSeriesProps_SuppressLayers() As Boolean
-  IDSMapSeriesProps_SuppressLayers = m_bSupressLayers
+259:   IDSMapSeriesProps_SuppressLayers = m_bSupressLayers
 End Property
 
 Private Property Let IDSMapSeriesProps_TileSelectionMethod(RHS As Long)
-  m_lTileSelection = RHS
+263:   m_lTileSelection = RHS
 End Property
 
 Private Property Get IDSMapSeriesProps_TileSelectionMethod() As Long
-  IDSMapSeriesProps_TileSelectionMethod = m_lTileSelection
+267:   IDSMapSeriesProps_TileSelectionMethod = m_lTileSelection
 End Property
 
-Private Property Get IPersistVariant_ID() As esriCore.IUID
+Private Property Get IPersistVariant_ID() As esriSystem.IUID
   Dim id As New UID
-  id = "DSMapBookPrj.DSMapSeries"
-  Set IPersistVariant_ID = id
+272:   id = "DSMapBookPrj.DSMapSeries"
+273:   Set IPersistVariant_ID = id
 End Property
 
-Private Sub IPersistVariant_Load(ByVal Stream As esriCore.IVariantStream)
+Private Sub IPersistVariant_Load(ByVal Stream As esriSystem.IVariantStream)
 'Load the persisted parameters of the renderer
 On Error GoTo ErrHand:
   Dim lLoop As Long, lCount As Long, pPage As IDSMapPage, vClip As Variant
-  Dim bClip As Boolean
-    
-  m_bEnableSeries = Stream.Read
+  Dim bClip As Boolean, vCount As Variant, lPropCount As Long
   
-  'Added 6/18/03 to support cross hatching of area outside clip
-  vClip = Stream.Read
-  If UCase(TypeName(vClip)) = "BOOLEAN" Then
-    bClip = CBool(vClip)
-    If bClip Then
-      m_lClipData2 = 1
-    Else
-      m_lClipData2 = 0
-    End If
-  Else
-    m_lClipData2 = CLng(vClip)
-  End If
-'  m_bClipData = Stream.Read
+  'Added 2/18/04 to make the list of persisted properties more dynamic
+283:   vCount = Stream.Read
+284:   If UCase(TypeName(vCount)) = "BOOLEAN" Then  'Version created before the 2/18/04 update.
+285:     m_bEnableSeries = CBool(vCount)
+    'Added 6/18/03 to support cross hatching of area outside clip
+287:     vClip = Stream.Read
+288:     If UCase(TypeName(vClip)) = "BOOLEAN" Then
+289:       bClip = CBool(vClip)
+290:       If bClip Then
+291:         m_lClipData2 = 1
+292:       Else
+293:         m_lClipData2 = 0
+294:       End If
+295:     Else
+296:       m_lClipData2 = CLng(vClip)
+297:     End If
+298:     lPropCount = 14
+299:   Else
+300:     lPropCount = CLng(Mid(CStr(vCount), 21)) - 2
+301:     m_bEnableSeries = Stream.Read
+302:     m_lClipData2 = Stream.Read
+303:   End If
 
-  m_sDataDrivenField = Stream.Read
-  m_lExtentType = Stream.Read
-  m_dFixedScale = Stream.Read
-  m_bLabelNeighbors = Stream.Read
-  Set m_pLabelSymbol = Stream.Read
-  m_dMargin = Stream.Read
-  m_sMarginType = Stream.Read
-  m_bRotateFrame = Stream.Read
-  m_sRotationField = Stream.Read
-  m_sDataFrameName = Stream.Read
-  m_sIndexFieldName = Stream.Read
-  m_sIndexLayerName = Stream.Read
-  m_bSupressLayers = Stream.Read
-  m_lTileSelection = Stream.Read
-  lCount = Stream.Read
-  If lCount > 0 Then
-    For lLoop = 1 To lCount
-      m_SuppressColl.Add Stream.Read
-    Next lLoop
-  End If
+  'Original set of properties that every persisted map book will have.
+306:   m_sDataDrivenField = Stream.Read
+307:   m_lExtentType = Stream.Read
+308:   m_dFixedScale = Stream.Read
+309:   m_bLabelNeighbors = Stream.Read
+310:   Set m_pLabelSymbol = Stream.Read
+311:   m_dMargin = Stream.Read
+312:   m_sMarginType = Stream.Read
+313:   m_bRotateFrame = Stream.Read
+314:   m_sRotationField = Stream.Read
+315:   m_sDataFrameName = Stream.Read
+316:   m_sIndexFieldName = Stream.Read
+317:   m_sIndexLayerName = Stream.Read
+318:   m_bSupressLayers = Stream.Read
+319:   m_lTileSelection = Stream.Read
   
-  lCount = Stream.Read
-  If lCount > 0 Then
-    For lLoop = 1 To lCount
-      Set pPage = Stream.Read
-      m_PageColl.Add pPage
-    Next lLoop
-  End If
+  'Additional properties added after 2/18/04
+322:   If lPropCount > 14 Then    'Checking for start number property
+323:     m_lStartNumber = Stream.Read
+324:   Else
+325:     m_lStartNumber = 1
+326:   End If
+  
+  'Tile Selection added 11/23/04
+329:   If lPropCount > 15 Then
+330:     m_bSelectTile = Stream.Read
+331:   Else
+332:     m_bSelectTile = False
+333:   End If
+  
+  'More original properties.  Writen out below the new properties because they are of variable length
+336:   lCount = Stream.Read
+337:   If lCount > 0 Then
+338:     For lLoop = 1 To lCount
+339:       m_SuppressColl.Add Stream.Read
+340:     Next lLoop
+341:   End If
+  
+343:   lCount = Stream.Read
+344:   If lCount > 0 Then
+345:     For lLoop = 1 To lCount
+346:       Set pPage = Stream.Read
+347:       If lPropCount <= 14 Then   'MapBook created before page numbers were added.  In this case we manually assign the page numbers.
+348:         pPage.PageNumber = lLoop
+349:       End If
+350:       m_PageColl.Add pPage
+351:     Next lLoop
+352:   End If
     
   Exit Sub
 ErrHand:
-  MsgBox "MapSeries - IPersistVariant_Load - " & Err.Description
+356:   MsgBox "MapSeries - IPersistVariant_Load - " & Erl & " - " & Err.Description
 End Sub
 
-Private Sub IPersistVariant_Save(ByVal Stream As esriCore.IVariantStream)
+Private Sub IPersistVariant_Save(ByVal Stream As esriSystem.IVariantStream)
 'Write it all out
 On Error GoTo ErrHand:
   Dim lLoop As Long
+  
+  'Added 2/18/04 to make the list of persisted properties more dynamic
+  'Count changed from 17 to 18 on 11/23/2004 to support selection of tile
+366:   Stream.Write "SERIESPROPERTYCOUNT-18"
     
-  Stream.Write m_bEnableSeries
+368:   Stream.Write m_bEnableSeries
   
   'Added 6/18/03 to support cross hatching of area outside the clip
-  Stream.Write m_lClipData2
-'  Stream.Write m_bClipData
-  Stream.Write m_sDataDrivenField
-  Stream.Write m_lExtentType
-  Stream.Write m_dFixedScale
-  Stream.Write m_bLabelNeighbors
-  Stream.Write m_pLabelSymbol
-  Stream.Write m_dMargin
-  Stream.Write m_sMarginType
-  Stream.Write m_bRotateFrame
-  Stream.Write m_sRotationField
-  Stream.Write m_sDataFrameName
-  Stream.Write m_sIndexFieldName
-  Stream.Write m_sIndexLayerName
-  Stream.Write m_bSupressLayers
-  Stream.Write m_lTileSelection
+371:   Stream.Write m_lClipData2
+372:   Stream.Write m_sDataDrivenField
+373:   Stream.Write m_lExtentType
+374:   Stream.Write m_dFixedScale
+375:   Stream.Write m_bLabelNeighbors
+376:   Stream.Write m_pLabelSymbol
+377:   Stream.Write m_dMargin
+378:   Stream.Write m_sMarginType
+379:   Stream.Write m_bRotateFrame
+380:   Stream.Write m_sRotationField
+381:   Stream.Write m_sDataFrameName
+382:   Stream.Write m_sIndexFieldName
+383:   Stream.Write m_sIndexLayerName
+384:   Stream.Write m_bSupressLayers
+385:   Stream.Write m_lTileSelection
+386:   Stream.Write m_lStartNumber   'Added 2/18/04
+387:   Stream.Write m_bSelectTile       'Added 11/23/04 to support selection of tile
 
 On Error GoTo ErrHand2:
-  Stream.Write m_SuppressColl.Count
-  If m_SuppressColl.Count > 0 Then
-    For lLoop = 1 To m_SuppressColl.Count
-      Stream.Write m_SuppressColl.Item(lLoop)
-    Next lLoop
-  End If
-  Stream.Write m_PageColl.Count
-  If m_PageColl.Count > 0 Then
-    For lLoop = 1 To m_PageColl.Count
-      Stream.Write m_PageColl.Item(lLoop)
-    Next lLoop
-  End If
+390:   Stream.Write m_SuppressColl.Count
+391:   If m_SuppressColl.Count > 0 Then
+392:     For lLoop = 1 To m_SuppressColl.Count
+393:       Stream.Write m_SuppressColl.Item(lLoop)
+394:     Next lLoop
+395:   End If
+396:   Stream.Write m_PageColl.Count
+397:   If m_PageColl.Count > 0 Then
+398:     For lLoop = 1 To m_PageColl.Count
+399:       Stream.Write m_PageColl.Item(lLoop)
+400:     Next lLoop
+401:   End If
     
   Exit Sub
 ErrHand:
-  MsgBox "MapSeries - IPersistVariant_Save - " & Err.Description
+405:   MsgBox "MapSeries - IPersistVariant_Save - " & Err.Description
 ErrHand2:
-  MsgBox "MapSeriesCOLLS - IPersistVariant_Save - " & Err.Description
+407:   MsgBox "MapSeriesCOLLS - IPersistVariant_Save - " & Err.Description
 End Sub

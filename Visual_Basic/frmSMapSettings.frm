@@ -553,6 +553,34 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+
+' Copyright 1995-2004 ESRI
+
+' All rights reserved under the copyright laws of the United States.
+
+' You may freely redistribute and use this sample code, with or without modification.
+
+' Disclaimer: THE SAMPLE CODE IS PROVIDED "AS IS" AND ANY EXPRESS OR IMPLIED 
+' WARRANTIES, INCLUDING THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
+' FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL ESRI OR 
+' CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, 
+' OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
+' SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+' INTERRUPTION) SUSTAINED BY YOU OR A THIRD PARTY, HOWEVER CAUSED AND ON ANY 
+' THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT ARISING IN ANY 
+' WAY OUT OF THE USE OF THIS SAMPLE CODE, EVEN IF ADVISED OF THE POSSIBILITY OF 
+' SUCH DAMAGE.
+
+' For additional information contact: Environmental Systems Research Institute, Inc.
+
+' Attn: Contracts Dept.
+
+' 380 New York Street
+
+' Redlands, California, U.S.A. 92373 
+
+' Email: contracts@esri.com
+
 Option Explicit
 
 Public m_Application As IApplication
@@ -597,145 +625,145 @@ Private Sub SetControlsState()
     On Error GoTo eh
     
     ' Protect against zero length string_to_double conversions
-    If Len(lblCurrentMapScale.Caption) = 0 Then lblCurrentMapScale.Caption = "0"
-    If Len(txtManualMapScale.Text) = 0 Then
-        dScale = 0
-    Else
-        dScale = CDbl(txtManualMapScale.Text)
-    End If
-    If Len(txtManualGridHeight.Text) = 0 Then
-        dGHeight = 0
-    Else
-        dGHeight = CDbl(txtManualGridHeight.Text)
-    End If
-    If Len(txtManualGridWidth.Text) = 0 Then
-        dGWidth = 0
-    Else
-        dGWidth = CDbl(txtManualGridWidth.Text)
-    End If
-    If Len(txtAbsoluteGridHeight.Text) = 0 Then
-        dAHeight = 0
-    Else
-        dAHeight = CDbl(txtAbsoluteGridHeight.Text)
-    End If
-    If Len(txtAbsoluteGridWidth.Text) = 0 Then
-        dAWidth = 0
-    Else
-        dAWidth = CDbl(txtAbsoluteGridWidth.Text)
-    End If
-i = 1
+45:     If Len(lblCurrentMapScale.Caption) = 0 Then lblCurrentMapScale.Caption = "0"
+46:     If Len(txtManualMapScale.Text) = 0 Then
+47:         dScale = 0
+48:     Else
+49:         dScale = CDbl(txtManualMapScale.Text)
+50:     End If
+51:     If Len(txtManualGridHeight.Text) = 0 Then
+52:         dGHeight = 0
+53:     Else
+54:         dGHeight = CDbl(txtManualGridHeight.Text)
+55:     End If
+56:     If Len(txtManualGridWidth.Text) = 0 Then
+57:         dGWidth = 0
+58:     Else
+59:         dGWidth = CDbl(txtManualGridWidth.Text)
+60:     End If
+61:     If Len(txtAbsoluteGridHeight.Text) = 0 Then
+62:         dAHeight = 0
+63:     Else
+64:         dAHeight = CDbl(txtAbsoluteGridHeight.Text)
+65:     End If
+66:     If Len(txtAbsoluteGridWidth.Text) = 0 Then
+67:         dAWidth = 0
+68:     Else
+69:         dAWidth = CDbl(txtAbsoluteGridWidth.Text)
+70:     End If
+71: i = 1
 
     ' Calc values
-    bValidName = Len(txtStripMapSeriesName.Text) > 0
-    bValidScale = (optScaleSource(0).Value And CDbl(lblCurrentMapScale.Caption) > 0) Or _
+74:     bValidName = Len(txtStripMapSeriesName.Text) > 0
+75:     bValidScale = (optScaleSource(0).Value And CDbl(lblCurrentMapScale.Caption) > 0) Or _
                   (optScaleSource(1).Value And dScale > 0) Or _
                   (optScaleSource(2).Value And dAHeight > 0 And dAWidth > 0)
-    bValidSize = (optGridSize(0).Value) Or _
+78:     bValidSize = (optGridSize(0).Value) Or _
                  (optGridSize(1).Value And dGHeight > 0 And dGWidth > 0) Or _
                  (optScaleSource(2).Value And CDbl(txtManualGridWidth.Text) > 0)
-    bCreatingNewFClass = optLayerSource(1).Value
-    bNewFClassSet = (Len(txtNewGridLayer.Text) > 0)
-    bValidTarget = (cmbPolygonLayers.ListIndex > 0) Or (bCreatingNewFClass And bNewFClassSet)
-    bValidRequiredFields = (cmbFieldStripMapName.ListIndex > 0) And _
+81:     bCreatingNewFClass = optLayerSource(1).Value
+82:     bNewFClassSet = (Len(txtNewGridLayer.Text) > 0)
+83:     bValidTarget = (cmbPolygonLayers.ListIndex > 0) Or (bCreatingNewFClass And bNewFClassSet)
+84:     bValidRequiredFields = (cmbFieldStripMapName.ListIndex > 0) And _
                            (cmbFieldGridAngle.ListIndex > 0) And _
                            (cmbFieldSeriesNumber.ListIndex > 0)
-i = 2
-    If bValidTarget And (Not bCreatingNewFClass) Then
-        Set pFL = FindFeatureLayerByName(cmbPolygonLayers.List(cmbPolygonLayers.ListIndex), m_Application)
-        If pFL.FeatureClass.FeatureDataset Is Nothing Then
-            bPolylineWithinDataset = True
-        Else
-            Set pDatasetExtent = GetValidExtentForLayer(pFL)
-            bPolylineWithinDataset = (m_Polyline.Envelope.XMin >= pDatasetExtent.XMin And m_Polyline.Envelope.XMax <= pDatasetExtent.XMax) _
+87: i = 2
+88:     If bValidTarget And (Not bCreatingNewFClass) Then
+89:         Set pFL = FindFeatureLayerByName(cmbPolygonLayers.List(cmbPolygonLayers.ListIndex), m_Application)
+90:         If pFL.FeatureClass.FeatureDataset Is Nothing Then
+91:             bPolylineWithinDataset = True
+92:         Else
+93:             Set pDatasetExtent = GetValidExtentForLayer(pFL)
+94:             bPolylineWithinDataset = (m_Polyline.Envelope.XMin >= pDatasetExtent.XMin And m_Polyline.Envelope.XMax <= pDatasetExtent.XMax) _
                      And (m_Polyline.Envelope.YMin >= pDatasetExtent.YMin And m_Polyline.Envelope.YMax <= pDatasetExtent.YMax)
-        End If
-    ElseIf bValidTarget And bCreatingNewFClass Then
-        bPolylineWithinDataset = True
-    End If
+96:         End If
+97:     ElseIf bValidTarget And bCreatingNewFClass Then
+98:         bPolylineWithinDataset = True
+99:     End If
     Dim a As Long, b As Long, c As Long
-    a = cmbFieldGridAngle.ListIndex
-    b = cmbFieldMapScale.ListIndex
-    c = cmbFieldSeriesNumber.ListIndex
-    bDuplicateFieldsSelected = (a > 0 And (a = b Or a = c)) _
+101:     a = cmbFieldGridAngle.ListIndex
+102:     b = cmbFieldMapScale.ListIndex
+103:     c = cmbFieldSeriesNumber.ListIndex
+104:     bDuplicateFieldsSelected = (a > 0 And (a = b Or a = c)) _
                             Or (b > 0 And (b = c))
-i = 3
+106: i = 3
     
     ' Set states
     Select Case m_Step
         Case 0:     ' Set the target feature layer
-            cmdBack.Enabled = False
-            cmdNext.Enabled = bValidTarget And bValidName
-            cmdNext.Caption = "Next >"
-            cmbPolygonLayers.Enabled = Not bCreatingNewFClass
-            chkRemovePreviousGrids.Enabled = Not bCreatingNewFClass
-            lblClearExistingGridsPart2.Enabled = Not bCreatingNewFClass
-            cmdSetNewGridLayer.Enabled = bCreatingNewFClass
+111:             cmdBack.Enabled = False
+112:             cmdNext.Enabled = bValidTarget And bValidName
+113:             cmdNext.Caption = "Next >"
+114:             cmbPolygonLayers.Enabled = Not bCreatingNewFClass
+115:             chkRemovePreviousGrids.Enabled = Not bCreatingNewFClass
+116:             lblClearExistingGridsPart2.Enabled = Not bCreatingNewFClass
+117:             cmdSetNewGridLayer.Enabled = bCreatingNewFClass
         Case 1:     ' Set the fields to populate
-            cmdBack.Enabled = True
-            cmdNext.Enabled = (bValidRequiredFields And Not bDuplicateFieldsSelected)
-            cmbFieldStripMapName.Enabled = Not bCreatingNewFClass
-            cmbFieldGridAngle.Enabled = Not bCreatingNewFClass
-            cmbFieldMapScale.Enabled = Not bCreatingNewFClass
-            cmbFieldSeriesNumber.Enabled = Not bCreatingNewFClass
+119:             cmdBack.Enabled = True
+120:             cmdNext.Enabled = (bValidRequiredFields And Not bDuplicateFieldsSelected)
+121:             cmbFieldStripMapName.Enabled = Not bCreatingNewFClass
+122:             cmbFieldGridAngle.Enabled = Not bCreatingNewFClass
+123:             cmbFieldMapScale.Enabled = Not bCreatingNewFClass
+124:             cmbFieldSeriesNumber.Enabled = Not bCreatingNewFClass
         Case 2:     ' Set the scale / starting_coords
-            cmdBack.Enabled = True
-            cmdNext.Enabled = bValidScale And bPolylineWithinDataset
-            cmdNext.Caption = "Next >"
+126:             cmdBack.Enabled = True
+127:             cmdNext.Enabled = bValidScale And bPolylineWithinDataset
+128:             cmdNext.Caption = "Next >"
         Case 3:     ' Set the dataframe properties
-            cmdBack.Enabled = True
-            cmdNext.Enabled = bValidSize
-            cmdNext.Caption = "Finish"
-            txtManualGridHeight.Enabled = Not (optScaleSource(2).Value)
-            txtManualGridHeight.Locked = (optScaleSource(2).Value)
-            lblFrameHeight.Enabled = Not (optScaleSource(2).Value)
-            optGridSize(0).Enabled = Not (optScaleSource(2).Value)
+130:             cmdBack.Enabled = True
+131:             cmdNext.Enabled = bValidSize
+132:             cmdNext.Caption = "Finish"
+133:             txtManualGridHeight.Enabled = Not (optScaleSource(2).Value)
+134:             txtManualGridHeight.Locked = (optScaleSource(2).Value)
+135:             lblFrameHeight.Enabled = Not (optScaleSource(2).Value)
+136:             optGridSize(0).Enabled = Not (optScaleSource(2).Value)
         Case Else:
-            cmdBack.Enabled = False
-            cmdNext.Enabled = False
-    End Select
-i = 4
+138:             cmdBack.Enabled = False
+139:             cmdNext.Enabled = False
+140:     End Select
+141: i = 4
     
-    txtManualMapScale.Enabled = optScaleSource(1).Value
-    txtManualGridWidth.Enabled = optGridSize(1).Value
-    txtManualGridHeight.Enabled = optGridSize(1).Value
-    cmbGridSizeUnits.Enabled = optGridSize(1).Value
-    If optScaleSource(1).Value Then
-        If bValidScale Then
-            txtManualMapScale.ForeColor = (&H0)      ' Black
-        Else
-            txtManualMapScale.ForeColor = (&HFF)     ' Red
-        End If
-    End If
-    If optGridSize(1).Value Then
-        If bValidSize Then
-            txtManualGridWidth.ForeColor = (&H0)      ' Black
-            txtManualGridHeight.ForeColor = (&H0)
-        Else
-            txtManualGridWidth.ForeColor = (&HFF)     ' Red
-            txtManualGridHeight.ForeColor = (&HFF)
-        End If
-    End If
+143:     txtManualMapScale.Enabled = optScaleSource(1).Value
+144:     txtManualGridWidth.Enabled = optGridSize(1).Value
+145:     txtManualGridHeight.Enabled = optGridSize(1).Value
+146:     cmbGridSizeUnits.Enabled = optGridSize(1).Value
+147:     If optScaleSource(1).Value Then
+148:         If bValidScale Then
+149:             txtManualMapScale.ForeColor = (&H0)      ' Black
+150:         Else
+151:             txtManualMapScale.ForeColor = (&HFF)     ' Red
+152:         End If
+153:     End If
+154:     If optGridSize(1).Value Then
+155:         If bValidSize Then
+156:             txtManualGridWidth.ForeColor = (&H0)      ' Black
+157:             txtManualGridHeight.ForeColor = (&H0)
+158:         Else
+159:             txtManualGridWidth.ForeColor = (&HFF)     ' Red
+160:             txtManualGridHeight.ForeColor = (&HFF)
+161:         End If
+162:     End If
     
     Exit Sub
-    Resume
+165:     Resume
 eh:
-    MsgBox Err.Description, vbExclamation, "SetControlsState " & i
+167:     MsgBox Err.Description, vbExclamation, "SetControlsState " & i
 End Sub
 
 Private Sub cmbFieldStripMapName_Click()
-    SetControlsState
+171:     SetControlsState
 End Sub
 
 Private Sub cmbFieldMapScale_Click()
-    SetControlsState
+175:     SetControlsState
 End Sub
 
 Private Sub cmbFieldSeriesNumber_Click()
-    SetControlsState
+179:     SetControlsState
 End Sub
 
 Private Sub cmbFieldGridAngle_Click()
-    SetControlsState
+183:     SetControlsState
 End Sub
 
 Private Sub cmbPolygonLayers_Click()
@@ -743,50 +771,50 @@ Private Sub cmbPolygonLayers_Click()
     Dim pFields As IFields
     Dim lLoop As Long
     ' Populate the fields combo boxes
-    If cmbPolygonLayers.ListIndex > 0 Then
-        Set pFL = FindFeatureLayerByName(cmbPolygonLayers.List(cmbPolygonLayers.ListIndex), m_Application)
-        Set pFields = pFL.FeatureClass.Fields
-        cmbFieldMapScale.Clear
-        cmbFieldStripMapName.Clear
-        cmbFieldSeriesNumber.Clear
-        cmbFieldGridAngle.Clear
-        cmbFieldStripMapName.AddItem "<None>"
-        cmbFieldGridAngle.AddItem "<None>"
-        cmbFieldMapScale.AddItem "<None>"
-        cmbFieldSeriesNumber.AddItem "<None>"
-        For lLoop = 0 To pFields.FieldCount - 1
-            If pFields.Field(lLoop).Type = esriFieldTypeString Then
-                cmbFieldStripMapName.AddItem pFields.Field(lLoop).Name
-            ElseIf pFields.Field(lLoop).Type = esriFieldTypeDouble Or _
+191:     If cmbPolygonLayers.ListIndex > 0 Then
+192:         Set pFL = FindFeatureLayerByName(cmbPolygonLayers.List(cmbPolygonLayers.ListIndex), m_Application)
+193:         Set pFields = pFL.FeatureClass.Fields
+194:         cmbFieldMapScale.Clear
+195:         cmbFieldStripMapName.Clear
+196:         cmbFieldSeriesNumber.Clear
+197:         cmbFieldGridAngle.Clear
+198:         cmbFieldStripMapName.AddItem "<None>"
+199:         cmbFieldGridAngle.AddItem "<None>"
+200:         cmbFieldMapScale.AddItem "<None>"
+201:         cmbFieldSeriesNumber.AddItem "<None>"
+202:         For lLoop = 0 To pFields.FieldCount - 1
+203:             If pFields.Field(lLoop).Type = esriFieldTypeString Then
+204:                 cmbFieldStripMapName.AddItem pFields.Field(lLoop).Name
+205:             ElseIf pFields.Field(lLoop).Type = esriFieldTypeDouble Or _
                    pFields.Field(lLoop).Type = esriFieldTypeInteger Or _
                    pFields.Field(lLoop).Type = esriFieldTypeSmallInteger Or _
                    pFields.Field(lLoop).Type = esriFieldTypeSingle Then
-                cmbFieldMapScale.AddItem pFields.Field(lLoop).Name
-                cmbFieldGridAngle.AddItem pFields.Field(lLoop).Name
-                cmbFieldSeriesNumber.AddItem pFields.Field(lLoop).Name
-            End If
-        Next
-        cmbFieldStripMapName.ListIndex = 0
-        cmbFieldGridAngle.ListIndex = 0
-        cmbFieldMapScale.ListIndex = 0
-        cmbFieldSeriesNumber.ListIndex = 0
-    End If
-    SetControlsState
+209:                 cmbFieldMapScale.AddItem pFields.Field(lLoop).Name
+210:                 cmbFieldGridAngle.AddItem pFields.Field(lLoop).Name
+211:                 cmbFieldSeriesNumber.AddItem pFields.Field(lLoop).Name
+212:             End If
+213:         Next
+214:         cmbFieldStripMapName.ListIndex = 0
+215:         cmbFieldGridAngle.ListIndex = 0
+216:         cmbFieldMapScale.ListIndex = 0
+217:         cmbFieldSeriesNumber.ListIndex = 0
+218:     End If
+219:     SetControlsState
 End Sub
 
 Private Sub cmdBack_Click()
-    m_Step = m_Step - 1
-    If m_Step < 0 Then
-        m_Step = 0
-    End If
-    SetVisibleControls m_Step
-    SetControlsState
+223:     m_Step = m_Step - 1
+224:     If m_Step < 0 Then
+225:         m_Step = 0
+226:     End If
+227:     SetVisibleControls m_Step
+228:     SetControlsState
 End Sub
 
 Private Sub cmdClose_Click()
-    Set m_Application = Nothing
-    Set Me.StripMapSettings = Nothing
-    Me.Hide
+232:     Set m_Application = Nothing
+233:     Set Me.StripMapSettings = Nothing
+234:     Me.Hide
 End Sub
 
 Private Sub CollateStripMapSettings()
@@ -796,45 +824,45 @@ Private Sub CollateStripMapSettings()
     Dim sDestLayerName As String
     Dim lLoop As Long
     ' Populate class
-    pCreateSMap.StripMapName = txtStripMapSeriesName.Text
-    pCreateSMap.FlipPolyline = (chkFlipLine.Value = vbChecked)
-    If (optScaleSource(0).Value) Then
-        pCreateSMap.MapScale = CDbl(lblCurrentMapScale.Caption)
-    ElseIf (optScaleSource(1).Value) Then
-        pCreateSMap.MapScale = CDbl(txtManualMapScale.Text)
-    End If
-    If (optGridSize(0).Value) Then
-        Set pFrameElement = GetDataFrameElement(GetActiveDataFrameName(m_Application), m_Application)
-        pCreateSMap.FrameWidthInPageUnits = pFrameElement.Geometry.Envelope.Width
-        pCreateSMap.FrameHeightInPageUnits = pFrameElement.Geometry.Envelope.Height
-    Else
-        pCreateSMap.FrameWidthInPageUnits = CDbl(txtManualGridWidth.Text)
-        pCreateSMap.FrameHeightInPageUnits = CDbl(txtManualGridHeight.Text)
-    End If
-    If (optScaleSource(2).Value) Then
+244:     pCreateSMap.StripMapName = txtStripMapSeriesName.Text
+245:     pCreateSMap.FlipPolyline = (chkFlipLine.Value = vbChecked)
+246:     If (optScaleSource(0).Value) Then
+247:         pCreateSMap.MapScale = CDbl(lblCurrentMapScale.Caption)
+248:     ElseIf (optScaleSource(1).Value) Then
+249:         pCreateSMap.MapScale = CDbl(txtManualMapScale.Text)
+250:     End If
+251:     If (optGridSize(0).Value) Then
+252:         Set pFrameElement = GetDataFrameElement(GetActiveDataFrameName(m_Application), m_Application)
+253:         pCreateSMap.FrameWidthInPageUnits = pFrameElement.Geometry.Envelope.Width
+254:         pCreateSMap.FrameHeightInPageUnits = pFrameElement.Geometry.Envelope.Height
+255:     Else
+256:         pCreateSMap.FrameWidthInPageUnits = CDbl(txtManualGridWidth.Text)
+257:         pCreateSMap.FrameHeightInPageUnits = CDbl(txtManualGridHeight.Text)
+258:     End If
+259:     If (optScaleSource(2).Value) Then
         Dim dConvertPageToMapUnits As Double, dGridToFrameRatio As Double
-        dConvertPageToMapUnits = CalculatePageToMapRatio(m_Application) 'NATHAN FIX THIS
-        pCreateSMap.FrameWidthInPageUnits = CDbl(txtManualGridWidth.Text)
-        pCreateSMap.FrameHeightInPageUnits = CDbl(txtManualGridHeight.Text)
-        If pCreateSMap.FrameWidthInPageUnits >= pCreateSMap.FrameHeightInPageUnits Then
-            dGridToFrameRatio = CDbl(txtAbsoluteGridWidth.Text) / pCreateSMap.FrameWidthInPageUnits
-        Else
-            dGridToFrameRatio = CDbl(txtAbsoluteGridHeight.Text) / pCreateSMap.FrameHeightInPageUnits
-        End If
-        pCreateSMap.MapScale = dGridToFrameRatio * dConvertPageToMapUnits
-    End If
-    sDestLayerName = cmbPolygonLayers.List(cmbPolygonLayers.ListIndex)
-    If optLayerSource(0).Value Then
-        Set pCreateSMap.DestinationFeatureLayer = FindFeatureLayerByName(sDestLayerName, m_Application)
-    End If
-    pCreateSMap.FieldNameStripMapName = cmbFieldStripMapName.List(cmbFieldStripMapName.ListIndex)
-    pCreateSMap.FieldNameMapAngle = cmbFieldGridAngle.List(cmbFieldGridAngle.ListIndex)
-    pCreateSMap.FieldNameNumberInSeries = cmbFieldSeriesNumber.List(cmbFieldSeriesNumber.ListIndex)
-    If cmbFieldMapScale.ListIndex > 0 Then pCreateSMap.FieldNameScale = cmbFieldMapScale.List(cmbFieldMapScale.ListIndex)
-    pCreateSMap.RemoveCurrentGrids = (chkRemovePreviousGrids.Value = vbChecked)
-    Set pCreateSMap.StripMapRoute = m_Polyline
+261:         dConvertPageToMapUnits = CalculatePageToMapRatio(m_Application) 'NATHAN FIX THIS
+262:         pCreateSMap.FrameWidthInPageUnits = CDbl(txtManualGridWidth.Text)
+263:         pCreateSMap.FrameHeightInPageUnits = CDbl(txtManualGridHeight.Text)
+264:         If pCreateSMap.FrameWidthInPageUnits >= pCreateSMap.FrameHeightInPageUnits Then
+265:             dGridToFrameRatio = CDbl(txtAbsoluteGridWidth.Text) / pCreateSMap.FrameWidthInPageUnits
+266:         Else
+267:             dGridToFrameRatio = CDbl(txtAbsoluteGridHeight.Text) / pCreateSMap.FrameHeightInPageUnits
+268:         End If
+269:         pCreateSMap.MapScale = dGridToFrameRatio * dConvertPageToMapUnits
+270:     End If
+271:     sDestLayerName = cmbPolygonLayers.List(cmbPolygonLayers.ListIndex)
+272:     If optLayerSource(0).Value Then
+273:         Set pCreateSMap.DestinationFeatureLayer = FindFeatureLayerByName(sDestLayerName, m_Application)
+274:     End If
+275:     pCreateSMap.FieldNameStripMapName = cmbFieldStripMapName.List(cmbFieldStripMapName.ListIndex)
+276:     pCreateSMap.FieldNameMapAngle = cmbFieldGridAngle.List(cmbFieldGridAngle.ListIndex)
+277:     pCreateSMap.FieldNameNumberInSeries = cmbFieldSeriesNumber.List(cmbFieldSeriesNumber.ListIndex)
+278:     If cmbFieldMapScale.ListIndex > 0 Then pCreateSMap.FieldNameScale = cmbFieldMapScale.List(cmbFieldMapScale.ListIndex)
+279:     pCreateSMap.RemoveCurrentGrids = (chkRemovePreviousGrids.Value = vbChecked)
+280:     Set pCreateSMap.StripMapRoute = m_Polyline
     ' Place grid settings on Public form property (so calling function can use them)
-    Set Me.StripMapSettings = pCreateSMap
+282:     Set Me.StripMapSettings = pCreateSMap
 End Sub
 
 Private Sub cmdNext_Click()
@@ -845,48 +873,48 @@ Private Sub cmdNext_Click()
     
     On Error GoTo eh
     ' Step
-    m_Step = m_Step + 1
+293:     m_Step = m_Step + 1
     ' If we're creating a new fclass, we can skip a the 'Set Field Roles' step
-    If m_Step = 1 And (optLayerSource(1).Value) Then
-        m_Step = m_Step + 1
-    End If
+295:     If m_Step = 1 And (optLayerSource(1).Value) Then
+296:         m_Step = m_Step + 1
+297:     End If
     ' If FINISH
-    If m_Step >= 4 Then
-        Set pMx = m_Application.Document
-        RemoveGraphicsByName pMx
-        CollateStripMapSettings
+299:     If m_Step >= 4 Then
+300:         Set pMx = m_Application.Document
+301:         RemoveGraphicsByName pMx
+302:         CollateStripMapSettings
         ' If creating a new layer
-        If optLayerSource(1).Value Then
+304:         If optLayerSource(1).Value Then
             ' Create the feature class
-            Set pNewFields = CreateTheFields
+306:             Set pNewFields = CreateTheFields
             Select Case m_FileType
                 Case ShapeFile
-                    Set pOutputFClass = NewShapeFile(m_OutputLayer, pMx.FocusMap, pNewFields)
+309:                     Set pOutputFClass = NewShapeFile(m_OutputLayer, pMx.FocusMap, pNewFields)
                 Case AccessFeatureClass
-                    Set pOutputFClass = NewAccessFile(m_OutputLayer, _
+311:                     Set pOutputFClass = NewAccessFile(m_OutputLayer, _
                             m_OutputDataset, m_OutputFClass, pNewFields)
-            End Select
-            If pOutputFClass Is Nothing Then
-                Err.Raise vbObjectError, "cmdNext", "Could not create the new output feature class."
-            End If
+313:             End Select
+314:             If pOutputFClass Is Nothing Then
+315:                 Err.Raise vbObjectError, "cmdNext", "Could not create the new output feature class."
+316:             End If
             ' Create new layer
-            Set pFeatureLayer = New FeatureLayer
-            Set pFeatureLayer.FeatureClass = pOutputFClass
-            pFeatureLayer.Name = pFeatureLayer.FeatureClass.AliasName
+318:             Set pFeatureLayer = New FeatureLayer
+319:             Set pFeatureLayer.FeatureClass = pOutputFClass
+320:             pFeatureLayer.Name = pFeatureLayer.FeatureClass.AliasName
             ' Add the new layer to arcmap & reset the StripMapSettings object to point at it
-            pMx.FocusMap.AddLayer pFeatureLayer
-            Set StripMapSettings.DestinationFeatureLayer = pFeatureLayer
-        End If
-        Me.Hide
-    Else
-        SetVisibleControls m_Step
-        SetControlsState
-    End If
+322:             pMx.FocusMap.AddLayer pFeatureLayer
+323:             Set StripMapSettings.DestinationFeatureLayer = pFeatureLayer
+324:         End If
+325:         Me.Hide
+326:     Else
+327:         SetVisibleControls m_Step
+328:         SetControlsState
+329:     End If
     
     Exit Sub
 eh:
-    MsgBox "Error: " & Err.Description, , "cmdNext_Click"
-    m_Step = m_Step - 1
+333:     MsgBox "Error: " & Err.Description, , "cmdNext_Click"
+334:     m_Step = m_Step - 1
 End Sub
 
 Private Sub cmdSetNewGridLayer_Click()
@@ -894,46 +922,46 @@ Private Sub cmdSetNewGridLayer_Click()
   Dim pGXBrow As IGxDialog, bFlag As Boolean
   Dim pSel As IEnumGxObject, pApp As IApplication
   
-  Set pGxFilter = New GxFilter
-  Set pApp = m_Application
-  Set pGXBrow = New GxDialog
-  Set pGXBrow.ObjectFilter = pGxFilter
-  pGXBrow.Title = "Output feature class or shapefile"
-  bFlag = pGXBrow.DoModalSave(pApp.hwnd)
+342:   Set pGxFilter = New GxFilter
+343:   Set pApp = m_Application
+344:   Set pGXBrow = New GxDialog
+345:   Set pGXBrow.ObjectFilter = pGxFilter
+346:   pGXBrow.Title = "Output feature class or shapefile"
+347:   bFlag = pGXBrow.DoModalSave(pApp.hwnd)
   
-  If bFlag Then
+349:   If bFlag Then
     Dim pObj As IGxObject
-    Set pObj = pGXBrow.FinalLocation
-    m_bIsGeoDatabase = True
-    If UCase(pObj.Category) = "FOLDER" Then
-      If InStr(1, pGXBrow.Name, ".shp") > 0 Then
-        txtNewGridLayer.Text = pObj.FullName & "\" & pGXBrow.Name
-      Else
-        txtNewGridLayer.Text = pObj.FullName & "\" & pGXBrow.Name & ".shp"
-      End If
-      m_OutputLayer = txtNewGridLayer.Text
-      m_bIsGeoDatabase = False
-      m_FileType = ShapeFile
-     CheckOutputFile
-    Else
+351:     Set pObj = pGXBrow.FinalLocation
+352:     m_bIsGeoDatabase = True
+353:     If UCase(pObj.Category) = "FOLDER" Then
+354:       If InStr(1, pGXBrow.Name, ".shp") > 0 Then
+355:         txtNewGridLayer.Text = pObj.FullName & "\" & pGXBrow.Name
+356:       Else
+357:         txtNewGridLayer.Text = pObj.FullName & "\" & pGXBrow.Name & ".shp"
+358:       End If
+359:       m_OutputLayer = txtNewGridLayer.Text
+360:       m_bIsGeoDatabase = False
+361:       m_FileType = ShapeFile
+362:      CheckOutputFile
+363:     Else
       Dim pLen As Long
-      pLen = Len(pObj.FullName) - Len(pObj.BaseName) - 1
-      txtNewGridLayer.Text = Left(pObj.FullName, pLen)
-      m_OutputLayer = Left(pObj.FullName, pLen)
-      m_OutputDataset = pObj.BaseName
-      m_OutputFClass = pGXBrow.Name
-      m_bIsGeoDatabase = True
-      If UCase(pObj.Category) = "PERSONAL GEODATABASE FEATURE DATASET" Then
-        m_FileType = AccessFeatureClass
-      Else
-        m_FileType = SDEFeatureClass
-      End If
-    End If
-  Else
-    txtNewGridLayer.Text = ""
-    m_bIsGeoDatabase = False
-  End If
-  SetControlsState
+365:       pLen = Len(pObj.FullName) - Len(pObj.BaseName) - 1
+366:       txtNewGridLayer.Text = Left(pObj.FullName, pLen)
+367:       m_OutputLayer = Left(pObj.FullName, pLen)
+368:       m_OutputDataset = pObj.BaseName
+369:       m_OutputFClass = pGXBrow.Name
+370:       m_bIsGeoDatabase = True
+371:       If UCase(pObj.Category) = "PERSONAL GEODATABASE FEATURE DATASET" Then
+372:         m_FileType = AccessFeatureClass
+373:       Else
+374:         m_FileType = SDEFeatureClass
+375:       End If
+376:     End If
+377:   Else
+378:     txtNewGridLayer.Text = ""
+379:     m_bIsGeoDatabase = False
+380:   End If
+381:   SetControlsState
 End Sub
 
 Private Sub Form_Load()
@@ -943,41 +971,41 @@ Private Sub Form_Load()
     Dim sErrMsg As String
     On Error GoTo eh
     
-    sErrMsg = CreateStripMapPolyline
-    If Len(sErrMsg) > 0 Then
-        MsgBox sErrMsg, vbCritical, "Create Map Grids"
-        Unload Me
+391:     sErrMsg = CreateStripMapPolyline
+392:     If Len(sErrMsg) > 0 Then
+393:         MsgBox sErrMsg, vbCritical, "Create Map Grids"
+394:         Unload Me
         Exit Sub
-    End If
-    Set pMx = m_Application.Document
-    Me.Height = 5565
-    Me.Width = 4935
-    m_Step = 0
-    LoadLayersComboBox
-    LoadUnitsComboBox
-    lblCurrFrameName.Caption = GetActiveDataFrameName(m_Application)
-    If pMx.FocusMap.MapUnits = esriUnknownUnits Then
-        MsgBox "Error: The map has unknown units and therefore cannot calculate a Scale." _
+396:     End If
+397:     Set pMx = m_Application.Document
+398:     Me.Height = 5665
+399:     Me.Width = 4935
+400:     m_Step = 0
+401:     LoadLayersComboBox
+402:     LoadUnitsComboBox
+403:     lblCurrFrameName.Caption = GetActiveDataFrameName(m_Application)
+404:     If pMx.FocusMap.MapUnits = esriUnknownUnits Then
+405:         MsgBox "Error: The map has unknown units and therefore cannot calculate a Scale." _
             & vbCrLf & "Cannot create Map Grids at this time.", vbCritical, "Create Map Grids"
-        Unload Me
+407:         Unload Me
         Exit Sub
-    End If
-    lblMapUnits.Caption = GetUnitsDescription(pMx.FocusMap.MapUnits)
-    lblCurrentMapScale.Caption = Format(pMx.FocusMap.MapScale, "#,###,##0")
-    SetVisibleControls m_Step
+409:     End If
+410:     lblMapUnits.Caption = GetUnitsDescription(pMx.FocusMap.MapUnits)
+411:     lblCurrentMapScale.Caption = Format(pMx.FocusMap.MapScale, "#,###,##0")
+412:     SetVisibleControls m_Step
     
-    SetControlsState
+414:     SetControlsState
     
     'Make sure the wizard stays on top
-    TopMost Me
+417:     TopMost Me
     
     Exit Sub
 eh:
-    MsgBox "Error loading the form: " & Err.Description & vbCrLf _
+421:     MsgBox "Error loading the form: " & Err.Description & vbCrLf _
         & vbCrLf & "Attempting to continue the load...", , "MapGridManager: Form_Load "
     On Error Resume Next
-    SetVisibleControls m_Step
-    SetControlsState
+424:     SetVisibleControls m_Step
+425:     SetControlsState
 End Sub
 
 Private Sub LoadUnitsComboBox()
@@ -988,19 +1016,19 @@ Private Sub LoadUnitsComboBox()
     On Error GoTo eh
     
     ' Init
-    Set pMx = m_Application.Document
-    Set pPage = pMx.PageLayout.Page
-    sPageUnitsDesc = GetUnitsDescription(pPage.Units)
-    cmbGridSizeUnits.Clear
+436:     Set pMx = m_Application.Document
+437:     Set pPage = pMx.PageLayout.Page
+438:     sPageUnitsDesc = GetUnitsDescription(pPage.Units)
+439:     cmbGridSizeUnits.Clear
     ' Add
-    cmbGridSizeUnits.AddItem sPageUnitsDesc
+441:     cmbGridSizeUnits.AddItem sPageUnitsDesc
     'cmbGridSizeUnits.AddItem "Map Units (" & sMapUnitsDesc & ")"
     ' Set page units as default
-    cmbGridSizeUnits.ListIndex = 0
+444:     cmbGridSizeUnits.ListIndex = 0
     
     Exit Sub
 eh:
-    Err.Raise vbObjectError, "LoadUnitsComboBox", "Error in LoadUnitsComboBox" & vbCrLf & Err.Description
+448:     Err.Raise vbObjectError, "LoadUnitsComboBox", "Error in LoadUnitsComboBox" & vbCrLf & Err.Description
 End Sub
 
 Private Sub LoadLayersComboBox()
@@ -1012,224 +1040,224 @@ Private Sub LoadLayersComboBox()
     Dim lResetIndex As Long
     
     'Init
-    Set pMx = m_Application.Document
-    cmbPolygonLayers.Clear
-    cmbPolygonLayers.AddItem "<Not Set>"
+460:     Set pMx = m_Application.Document
+461:     cmbPolygonLayers.Clear
+462:     cmbPolygonLayers.AddItem "<Not Set>"
     ' For all layers
-    For lLoop = 0 To pMx.FocusMap.LayerCount - 1
+464:     For lLoop = 0 To pMx.FocusMap.LayerCount - 1
         ' If a feature class
-        If TypeOf pMx.FocusMap.Layer(lLoop) Is IFeatureLayer Then
-            Set pFL = pMx.FocusMap.Layer(lLoop)
-            Set pFC = pFL.FeatureClass
+466:         If TypeOf pMx.FocusMap.Layer(lLoop) Is IFeatureLayer Then
+467:             Set pFL = pMx.FocusMap.Layer(lLoop)
+468:             Set pFC = pFL.FeatureClass
             ' If a polygon layer
-            If pFC.ShapeType = esriGeometryPolygon Then
+470:             If pFC.ShapeType = esriGeometryPolygon Then
                 ' Add to combo box
-                cmbPolygonLayers.AddItem pFL.Name
-            End If
-        End If
-    Next
-    cmbPolygonLayers.ListIndex = 0
+472:                 cmbPolygonLayers.AddItem pFL.Name
+473:             End If
+474:         End If
+475:     Next
+476:     cmbPolygonLayers.ListIndex = 0
 End Sub
 
 Private Sub SetCurrentMapScaleCaption()
     Dim pMx As IMxDocument
     On Error GoTo eh
-    Set pMx = m_Application.Document
-    lblCurrentMapScale.Caption = Format(pMx.FocusMap.MapScale, "#,###,##0")
+482:     Set pMx = m_Application.Document
+483:     lblCurrentMapScale.Caption = Format(pMx.FocusMap.MapScale, "#,###,##0")
     Exit Sub
 eh:
-    lblCurrentMapScale.Caption = "<Scale Unknown>"
+486:     lblCurrentMapScale.Caption = "<Scale Unknown>"
 End Sub
 
 
 Private Sub Form_Unload(Cancel As Integer)
-    Set m_Application = Nothing
-    Set StripMapSettings = Nothing
+491:     Set m_Application = Nothing
+492:     Set StripMapSettings = Nothing
 End Sub
 
 
 Private Sub optGridSize_Click(Index As Integer)
     Dim pMx As IMxDocument
-    Set pMx = m_Application.Document
-    lblCurrFrameName.Caption = pMx.FocusMap.Name
-    SetControlsState
+498:     Set pMx = m_Application.Document
+499:     lblCurrFrameName.Caption = pMx.FocusMap.Name
+500:     SetControlsState
 End Sub
 
 Private Sub optLayerSource_Click(Index As Integer)
     ' If creating a new fclass to hold the grids
-    If Index = 1 Then
+505:     If Index = 1 Then
         ' Set the field names (will be created automatically)
-        cmbFieldStripMapName.Clear
-        cmbFieldGridAngle.Clear
-        cmbFieldSeriesNumber.Clear
-        cmbFieldMapScale.Clear
-        cmbFieldStripMapName.AddItem "<None>"
-        cmbFieldGridAngle.AddItem "<None>"
-        cmbFieldSeriesNumber.AddItem "<None>"
-        cmbFieldMapScale.AddItem "<None>"
-        cmbFieldStripMapName.AddItem c_DefaultFld_StripMapName
-        cmbFieldGridAngle.AddItem c_DefaultFld_MapAngle
-        cmbFieldSeriesNumber.AddItem c_DefaultFld_SeriesNum
-        cmbFieldMapScale.AddItem c_DefaultFld_MapScale
-        cmbFieldStripMapName.ListIndex = 1
-        cmbFieldGridAngle.ListIndex = 1
-        cmbFieldSeriesNumber.ListIndex = 1
-        cmbFieldMapScale.ListIndex = 1
-    End If
-    SetControlsState
+507:         cmbFieldStripMapName.Clear
+508:         cmbFieldGridAngle.Clear
+509:         cmbFieldSeriesNumber.Clear
+510:         cmbFieldMapScale.Clear
+511:         cmbFieldStripMapName.AddItem "<None>"
+512:         cmbFieldGridAngle.AddItem "<None>"
+513:         cmbFieldSeriesNumber.AddItem "<None>"
+514:         cmbFieldMapScale.AddItem "<None>"
+515:         cmbFieldStripMapName.AddItem c_DefaultFld_StripMapName
+516:         cmbFieldGridAngle.AddItem c_DefaultFld_MapAngle
+517:         cmbFieldSeriesNumber.AddItem c_DefaultFld_SeriesNum
+518:         cmbFieldMapScale.AddItem c_DefaultFld_MapScale
+519:         cmbFieldStripMapName.ListIndex = 1
+520:         cmbFieldGridAngle.ListIndex = 1
+521:         cmbFieldSeriesNumber.ListIndex = 1
+522:         cmbFieldMapScale.ListIndex = 1
+523:     End If
+524:     SetControlsState
 End Sub
 
 Private Sub optScaleSource_Click(Index As Integer)
-    If Index = 0 Then
-        SetCurrentMapScaleCaption
-    ElseIf Index = 2 Then
-        optGridSize(1).Value = True
-    End If
-    SetControlsState
+528:     If Index = 0 Then
+529:         SetCurrentMapScaleCaption
+530:     ElseIf Index = 2 Then
+531:         optGridSize(1).Value = True
+532:     End If
+533:     SetControlsState
 End Sub
 
 Private Sub txtAbsoluteGridHeight_Change()
-    SetControlsState
+537:     SetControlsState
 End Sub
 
 Private Sub txtAbsoluteGridHeight_KeyPress(KeyAscii As Integer)
     ' If a non-numeric (that is not a decimal point)
-    If (KeyAscii < Asc("0") Or KeyAscii > Asc("9")) _
+542:     If (KeyAscii < Asc("0") Or KeyAscii > Asc("9")) _
      And KeyAscii <> Asc(".") _
      And Chr(KeyAscii) <> vbBack Then
         ' Do not allow this button to work
-        KeyAscii = 0
+546:         KeyAscii = 0
     ' If a decimal point, make sure we only ever get one of them
-    ElseIf KeyAscii = Asc(".") Then
-        If InStr(txtAbsoluteGridHeight.Text, ".") > 0 Then
-            KeyAscii = 0
-        End If
-    End If
+548:     ElseIf KeyAscii = Asc(".") Then
+549:         If InStr(txtAbsoluteGridHeight.Text, ".") > 0 Then
+550:             KeyAscii = 0
+551:         End If
+552:     End If
 End Sub
 
 Private Sub txtAbsoluteGridWidth_Change()
-    SetControlsState
+556:     SetControlsState
 End Sub
 
 Private Sub txtAbsoluteGridWidth_KeyPress(KeyAscii As Integer)
     ' If a non-numeric (that is not a decimal point)
-    If (KeyAscii < Asc("0") Or KeyAscii > Asc("9")) _
+561:     If (KeyAscii < Asc("0") Or KeyAscii > Asc("9")) _
      And KeyAscii <> Asc(".") _
      And Chr(KeyAscii) <> vbBack Then
         ' Do not allow this button to work
-        KeyAscii = 0
+565:         KeyAscii = 0
     ' If a decimal point, make sure we only ever get one of them
-    ElseIf KeyAscii = Asc(".") Then
-        If InStr(txtAbsoluteGridWidth.Text, ".") > 0 Then
-            KeyAscii = 0
-        End If
-    End If
+567:     ElseIf KeyAscii = Asc(".") Then
+568:         If InStr(txtAbsoluteGridWidth.Text, ".") > 0 Then
+569:             KeyAscii = 0
+570:         End If
+571:     End If
 End Sub
 
 Private Sub txtManualGridHeight_Change()
-    SetControlsState
+575:     SetControlsState
 End Sub
 
 Private Sub txtManualGridHeight_KeyPress(KeyAscii As Integer)
     ' If a non-numeric (that is not a decimal point)
-    If (KeyAscii < Asc("0") Or KeyAscii > Asc("9")) _
+580:     If (KeyAscii < Asc("0") Or KeyAscii > Asc("9")) _
      And KeyAscii <> Asc(".") _
      And Chr(KeyAscii) <> vbBack Then
         ' Do not allow this button to work
-        KeyAscii = 0
+584:         KeyAscii = 0
     ' If a decimal point, make sure we only ever get one of them
-    ElseIf KeyAscii = Asc(".") Then
-        If InStr(txtManualGridHeight.Text, ".") > 0 Then
-            KeyAscii = 0
-        End If
-    End If
+586:     ElseIf KeyAscii = Asc(".") Then
+587:         If InStr(txtManualGridHeight.Text, ".") > 0 Then
+588:             KeyAscii = 0
+589:         End If
+590:     End If
 End Sub
 
 Private Sub txtManualGridWidth_Change()
-    If IsNumeric(txtManualGridWidth.Text) And optScaleSource(2).Value Then
+594:     If IsNumeric(txtManualGridWidth.Text) And optScaleSource(2).Value Then
         Dim dRatio As Double, dGridWidth As Double
-        dGridWidth = CDbl(txtManualGridWidth.Text)
-        dRatio = CDbl(txtAbsoluteGridHeight.Text) / CDbl(txtAbsoluteGridWidth.Text)
-        txtManualGridHeight.Text = CStr(dRatio * dGridWidth)
-    End If
-    SetControlsState
+596:         dGridWidth = CDbl(txtManualGridWidth.Text)
+597:         dRatio = CDbl(txtAbsoluteGridHeight.Text) / CDbl(txtAbsoluteGridWidth.Text)
+598:         txtManualGridHeight.Text = CStr(dRatio * dGridWidth)
+599:     End If
+600:     SetControlsState
 End Sub
 
 Private Sub txtManualGridWidth_KeyPress(KeyAscii As Integer)
     ' If a non-numeric (that is not a decimal point)
-    If (KeyAscii < Asc("0") Or KeyAscii > Asc("9")) _
+605:     If (KeyAscii < Asc("0") Or KeyAscii > Asc("9")) _
      And KeyAscii <> Asc(".") _
      And Chr(KeyAscii) <> vbBack Then
         ' Do not allow this button to work
-        KeyAscii = 0
+609:         KeyAscii = 0
     ' If a decimal point, make sure we only ever get one of them
-    ElseIf KeyAscii = Asc(".") Then
-        If InStr(txtManualGridWidth.Text, ".") > 0 Then
-            KeyAscii = 0
-        End If
-    End If
+611:     ElseIf KeyAscii = Asc(".") Then
+612:         If InStr(txtManualGridWidth.Text, ".") > 0 Then
+613:             KeyAscii = 0
+614:         End If
+615:     End If
 End Sub
 
 Private Sub txtManualMapScale_Change()
-    SetControlsState
+619:     SetControlsState
 End Sub
 
 Private Sub txtManualMapScale_KeyPress(KeyAscii As Integer)
     ' If a non-numeric (that is not a decimal point)
-    If (KeyAscii < Asc("0") Or KeyAscii > Asc("9")) _
+624:     If (KeyAscii < Asc("0") Or KeyAscii > Asc("9")) _
      And KeyAscii <> Asc(".") _
      And Chr(KeyAscii) <> vbBack Then
         ' Do not allow this button to work
-        KeyAscii = 0
+628:         KeyAscii = 0
     ' If a decimal point, make sure we only ever get one of them
-    ElseIf KeyAscii = Asc(".") Then
-        If InStr(txtManualMapScale.Text, ".") > 0 Then
-            KeyAscii = 0
-        End If
-    End If
+630:     ElseIf KeyAscii = Asc(".") Then
+631:         If InStr(txtManualMapScale.Text, ".") > 0 Then
+632:             KeyAscii = 0
+633:         End If
+634:     End If
 End Sub
 
 Public Sub Tickle()
-    Call Form_Load
+638:     Call Form_Load
 End Sub
 
 Private Sub SetVisibleControls(iStep As Integer)
     ' Hide all
-    fraAttributes.Visible = False
-    fraDataFrameSize.Visible = False
-    fraDestinationFeatureClass.Visible = False
-    fraScaleStart.Visible = False
+643:     fraAttributes.Visible = False
+644:     fraDataFrameSize.Visible = False
+645:     fraDestinationFeatureClass.Visible = False
+646:     fraScaleStart.Visible = False
     ' Show applicable frame, set top/left
     Select Case iStep
         Case 0:
-            fraDestinationFeatureClass.Visible = True
-            fraDestinationFeatureClass.Top = 0
-            fraDestinationFeatureClass.Left = 0
+650:             fraDestinationFeatureClass.Visible = True
+651:             fraDestinationFeatureClass.Top = 0
+652:             fraDestinationFeatureClass.Left = 0
         Case 1:
-            fraAttributes.Visible = True
-            fraAttributes.Top = 0
-            fraAttributes.Left = 0
+654:             fraAttributes.Visible = True
+655:             fraAttributes.Top = 0
+656:             fraAttributes.Left = 0
         Case 2:
-            fraScaleStart.Visible = True
-            fraScaleStart.Top = 0
-            fraScaleStart.Left = 0
+658:             fraScaleStart.Visible = True
+659:             fraScaleStart.Top = 0
+660:             fraScaleStart.Left = 0
         Case 3:
-            fraDataFrameSize.Visible = True
-            fraDataFrameSize.Top = 0
-            fraDataFrameSize.Left = 0
+662:             fraDataFrameSize.Visible = True
+663:             fraDataFrameSize.Top = 0
+664:             fraDataFrameSize.Left = 0
         Case Else:
-            MsgBox "Invalid Step Value : " & iStep
-    End Select
+666:             MsgBox "Invalid Step Value : " & iStep
+667:     End Select
 End Sub
 
 Private Sub CheckOutputFile()
     'Check the output option
-    If txtNewGridLayer.Text <> "" Then
-        If DoesShapeFileExist(txtNewGridLayer.Text) Then
-            MsgBox "Shape file name already being used!!!"
-            txtNewGridLayer.Text = ""
-        End If
-    End If
+672:     If txtNewGridLayer.Text <> "" Then
+673:         If DoesShapeFileExist(txtNewGridLayer.Text) Then
+674:             MsgBox "Shape file name already being used!!!"
+675:             txtNewGridLayer.Text = ""
+676:         End If
+677:     End If
 End Sub
 
 Private Function CreateTheFields() As IFields
@@ -1242,64 +1270,64 @@ Private Function CreateTheFields() As IFields
     Dim pMx As IMxDocument
     
     ' Init
-    Set pNewFields = New Fields
-    Set pFieldsEdit = pNewFields
-    Set pMx = m_Application.Document
+690:     Set pNewFields = New Fields
+691:     Set pFieldsEdit = pNewFields
+692:     Set pMx = m_Application.Document
     ' Field: OID  -------------------------
-    Set newField = New Field
-    Set newFieldEdit = newField
-    With newFieldEdit
-        .Name = "OID"
-        .Type = esriFieldTypeOID
-        .AliasName = "Object ID"
-        .IsNullable = False
-    End With
-    pFieldsEdit.AddField newField
+694:     Set newField = New Field
+695:     Set newFieldEdit = newField
+696:     With newFieldEdit
+697:         .Name = "OID"
+698:         .Type = esriFieldTypeOID
+699:         .AliasName = "Object ID"
+700:         .IsNullable = False
+701:     End With
+702:     pFieldsEdit.AddField newField
     ' Field: STRIP MAP NAME -------------------------
-    Set newField = New Field
-    Set newFieldEdit = newField
-    With newFieldEdit
-      .Name = c_DefaultFld_StripMapName
-      .AliasName = "StripMapName"
-      .Type = esriFieldTypeString
-      .IsNullable = True
-      .Length = 50
-    End With
-    pFieldsEdit.AddField newField
+704:     Set newField = New Field
+705:     Set newFieldEdit = newField
+706:     With newFieldEdit
+707:       .Name = c_DefaultFld_StripMapName
+708:       .AliasName = "StripMapName"
+709:       .Type = esriFieldTypeString
+710:       .IsNullable = True
+711:       .Length = 50
+712:     End With
+713:     pFieldsEdit.AddField newField
     ' Field: MAP ANGLE -------------------------
-    Set newField = New Field
-    Set newFieldEdit = newField
-    With newFieldEdit
-      .Name = c_DefaultFld_MapAngle
-      .AliasName = "Map Angle"
-      .Type = esriFieldTypeInteger
-      .IsNullable = True
-    End With
-    pFieldsEdit.AddField newField
+715:     Set newField = New Field
+716:     Set newFieldEdit = newField
+717:     With newFieldEdit
+718:       .Name = c_DefaultFld_MapAngle
+719:       .AliasName = "Map Angle"
+720:       .Type = esriFieldTypeInteger
+721:       .IsNullable = True
+722:     End With
+723:     pFieldsEdit.AddField newField
     ' Field: GRID NUMBER -------------------------
-    Set newField = New Field
-    Set newFieldEdit = newField
-    With newFieldEdit
-      .Name = c_DefaultFld_SeriesNum
-      .AliasName = "Number In Series"
-      .Type = esriFieldTypeInteger
-      .IsNullable = True
-    End With
-    pFieldsEdit.AddField newField
+725:     Set newField = New Field
+726:     Set newFieldEdit = newField
+727:     With newFieldEdit
+728:       .Name = c_DefaultFld_SeriesNum
+729:       .AliasName = "Number In Series"
+730:       .Type = esriFieldTypeInteger
+731:       .IsNullable = True
+732:     End With
+733:     pFieldsEdit.AddField newField
     ' Field: SCALE -------------------------
-    Set newField = New Field
-    Set newFieldEdit = newField
-    With newFieldEdit
-      .Name = c_DefaultFld_MapScale
-      .AliasName = "Plot Scale"
-      .Type = esriFieldTypeDouble
-      .IsNullable = True
-      .Precision = 18
-      .Scale = 11
-    End With
-    pFieldsEdit.AddField newField
+735:     Set newField = New Field
+736:     Set newFieldEdit = newField
+737:     With newFieldEdit
+738:       .Name = c_DefaultFld_MapScale
+739:       .AliasName = "Plot Scale"
+740:       .Type = esriFieldTypeDouble
+741:       .IsNullable = True
+742:       .Precision = 18
+743:       .Scale = 11
+744:     End With
+745:     pFieldsEdit.AddField newField
     ' Return
-    Set CreateTheFields = pFieldsEdit
+747:     Set CreateTheFields = pFieldsEdit
 End Function
 
 Private Function CalculatePageToMapRatio(pApp As IApplication) As Double
@@ -1314,39 +1342,39 @@ Private Function CalculatePageToMapRatio(pApp As IApplication) As Double
     On Error GoTo eh
     
     ' Init
-    Set pMx = pApp.Document
-    Set pSR = pMx.FocusMap.SpatialReference
-    If TypeOf pSR Is IProjectedCoordinateSystem Then
-        Set pPCS = pSR
-        dMetersPerUnit = pPCS.CoordinateUnit.MetersPerUnit
-    Else
-        dMetersPerUnit = 1
-    End If
-    Set pPage = pMx.PageLayout.Page
-    pPageUnits = pPage.Units
+762:     Set pMx = pApp.Document
+763:     Set pSR = pMx.FocusMap.SpatialReference
+764:     If TypeOf pSR Is IProjectedCoordinateSystem Then
+765:         Set pPCS = pSR
+766:         dMetersPerUnit = pPCS.CoordinateUnit.MetersPerUnit
+767:     Else
+768:         dMetersPerUnit = 1
+769:     End If
+770:     Set pPage = pMx.PageLayout.Page
+771:     pPageUnits = pPage.Units
     Select Case pPageUnits
         Case esriInches: CalculatePageToMapRatio = dMetersPerUnit / (1 / 12 * 0.304800609601219)
         Case esriFeet: CalculatePageToMapRatio = dMetersPerUnit / (0.304800609601219)
         Case esriCentimeters: CalculatePageToMapRatio = dMetersPerUnit / (1 / 100)
         Case esriMeters: CalculatePageToMapRatio = dMetersPerUnit / (1)
         Case Else:
-            MsgBox "Warning: Only the following Page (Layout) Units are supported by this tool:" _
+778:             MsgBox "Warning: Only the following Page (Layout) Units are supported by this tool:" _
                 & vbCrLf & " - Inches, Feet, Centimeters, Meters" _
                 & vbCrLf & vbCrLf & "Calculating as though Page Units are in Inches..."
-            CalculatePageToMapRatio = dMetersPerUnit / (1 / 12 * 0.304800609601219)
-    End Select
+781:             CalculatePageToMapRatio = dMetersPerUnit / (1 / 12 * 0.304800609601219)
+782:     End Select
     Exit Function
 eh:
-    CalculatePageToMapRatio = 1
-    MsgBox "Error in CalculatePageToMapRatio" & vbCrLf & Err.Description
+785:     CalculatePageToMapRatio = 1
+786:     MsgBox "Error in CalculatePageToMapRatio" & vbCrLf & Err.Description
 End Function
 
 Private Function ReturnMax(dDouble1 As Double, dDouble2 As Double) As Double
-    If dDouble1 >= dDouble2 Then
-        ReturnMax = dDouble1
-    Else
-        ReturnMax = dDouble2
-    End If
+790:     If dDouble1 >= dDouble2 Then
+791:         ReturnMax = dDouble1
+792:     Else
+793:         ReturnMax = dDouble2
+794:     End If
 End Function
 
 Private Function CreateStripMapPolyline() As String
@@ -1363,52 +1391,52 @@ Private Function CreateStripMapPolyline() As String
     On Error GoTo eh
     
     ' Init
-    Set pMx = m_Application.Document
-    Set pFC = pMx.FocusMap.FeatureSelection
-    Set pF = pFC.Next
-    If pF Is Nothing Then
-        CreateStripMapPolyline = "Requires selected polyline features/s."
+811:     Set pMx = m_Application.Document
+812:     Set pFC = pMx.FocusMap.FeatureSelection
+813:     Set pF = pFC.Next
+814:     If pF Is Nothing Then
+815:         CreateStripMapPolyline = "Requires selected polyline features/s."
         Exit Function
-    End If
+817:     End If
     ' Make polyline
-    Set pPolyline = New Polyline
-    While Not pF Is Nothing
-        If pF.Shape.GeometryType = esriGeometryPolyline Then
-            Set pTmpPolyline = pF.ShapeCopy
-            Set pTopoSimplify = pTmpPolyline
-            pTopoSimplify.Simplify
-            Set pTopoUnion = pPolyline
-            Set pPolyline = pTopoUnion.Union(pTopoSimplify)
-            Set pTopoSimplify = pPolyline
-            pTopoSimplify.Simplify
-        End If
-        Set pF = pFC.Next
-    Wend
+819:     Set pPolyline = New Polyline
+820:     While Not pF Is Nothing
+821:         If pF.Shape.GeometryType = esriGeometryPolyline Then
+822:             Set pTmpPolyline = pF.ShapeCopy
+823:             Set pTopoSimplify = pTmpPolyline
+824:             pTopoSimplify.Simplify
+825:             Set pTopoUnion = pPolyline
+826:             Set pPolyline = pTopoUnion.Union(pTopoSimplify)
+827:             Set pTopoSimplify = pPolyline
+828:             pTopoSimplify.Simplify
+829:         End If
+830:         Set pF = pFC.Next
+831:     Wend
     ' Check polyline for beinga single, connected polyline (Path)
-    Set pGeoColl = pPolyline
-    If pGeoColl.GeometryCount = 0 Then
-        CreateStripMapPolyline = "Requires selected polyline features/s."
+833:     Set pGeoColl = pPolyline
+834:     If pGeoColl.GeometryCount = 0 Then
+835:         CreateStripMapPolyline = "Requires selected polyline features/s."
         Exit Function
-    ElseIf pGeoColl.GeometryCount > 1 Then
-        CreateStripMapPolyline = "Cannot process the StripMap - multi-part polyline created." _
+837:     ElseIf pGeoColl.GeometryCount > 1 Then
+838:         CreateStripMapPolyline = "Cannot process the StripMap - multi-part polyline created." _
             & vbCrLf & "Check for non-connected segments, overlaps or loops."
         Exit Function
-    End If
+841:     End If
     ' Give option to flip
-    Perm_DrawPoint pPolyline.FromPoint, , 0, 255, 0, 20
-    Perm_DrawTextFromPoint pPolyline.FromPoint, "START", , , , , 20
-    Perm_DrawPoint pPolyline.ToPoint, , 255, 0, 0, 20
-    Perm_DrawTextFromPoint pPolyline.ToPoint, "END", , , , , 20
-    pMx.ActiveView.PartialRefresh esriViewGraphics, Nothing, Nothing
+843:     Perm_DrawPoint pPolyline.FromPoint, , 0, 255, 0, 20
+844:     Perm_DrawTextFromPoint pPolyline.FromPoint, "START", , , , , 20
+845:     Perm_DrawPoint pPolyline.ToPoint, , 255, 0, 0, 20
+846:     Perm_DrawTextFromPoint pPolyline.ToPoint, "END", , , , , 20
+847:     pMx.ActiveView.PartialRefresh esriViewGraphics, Nothing, Nothing
     
-    Set m_Polyline = pPolyline
+849:     Set m_Polyline = pPolyline
     
-    CreateStripMapPolyline = ""
+851:     CreateStripMapPolyline = ""
     
     Exit Function
-    Resume
+854:     Resume
 eh:
-    CreateStripMapPolyline = "Error in CreateStripMapPolyline : " & Err.Description
+856:     CreateStripMapPolyline = "Error in CreateStripMapPolyline : " & Err.Description
 End Function
 
 Public Sub Perm_DrawPoint(ByVal pPoint As IPoint, _
@@ -1426,29 +1454,29 @@ Public Sub Perm_DrawPoint(ByVal pPoint As IPoint, _
     Dim pMx As IMxDocument
     
     ' Init
-    Set pMx = m_Application.Document
-    Set pGLayer = pMx.FocusMap.BasicGraphicsLayer
-    Set pGCon = pGLayer
-    Set pElement = New MarkerElement
-    pElement.Geometry = pPoint
-    Set pMarkerElement = pElement
+874:     Set pMx = m_Application.Document
+875:     Set pGLayer = pMx.FocusMap.BasicGraphicsLayer
+876:     Set pGCon = pGLayer
+877:     Set pElement = New MarkerElement
+878:     pElement.Geometry = pPoint
+879:     Set pMarkerElement = pElement
     
     ' Set the symbol
-    Set pColor = New RgbColor
-    pColor.Red = dRed
-    pColor.Green = dGreen
-    pColor.Blue = dBlue
-    Set pMarker = New SimpleMarkerSymbol
-    With pMarker
-        .Color = pColor
-        .Size = dSize
-    End With
-    pMarkerElement.Symbol = pMarker
+882:     Set pColor = New RgbColor
+883:     pColor.Red = dRed
+884:     pColor.Green = dGreen
+885:     pColor.Blue = dBlue
+886:     Set pMarker = New SimpleMarkerSymbol
+887:     With pMarker
+888:         .Color = pColor
+889:         .Size = dSize
+890:     End With
+891:     pMarkerElement.Symbol = pMarker
     
     ' Add the graphic
-    Set pElementProp = pElement
-    pElementProp.Name = sElementName
-    pGCon.AddElement pElement, 0
+894:     Set pElementProp = pElement
+895:     pElementProp.Name = sElementName
+896:     pGCon.AddElement pElement, 0
 End Sub
 
 Public Sub Perm_DrawLineFromPoints(ByVal pFromPoint As IPoint, ByVal pToPoint As IPoint, _
@@ -1471,34 +1499,34 @@ Public Sub Perm_DrawLineFromPoints(ByVal pFromPoint As IPoint, ByVal pToPoint As
     Dim pMx As IMxDocument
     
     ' Init
-    Set pMx = m_Application.Document
-    Set pGLayer = pMx.FocusMap.BasicGraphicsLayer
-    Set pGCon = pGLayer
-    Set pElement = New LineElement
+919:     Set pMx = m_Application.Document
+920:     Set pGLayer = pMx.FocusMap.BasicGraphicsLayer
+921:     Set pGCon = pGLayer
+922:     Set pElement = New LineElement
     
     ' Set the line symbol
-    Set pLnSym = New SimpleLineSymbol
-    Set myColor = New RgbColor
-    myColor.Red = dRed
-    myColor.Green = dGreen
-    myColor.Blue = dBlue
-    pLnSym.Color = myColor
-    pLnSym.Width = dSize
+925:     Set pLnSym = New SimpleLineSymbol
+926:     Set myColor = New RgbColor
+927:     myColor.Red = dRed
+928:     myColor.Green = dGreen
+929:     myColor.Blue = dBlue
+930:     pLnSym.Color = myColor
+931:     pLnSym.Width = dSize
     
     ' Create a standard polyline (via 2 points)
-    Set pLine1 = New esriCore.Line
-    pLine1.PutCoords pFromPoint, pToPoint
-    Set pSeg1 = pLine1
-    Set pPolyline = New Polyline
-    pPolyline.AddSegment pSeg1
-    pElement.Geometry = pPolyline
-    Set pLineElement = pElement
-    pLineElement.Symbol = pLnSym
+934:     Set pLine1 = New esrigeometry.Line
+935:     pLine1.PutCoords pFromPoint, pToPoint
+936:     Set pSeg1 = pLine1
+937:     Set pPolyline = New Polyline
+938:     pPolyline.AddSegment pSeg1
+939:     pElement.Geometry = pPolyline
+940:     Set pLineElement = pElement
+941:     pLineElement.Symbol = pLnSym
     
     ' Add the graphic
-    Set pElementProp = pElement
-    pElementProp.Name = sElementName
-    pGCon.AddElement pElement, 0
+944:     Set pElementProp = pElement
+945:     pElementProp.Name = sElementName
+946:     pGCon.AddElement pElement, 0
 End Sub
 
 Public Sub Perm_DrawTextFromPoint(pPoint As IPoint, sText As String, _
@@ -1516,29 +1544,29 @@ Public Sub Perm_DrawTextFromPoint(pPoint As IPoint, sText As String, _
     Dim pMx As IMxDocument
     
     ' Init
-    Set pMx = m_Application.Document
-    Set pGLayer = pMx.FocusMap.BasicGraphicsLayer
-    Set pGCon = pGLayer
-    Set pElement = New TextElement
-    pElement.Geometry = pPoint
-    Set pTextElement = pElement
+964:     Set pMx = m_Application.Document
+965:     Set pGLayer = pMx.FocusMap.BasicGraphicsLayer
+966:     Set pGCon = pGLayer
+967:     Set pElement = New TextElement
+968:     pElement.Geometry = pPoint
+969:     Set pTextElement = pElement
     
     ' Create the text symbol
-    Set myTxtSym = New TextSymbol
-    Set myColor = New RgbColor
-    myColor.Red = dRed
-    myColor.Green = dGreen
-    myColor.Blue = dBlue
-    myTxtSym.Color = myColor
-    myTxtSym.Size = dSize
-    myTxtSym.HorizontalAlignment = esriTHACenter
-    pTextElement.Symbol = myTxtSym
-    pTextElement.Text = sText
+972:     Set myTxtSym = New TextSymbol
+973:     Set myColor = New RgbColor
+974:     myColor.Red = dRed
+975:     myColor.Green = dGreen
+976:     myColor.Blue = dBlue
+977:     myTxtSym.Color = myColor
+978:     myTxtSym.Size = dSize
+979:     myTxtSym.HorizontalAlignment = esriTHACenter
+980:     pTextElement.Symbol = myTxtSym
+981:     pTextElement.Text = sText
     
     ' Add the graphic
-    Set pElementProp = pElement
-    pElementProp.Name = sElementName
-    pGCon.AddElement pElement, 0
+984:     Set pElementProp = pElement
+985:     pElementProp.Name = sElementName
+986:     pGCon.AddElement pElement, 0
 End Sub
 
 Public Sub RemoveGraphicsByName(pMxDoc As IMxDocument, _
@@ -1554,33 +1582,33 @@ Public Sub RemoveGraphicsByName(pMxDoc As IMxDocument, _
     On Error GoTo ErrorHandler
     
     ' Init and switch OFF the updating of the TOC
-    pMxDoc.DelayUpdateContents = True
-    Set pGLayer = pMxDoc.FocusMap.BasicGraphicsLayer
-    Set pGCon = pGLayer
-    pGCon.Next
+1002:     pMxDoc.DelayUpdateContents = True
+1003:     Set pGLayer = pMxDoc.FocusMap.BasicGraphicsLayer
+1004:     Set pGCon = pGLayer
+1005:     pGCon.Next
     
     ' Delete all the graphic elements that we created (identify by the name prefix)
-    pGCon.Reset
-    Set pElement = pGCon.Next
-    While Not pElement Is Nothing
-        If TypeOf pElement Is IElement Then
-            Set pElementProp = pElement
-            If (Left(pElementProp.Name, Len(sPrefix)) = sPrefix) Then
-                pGCon.DeleteElement pElement
-            End If
-        End If
-        Set pElement = pGCon.Next
-    Wend
+1008:     pGCon.Reset
+1009:     Set pElement = pGCon.Next
+1010:     While Not pElement Is Nothing
+1011:         If TypeOf pElement Is IElement Then
+1012:             Set pElementProp = pElement
+1013:             If (Left(pElementProp.Name, Len(sPrefix)) = sPrefix) Then
+1014:                 pGCon.DeleteElement pElement
+1015:             End If
+1016:         End If
+1017:         Set pElement = pGCon.Next
+1018:     Wend
     
     ' Switch ON the updating of the TOC, refresh
-    pMxDoc.DelayUpdateContents = False
-    pMxDoc.ActiveView.Refresh
+1021:     pMxDoc.DelayUpdateContents = False
+1022:     pMxDoc.ActiveView.Refresh
     
     Exit Sub
 ErrorHandler:
-    MsgBox "Error in RemoveGraphicsByName: " & Err.Description, , "RemoveGraphicsByName"
+1026:     MsgBox "Error in RemoveGraphicsByName: " & Err.Description, , "RemoveGraphicsByName"
 End Sub
 
 Private Sub txtStripMapSeriesName_Change()
-    SetControlsState
+1030:     SetControlsState
 End Sub

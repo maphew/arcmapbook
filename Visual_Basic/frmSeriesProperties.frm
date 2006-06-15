@@ -1,6 +1,6 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "Mscomctl.ocx"
-Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "Tabctl32.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
+Object = "{BDC217C8-ED16-11CD-956C-0000C04E4C0A}#1.1#0"; "tabctl32.ocx"
 Begin VB.Form frmSeriesProperties 
    Caption         =   "Map Series Properties"
    ClientHeight    =   4455
@@ -39,12 +39,12 @@ Begin VB.Form frmSeriesProperties
       _ExtentX        =   12303
       _ExtentY        =   6853
       _Version        =   393216
-      Tab             =   2
       TabHeight       =   520
       TabCaption(0)   =   "Index Settings"
       TabPicture(0)   =   "frmSeriesProperties.frx":0000
-      Tab(0).ControlEnabled=   0   'False
+      Tab(0).ControlEnabled=   -1  'True
       Tab(0).Control(0)=   "fraPage1"
+      Tab(0).Control(0).Enabled=   0   'False
       Tab(0).ControlCount=   1
       TabCaption(1)   =   "Tile Settings"
       TabPicture(1)   =   "frmSeriesProperties.frx":001C
@@ -53,14 +53,13 @@ Begin VB.Form frmSeriesProperties
       Tab(1).ControlCount=   1
       TabCaption(2)   =   "Options"
       TabPicture(2)   =   "frmSeriesProperties.frx":0038
-      Tab(2).ControlEnabled=   -1  'True
+      Tab(2).ControlEnabled=   0   'False
       Tab(2).Control(0)=   "fraPage3"
-      Tab(2).Control(0).Enabled=   0   'False
       Tab(2).ControlCount=   1
       Begin VB.Frame fraPage1 
          BorderStyle     =   0  'None
          Height          =   3375
-         Left            =   -74940
+         Left            =   60
          TabIndex        =   30
          Top             =   420
          Width           =   6855
@@ -143,9 +142,18 @@ Begin VB.Form frmSeriesProperties
          TabIndex        =   19
          Top             =   420
          Width           =   6765
+         Begin VB.TextBox txtNumbering 
+            Enabled         =   0   'False
+            Height          =   315
+            Left            =   2520
+            TabIndex        =   43
+            Text            =   "1"
+            Top             =   2610
+            Width           =   525
+         End
          Begin VB.Frame fraChooseTiles 
             Caption         =   "Choose tiles"
-            Height          =   2565
+            Height          =   1485
             Left            =   60
             TabIndex        =   24
             Top             =   750
@@ -237,6 +245,15 @@ Begin VB.Form frmSeriesProperties
             NumItems        =   0
          End
          Begin VB.Label Label1 
+            Caption         =   "Begin numbering tiles/pages at:"
+            Height          =   255
+            Index           =   3
+            Left            =   240
+            TabIndex        =   44
+            Top             =   2640
+            Width           =   2295
+         End
+         Begin VB.Label Label1 
             Caption         =   $"frmSeriesProperties.frx":0134
             Height          =   615
             Index           =   1
@@ -249,16 +266,16 @@ Begin VB.Form frmSeriesProperties
       Begin VB.Frame fraPage3 
          BorderStyle     =   0  'None
          Height          =   3345
-         Left            =   60
+         Left            =   -74940
          TabIndex        =   1
          Top             =   420
          Width           =   6825
          Begin VB.Frame fraExtent 
             Caption         =   "Extent"
-            Height          =   2565
+            Height          =   2865
             Left            =   90
             TabIndex        =   8
-            Top             =   750
+            Top             =   450
             Width           =   3255
             Begin VB.OptionButton optExtent 
                Caption         =   "Data driven - The scale for each tile is"
@@ -347,11 +364,20 @@ Begin VB.Form frmSeriesProperties
          End
          Begin VB.Frame fraOptions 
             Caption         =   "Options"
-            Height          =   2565
+            Height          =   2865
             Left            =   3450
             TabIndex        =   2
-            Top             =   750
+            Top             =   450
             Width           =   3255
+            Begin VB.CheckBox chkOptions 
+               Caption         =   "Select tile when drawing?"
+               Height          =   225
+               Index           =   4
+               Left            =   90
+               TabIndex        =   45
+               Top             =   2520
+               Width           =   2865
+            End
             Begin VB.CheckBox chkOptions 
                Caption         =   "Cross-hatch data outside tile?"
                Height          =   225
@@ -391,7 +417,7 @@ Begin VB.Form frmSeriesProperties
                Caption         =   "Label neighboring tiles?"
                Height          =   225
                Index           =   2
-               Left            =   120
+               Left            =   90
                TabIndex        =   4
                Top             =   1710
                Width           =   3045
@@ -422,132 +448,178 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+
+' Copyright 1995-2004 ESRI
+
+' All rights reserved under the copyright laws of the United States.
+
+' You may freely redistribute and use this sample code, with or without modification.
+
+' Disclaimer: THE SAMPLE CODE IS PROVIDED "AS IS" AND ANY EXPRESS OR IMPLIED
+' WARRANTIES, INCLUDING THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+' FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL ESRI OR
+' CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY,
+' OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+' SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+' INTERRUPTION) SUSTAINED BY YOU OR A THIRD PARTY, HOWEVER CAUSED AND ON ANY
+' THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT ARISING IN ANY
+' WAY OUT OF THE USE OF THIS SAMPLE CODE, EVEN IF ADVISED OF THE POSSIBILITY OF
+' SUCH DAMAGE.
+
+' For additional information contact: Environmental Systems Research Institute, Inc.
+
+' Attn: Contracts Dept.
+
+' 380 New York Street
+
+' Redlands, California, U.S.A. 92373
+
+' Email: contracts@esri.com
+
 Option Explicit
 
 Public m_pApp As IApplication
 Private m_pSeriesOptions As IDSMapSeriesOptions
 Private m_pSeriesOptions2 As IDSMapSeriesOptions2
+Private m_pSeriesOptions3 As IDSMapSeriesOptions3 'Added 11/23/04
+Private m_bWasSelecting As Boolean                           'Added 11/23/04
 Private m_pTextSym As ISimpleTextSymbol
 
 Private Sub chkOptions_Click(Index As Integer)
   Select Case Index
   Case 0  'Rotate
-    If chkOptions(0).Value = 0 Then
-      cmbRotateField.Enabled = False
-    Else
-      cmbRotateField.Enabled = True
-    End If
+41:     If chkOptions(0).Value = 0 Then
+42:       cmbRotateField.Enabled = False
+43:     Else
+44:       cmbRotateField.Enabled = True
+45:     End If
   Case 1  'Clip to outline
-    If chkOptions(1).Value = 0 Then
-      chkOptions(3).Value = 0
-      chkOptions(3).Enabled = False
-    Else
-      chkOptions(3).Enabled = True
-    End If
+47:     If chkOptions(1).Value = 0 Then
+48:       chkOptions(3).Value = 0
+49:       chkOptions(3).Enabled = False
+50:     Else
+51:       chkOptions(3).Enabled = True
+52:     End If
   Case 2  'Label neighboring tiles
-    If chkOptions(2).Value = 0 Then
-      cmdLabelProps.Enabled = False
-    Else
-      cmdLabelProps.Enabled = True
-    End If
-  End Select
+54:     If chkOptions(2).Value = 0 Then
+55:       cmdLabelProps.Enabled = False
+56:     Else
+57:       cmdLabelProps.Enabled = True
+58:     End If
+59:   End Select
 End Sub
 
 Private Sub cmdCancel_Click()
-  Unload Me
+63:   Unload Me
 End Sub
 
 Private Sub cmdLabelProps_Click()
 On Error GoTo ErrHand:
   Dim bChanged As Boolean, pTextSymEditor As ITextSymbolEditor
-  Set pTextSymEditor = New TextSymbolEditor
-  bChanged = pTextSymEditor.EditTextSymbol(m_pTextSym, m_pApp.hwnd)
-  Me.SetFocus
+69:   Set pTextSymEditor = New TextSymbolEditor
+70:   bChanged = pTextSymEditor.EditTextSymbol(m_pTextSym, m_pApp.hwnd)
+71:   Me.SetFocus
   
   Exit Sub
 ErrHand:
-  MsgBox "cmdLabelProps_Click - " & Err.Description
+75:   MsgBox "cmdLabelProps_Click - " & Err.Description
 End Sub
 
-Private Sub cmdOk_Click()
+Private Sub cmdOK_Click()
 On Error GoTo ErrHand:
   Dim pDoc As IMxDocument, pActive As IActiveView
+  Dim pFeatSel As IFeatureSelection, pMap As IMap, pSeriesProps As IDSMapSeriesProps
   
   'Apply updates (only the Options can be updated, so we only need to look at those)
   'Set the clip and rotate properties
   'Update 6/18/03 to support cross hatching of clip area
-  If chkOptions(1).Value = 1 Then    'Clip
-    If chkOptions(3).Value = 0 Then   'clip without cross hatch
+86:   If chkOptions(1).Value = 1 Then    'Clip
+87:     If chkOptions(3).Value = 0 Then   'clip without cross hatch
       'Make sure we don't leave the clip element
-      If m_pSeriesOptions2.ClipData = 2 Then RemoveClipElement m_pApp.Document
-      m_pSeriesOptions2.ClipData = 1
-    Else
-      m_pSeriesOptions2.ClipData = 2
-      Set pDoc = m_pApp.Document
-      pDoc.FocusMap.ClipGeometry = Nothing
-    End If
+89:       If m_pSeriesOptions2.ClipData = 2 Then RemoveClipElement m_pApp.Document
+90:       m_pSeriesOptions2.ClipData = 1
+91:     Else
+92:       m_pSeriesOptions2.ClipData = 2
+93:       Set pDoc = m_pApp.Document
+94:       pDoc.FocusMap.ClipGeometry = Nothing
+95:     End If
 '    m_pSeriesOptions.ClipData = True
-  Else
+97:   Else
     'Make sure we don't leave the clip element
-    If m_pSeriesOptions2.ClipData = 2 Then RemoveClipElement m_pApp.Document
-    m_pSeriesOptions2.ClipData = 0
+99:     If m_pSeriesOptions2.ClipData = 2 Then RemoveClipElement m_pApp.Document
+100:     m_pSeriesOptions2.ClipData = 0
 '    m_pSeriesOptions.ClipData = False
     'Make sure clipping is turned off for the data frame
-    Set pDoc = m_pApp.Document
-    pDoc.FocusMap.ClipGeometry = Nothing
-  End If
+103:     Set pDoc = m_pApp.Document
+104:     pDoc.FocusMap.ClipGeometry = Nothing
+105:   End If
   
-  If chkOptions(0).Value = 1 Then     'Rotation
-    If m_pSeriesOptions.RotateFrame = False Or m_pSeriesOptions.RotationField <> cmbRotateField.Text Then
-      UpdatePageValues "ROTATION", cmbRotateField.Text
-    End If
-    m_pSeriesOptions.RotateFrame = True
-    m_pSeriesOptions.RotationField = cmbRotateField.Text
-  Else
-    m_pSeriesOptions.RotateFrame = False
+107:   If chkOptions(0).Value = 1 Then     'Rotation
+108:     If m_pSeriesOptions.RotateFrame = False Or m_pSeriesOptions.RotationField <> cmbRotateField.Text Then
+109:       UpdatePageValues "ROTATION", cmbRotateField.Text
+110:     End If
+111:     m_pSeriesOptions.RotateFrame = True
+112:     m_pSeriesOptions.RotationField = cmbRotateField.Text
+113:   Else
+114:     m_pSeriesOptions.RotateFrame = False
     'Make sure rotation is turned off for the data frame
-    Set pDoc = m_pApp.Document
-    Set pActive = pDoc.FocusMap
-    If pActive.ScreenDisplay.DisplayTransformation.Rotation <> 0 Then
-      pActive.ScreenDisplay.DisplayTransformation.Rotation = 0
-      pActive.Refresh
-    End If
-  End If
-  If chkOptions(2).Value = 1 Then    'Label Neighbors
-    m_pSeriesOptions.LabelNeighbors = True
-  Else
-    m_pSeriesOptions.LabelNeighbors = False
-    RemoveLabels pDoc
-    g_bLabelNeighbors = False
-  End If
-  Set m_pSeriesOptions.LabelSymbol = m_pTextSym
+116:     Set pDoc = m_pApp.Document
+117:     Set pActive = pDoc.FocusMap
+118:     If pActive.ScreenDisplay.DisplayTransformation.Rotation <> 0 Then
+119:       pActive.ScreenDisplay.DisplayTransformation.Rotation = 0
+120:       pActive.Refresh
+121:     End If
+122:   End If
+123:   If chkOptions(2).Value = 1 Then    'Label Neighbors
+124:     m_pSeriesOptions.LabelNeighbors = True
+125:   Else
+126:     m_pSeriesOptions.LabelNeighbors = False
+127:     RemoveLabels pDoc
+128:     g_bLabelNeighbors = False
+129:   End If
+130:   Set m_pSeriesOptions.LabelSymbol = m_pTextSym
+  
+132:   If chkOptions(4).Value = 1 Then  'Select tile when drawing
+133:     m_pSeriesOptions3.SelectTile = True
+134:   Else
+135:     m_pSeriesOptions3.SelectTile = False
+136:     If m_bWasSelecting Then   'If there were previously selecting tiles, then we need to clear the selection
+137:       Set pSeriesProps = m_pSeriesOptions
+138:       Set pMap = pActive
+139:       Set pFeatSel = FindLayer(pSeriesProps.IndexLayerName, pMap)
+140:       If Not pFeatSel Is Nothing Then
+141:         pFeatSel.Clear
+142:         pActive.PartialRefresh esriViewGeoSelection, Nothing, pActive.Extent
+143:       End If
+144:     End If
+145:   End If
   
   'Set the extent properties
-  If optExtent(0).Value Then         'Variable
-    m_pSeriesOptions.ExtentType = 0
-    If txtMargin.Text = "" Then
-      m_pSeriesOptions.Margin = 0
-    Else
-      m_pSeriesOptions.Margin = CDbl(txtMargin.Text)
-    End If
-    m_pSeriesOptions.MarginType = cmbMargin.ListIndex
-  ElseIf optExtent(1).Value Then    'Fixed
-    m_pSeriesOptions.ExtentType = 1
-    m_pSeriesOptions.FixedScale = txtFixed.Text
-  Else                        'Data driven
-    If m_pSeriesOptions.ExtentType <> 2 Or m_pSeriesOptions.RotationField <> cmbRotateField.Text Then
-      UpdatePageValues "SCALE", cmbDataDriven.Text
-    End If
-    m_pSeriesOptions.ExtentType = 2
-    m_pSeriesOptions.DataDrivenField = cmbDataDriven.Text
-  End If
+148:   If optExtent(0).Value Then         'Variable
+149:     m_pSeriesOptions.ExtentType = 0
+150:     If txtMargin.Text = "" Then
+151:       m_pSeriesOptions.Margin = 0
+152:     Else
+153:       m_pSeriesOptions.Margin = CDbl(txtMargin.Text)
+154:     End If
+155:     m_pSeriesOptions.MarginType = cmbMargin.ListIndex
+156:   ElseIf optExtent(1).Value Then    'Fixed
+157:     m_pSeriesOptions.ExtentType = 1
+158:     m_pSeriesOptions.FixedScale = txtFixed.Text
+159:   Else                        'Data driven
+160:     If m_pSeriesOptions.ExtentType <> 2 Or m_pSeriesOptions.RotationField <> cmbRotateField.Text Then
+161:       UpdatePageValues "SCALE", cmbDataDriven.Text
+162:     End If
+163:     m_pSeriesOptions.ExtentType = 2
+164:     m_pSeriesOptions.DataDrivenField = cmbDataDriven.Text
+165:   End If
   
-  Unload Me
+167:   Unload Me
   
   Exit Sub
   
 ErrHand:
-  MsgBox "cmdOK_Click - " & Err.Description
+172:   MsgBox "cmdOK_Click - " & Err.Description
 End Sub
 
 Private Sub UpdatePageValues(sProperty As String, sFieldName As String)
@@ -556,48 +628,48 @@ On Error GoTo ErrHand:
   Dim pDoc As IMxDocument, pMap As IMap, pSeriesProps As IDSMapSeriesProps
   Dim pIndexLayer As IFeatureLayer, pDataset As IDataset, pWorkspace As IFeatureWorkspace
   Dim pQueryDef As IQueryDef, pCursor As ICursor, pRow As IRow, pColl As Collection
-  Set pDoc = m_pApp.Document
-  Set pSeries = m_pSeriesOptions
-  Set pSeriesProps = pSeries
-  Set pMap = FindDataFrame(pDoc, pSeriesProps.DataFrameName)
+181:   Set pDoc = m_pApp.Document
+182:   Set pSeries = m_pSeriesOptions
+183:   Set pSeriesProps = pSeries
+184:   Set pMap = FindDataFrame(pDoc, pSeriesProps.DataFrameName)
   If pMap Is Nothing Then Exit Sub
   
-  Set pIndexLayer = FindLayer(pSeriesProps.IndexLayerName, pMap)
+187:   Set pIndexLayer = FindLayer(pSeriesProps.IndexLayerName, pMap)
   If pIndexLayer Is Nothing Then Exit Sub
   
   'Loop through the features in the index layer creating a collection of the scales and tile names
-  Set pDataset = pIndexLayer.FeatureClass
-  Set pWorkspace = pDataset.Workspace
-  Set pQueryDef = pWorkspace.CreateQueryDef
-  pQueryDef.Tables = pDataset.Name
-  pQueryDef.SubFields = sFieldName & "," & pSeriesProps.IndexFieldName
-  Set pCursor = pQueryDef.Evaluate
-  Set pColl = New Collection
-  Set pRow = pCursor.NextRow
-  Do While Not pRow Is Nothing
-    If Not IsNull(pRow.Value(0)) And Not IsNull(pRow.Value(1)) Then
-      pColl.Add pRow.Value(0), pRow.Value(1)
-    End If
-    Set pRow = pCursor.NextRow
-  Loop
+191:   Set pDataset = pIndexLayer.FeatureClass
+192:   Set pWorkspace = pDataset.Workspace
+193:   Set pQueryDef = pWorkspace.CreateQueryDef
+194:   pQueryDef.Tables = pDataset.Name
+195:   pQueryDef.SubFields = sFieldName & "," & pSeriesProps.IndexFieldName
+196:   Set pCursor = pQueryDef.Evaluate
+197:   Set pColl = New Collection
+198:   Set pRow = pCursor.NextRow
+199:   Do While Not pRow Is Nothing
+200:     If Not IsNull(pRow.Value(0)) And Not IsNull(pRow.Value(1)) Then
+201:       pColl.Add pRow.Value(0), pRow.Value(1)
+202:     End If
+203:     Set pRow = pCursor.NextRow
+204:   Loop
   
   'Now loop through the pages and try to find the corresponding tile name in the collection
   On Error GoTo ErrNoKey:
-  For lLoop = 0 To pSeries.PageCount - 1
-    Set pPage = pSeries.Page(lLoop)
-    If sProperty = "ROTATION" Then
-      pPage.PageRotation = pColl.Item(pPage.PageName)
-    Else
-      pPage.PageScale = pColl.Item(pPage.PageName)
-    End If
-  Next lLoop
+208:   For lLoop = 0 To pSeries.PageCount - 1
+209:     Set pPage = pSeries.Page(lLoop)
+210:     If sProperty = "ROTATION" Then
+211:       pPage.PageRotation = pColl.Item(pPage.PageName)
+212:     Else
+213:       pPage.PageScale = pColl.Item(pPage.PageName)
+214:     End If
+215:   Next lLoop
 
   Exit Sub
 
 ErrNoKey:
-  Resume Next
+220:   Resume Next
 ErrHand:
-  MsgBox "UpdatePageValues - " & Err.Description
+222:   MsgBox "UpdatePageValues - " & Err.Description
 End Sub
 
 Private Sub Form_Load()
@@ -606,101 +678,111 @@ On Error GoTo ErrHand:
   Dim pSeriesProps As IDSMapSeriesProps
   Dim lLoop As Long
   'Check to see if a MapSeries already exists
-  Set pMapBook = GetMapBookExtension(m_pApp)
+231:   Set pMapBook = GetMapBookExtension(m_pApp)
   If pMapBook Is Nothing Then Exit Sub
   
-  Set pSeriesProps = pMapBook.ContentItem(0)
-  Set m_pSeriesOptions = pSeriesProps
-  Set m_pSeriesOptions2 = m_pSeriesOptions
+234:   Set pSeriesProps = pMapBook.ContentItem(0)
+235:   Set m_pSeriesOptions = pSeriesProps
+236:   Set m_pSeriesOptions2 = m_pSeriesOptions
+237:   Set m_pSeriesOptions3 = m_pSeriesOptions
   
   'Index Settings Tab
-  cmbDetailFrame.Clear
-  cmbDetailFrame.AddItem pSeriesProps.DataFrameName
-  cmbDetailFrame.Text = pSeriesProps.DataFrameName
-  cmbIndexLayer.Clear
-  cmbIndexLayer.AddItem pSeriesProps.IndexLayerName
-  cmbIndexLayer.Text = pSeriesProps.IndexLayerName
-  cmbIndexField.Clear
-  cmbIndexField.AddItem pSeriesProps.IndexFieldName
-  cmbIndexField.Text = pSeriesProps.IndexFieldName
+240:   cmbDetailFrame.Clear
+241:   cmbDetailFrame.AddItem pSeriesProps.DataFrameName
+242:   cmbDetailFrame.Text = pSeriesProps.DataFrameName
+243:   cmbIndexLayer.Clear
+244:   cmbIndexLayer.AddItem pSeriesProps.IndexLayerName
+245:   cmbIndexLayer.Text = pSeriesProps.IndexLayerName
+246:   cmbIndexField.Clear
+247:   cmbIndexField.AddItem pSeriesProps.IndexFieldName
+248:   cmbIndexField.Text = pSeriesProps.IndexFieldName
   
   'Tile Settings Tab
-  optTiles(pSeriesProps.TileSelectionMethod) = True
-  lstSuppressTiles.Clear
-  If pSeriesProps.SuppressLayers Then
-    chkSuppress.Value = 1
-    For lLoop = 0 To pSeriesProps.SuppressLayerCount - 1
-      lstSuppressTiles.AddItem pSeriesProps.SuppressLayer(lLoop)
-      lstSuppressTiles.Selected(lLoop) = True
-    Next lLoop
-  Else
-    chkSuppress.Value = 0
-  End If
+251:   optTiles(pSeriesProps.TileSelectionMethod) = True
+252:   lstSuppressTiles.Clear
+253:   If pSeriesProps.SuppressLayers Then
+254:     chkSuppress.Value = 1
+255:     For lLoop = 0 To pSeriesProps.SuppressLayerCount - 1
+256:       lstSuppressTiles.AddItem pSeriesProps.SuppressLayer(lLoop)
+257:       lstSuppressTiles.Selected(lLoop) = True
+258:     Next lLoop
+259:   Else
+260:     chkSuppress.Value = 0
+261:   End If
+262:   txtNumbering.Text = CStr(pSeriesProps.StartNumber)  'Added 2/18/2004
   
   'Options tab
-  PopulateFieldCombos
-  cmbMargin.Clear
-  cmbMargin.AddItem "percent"
-  cmbMargin.AddItem "mapunits"
-  cmbMargin.Text = "percent"
-  optExtent(m_pSeriesOptions.ExtentType).Value = True
-  cmdOK.Enabled = True
+265:   PopulateFieldCombos
+266:   cmbMargin.Clear
+267:   cmbMargin.AddItem "percent"
+268:   cmbMargin.AddItem "mapunits"
+269:   cmbMargin.Text = "percent"
+270:   optExtent(m_pSeriesOptions.ExtentType).Value = True
+271:   cmdOK.Enabled = True
   Select Case m_pSeriesOptions.ExtentType
   Case 0
-    txtMargin.Text = m_pSeriesOptions.Margin
-    If m_pSeriesOptions.MarginType = 0 Then
-      cmbMargin.Text = "percent"
-    Else
-      cmbMargin.Text = "mapunits"
-    End If
+274:     txtMargin.Text = m_pSeriesOptions.Margin
+275:     If m_pSeriesOptions.MarginType = 0 Then
+276:       cmbMargin.Text = "percent"
+277:     Else
+278:       cmbMargin.Text = "mapunits"
+279:     End If
   Case 1
-    txtFixed.Text = m_pSeriesOptions.FixedScale
+281:     txtFixed.Text = m_pSeriesOptions.FixedScale
   Case 2
-    cmbDataDriven.Text = m_pSeriesOptions.DataDrivenField
-  End Select
-  If m_pSeriesOptions.RotateFrame Then
-    chkOptions(0).Value = 1
-    cmbRotateField.Text = m_pSeriesOptions.RotationField
-  Else
-    chkOptions(0).Value = 0
-  End If
+283:     cmbDataDriven.Text = m_pSeriesOptions.DataDrivenField
+284:   End Select
+285:   If m_pSeriesOptions.RotateFrame Then
+286:     chkOptions(0).Value = 1
+287:     cmbRotateField.Text = m_pSeriesOptions.RotationField
+288:   Else
+289:     chkOptions(0).Value = 0
+290:   End If
   
   'Update 6/18/03 to support cross hatching of clip area
   Select Case m_pSeriesOptions2.ClipData
   Case 0   'No clipping
-    chkOptions(1).Value = 0
-    chkOptions(3).Value = 0
-    chkOptions(3).Enabled = False
+295:     chkOptions(1).Value = 0
+296:     chkOptions(3).Value = 0
+297:     chkOptions(3).Enabled = False
   Case 1   'Clip only
-    chkOptions(1).Value = 1
-    chkOptions(3).Value = 0
-    chkOptions(3).Enabled = True
+299:     chkOptions(1).Value = 1
+300:     chkOptions(3).Value = 0
+301:     chkOptions(3).Enabled = True
   Case 2   'Clip with cross hatch outside clip area
-    chkOptions(1).Value = 1
-    chkOptions(3).Value = 1
-    chkOptions(3).Enabled = True
-  End Select
+303:     chkOptions(1).Value = 1
+304:     chkOptions(3).Value = 1
+305:     chkOptions(3).Enabled = True
+306:   End Select
 '  If m_pSeriesOptions.ClipData Then
 '    chkOptions(1).Value = 1
 '  Else
 '    chkOptions(1).Value = 0
 '  End If
 
-  If m_pSeriesOptions.LabelNeighbors Then
-    chkOptions(2).Value = 1
-    cmdLabelProps.Enabled = True
-  Else
-    chkOptions(2).Value = 0
-    cmdLabelProps.Enabled = False
-  End If
-  Set m_pTextSym = m_pSeriesOptions.LabelSymbol
+313:   If m_pSeriesOptions.LabelNeighbors Then
+314:     chkOptions(2).Value = 1
+315:     cmdLabelProps.Enabled = True
+316:   Else
+317:     chkOptions(2).Value = 0
+318:     cmdLabelProps.Enabled = False
+319:   End If
+320:   Set m_pTextSym = m_pSeriesOptions.LabelSymbol
+  
+322:   If m_pSeriesOptions3.SelectTile Then  'Added 11/23/04
+323:     chkOptions(4).Value = 1
+324:     m_bWasSelecting = True
+325:   Else
+326:     chkOptions(4).Value = 0
+327:     m_bWasSelecting = False
+328:   End If
   
   'Make sure the wizard stays on top
-  TopMost Me
+331:   TopMost Me
   
   Exit Sub
 ErrHand:
-  MsgBox "frmSeriesProperties_Load - " & Err.Description
+335:   MsgBox "frmSeriesProperties_Load - " & Err.Description
 End Sub
 
 Private Sub PopulateFieldCombos()
@@ -708,107 +790,107 @@ On Error GoTo ErrHand:
   Dim pIndexLayer As IFeatureLayer, pMap As IMap, lLoop As Long
   Dim pFields As IFields, pDoc As IMxDocument
   
-  Set pDoc = m_pApp.Document
-  Set pMap = FindDataFrame(pDoc, cmbDetailFrame.Text)
-  If pMap Is Nothing Then
-    MsgBox "Could not find detail frame!!!"
+343:   Set pDoc = m_pApp.Document
+344:   Set pMap = FindDataFrame(pDoc, cmbDetailFrame.Text)
+345:   If pMap Is Nothing Then
+346:     MsgBox "Could not find detail frame!!!"
     Exit Sub
-  End If
+348:   End If
   
-  Set pIndexLayer = FindLayer(cmbIndexLayer.Text, pMap)
-  If pIndexLayer Is Nothing Then
-    MsgBox "Could not find specified layer!!!"
+350:   Set pIndexLayer = FindLayer(cmbIndexLayer.Text, pMap)
+351:   If pIndexLayer Is Nothing Then
+352:     MsgBox "Could not find specified layer!!!"
     Exit Sub
-  End If
+354:   End If
   
   'Populate the index layer combos
-  Set pFields = pIndexLayer.FeatureClass.Fields
-  cmbDataDriven.Clear
-  cmbRotateField.Clear
-  For lLoop = 0 To pFields.FieldCount - 1
+357:   Set pFields = pIndexLayer.FeatureClass.Fields
+358:   cmbDataDriven.Clear
+359:   cmbRotateField.Clear
+360:   For lLoop = 0 To pFields.FieldCount - 1
     Select Case pFields.Field(lLoop).Type
     Case esriFieldTypeDouble, esriFieldTypeSingle, esriFieldTypeInteger
-      If UCase(pFields.Field(lLoop).Name) <> "SHAPE_LENGTH" And _
+363:       If UCase(pFields.Field(lLoop).Name) <> "SHAPE_LENGTH" And _
        UCase(pFields.Field(lLoop).Name) <> "SHAPE_AREA" Then
-        cmbDataDriven.AddItem pFields.Field(lLoop).Name
-        cmbRotateField.AddItem pFields.Field(lLoop).Name
-      End If
-    End Select
-  Next lLoop
-  If cmbDataDriven.ListCount > 0 Then
-    cmbDataDriven.ListIndex = 0
-    cmbRotateField.ListIndex = 0
-    optExtent.Item(2).Enabled = True
-    chkOptions(0).Enabled = True
-  Else
-    optExtent.Item(2).Enabled = False
-    chkOptions(0).Enabled = False
-  End If
+365:         cmbDataDriven.AddItem pFields.Field(lLoop).Name
+366:         cmbRotateField.AddItem pFields.Field(lLoop).Name
+367:       End If
+368:     End Select
+369:   Next lLoop
+370:   If cmbDataDriven.ListCount > 0 Then
+371:     cmbDataDriven.ListIndex = 0
+372:     cmbRotateField.ListIndex = 0
+373:     optExtent.Item(2).Enabled = True
+374:     chkOptions(0).Enabled = True
+375:   Else
+376:     optExtent.Item(2).Enabled = False
+377:     chkOptions(0).Enabled = False
+378:   End If
   
   Exit Sub
   
 ErrHand:
-  MsgBox "PopulateFieldCombos - " & Err.Description
+383:   MsgBox "PopulateFieldCombos - " & Err.Description
 End Sub
 
 Private Sub Form_Terminate()
-  Set m_pApp = Nothing
+387:   Set m_pApp = Nothing
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
-  Set m_pApp = Nothing
+391:   Set m_pApp = Nothing
 End Sub
 
 Private Sub optExtent_Click(Index As Integer)
 On Error GoTo ErrHand:
   Select Case Index
   Case 0  'Variable
-    txtMargin.Enabled = True
-    cmbMargin.Enabled = True
-    txtFixed.Enabled = False
-    cmbDataDriven.Enabled = False
-    If txtMargin.Text = "" Then
-      cmdOK.Enabled = False
-    Else
-      cmdOK.Enabled = True
-    End If
+398:     txtMargin.Enabled = True
+399:     cmbMargin.Enabled = True
+400:     txtFixed.Enabled = False
+401:     cmbDataDriven.Enabled = False
+402:     If txtMargin.Text = "" Then
+403:       cmdOK.Enabled = False
+404:     Else
+405:       cmdOK.Enabled = True
+406:     End If
   Case 1  'Fixed
-    txtMargin.Enabled = False
-    cmbMargin.Enabled = False
-    txtFixed.Enabled = True
-    cmbDataDriven.Enabled = False
-    If txtFixed.Text = "" Then
-      cmdOK.Enabled = False
-    Else
-      cmdOK.Enabled = True
-    End If
+408:     txtMargin.Enabled = False
+409:     cmbMargin.Enabled = False
+410:     txtFixed.Enabled = True
+411:     cmbDataDriven.Enabled = False
+412:     If txtFixed.Text = "" Then
+413:       cmdOK.Enabled = False
+414:     Else
+415:       cmdOK.Enabled = True
+416:     End If
   Case 2  'Data driven
-    txtMargin.Enabled = False
-    cmbMargin.Enabled = False
-    txtFixed.Enabled = False
-    cmbDataDriven.Enabled = True
-    cmdOK.Enabled = True
-  End Select
+418:     txtMargin.Enabled = False
+419:     cmbMargin.Enabled = False
+420:     txtFixed.Enabled = False
+421:     cmbDataDriven.Enabled = True
+422:     cmdOK.Enabled = True
+423:   End Select
 
   Exit Sub
 ErrHand:
-  MsgBox "optExtent_Click - " & Err.Description
+427:   MsgBox "optExtent_Click - " & Err.Description
 End Sub
 
 Private Sub txtFixed_KeyUp(KeyCode As Integer, Shift As Integer)
-  If Not IsNumeric(txtFixed.Text) Then
-    txtFixed.Text = ""
-  End If
-  If txtFixed.Text <> "" Then
-    cmdOK.Enabled = True
-  End If
+431:   If Not IsNumeric(txtFixed.Text) Then
+432:     txtFixed.Text = ""
+433:   End If
+434:   If txtFixed.Text <> "" Then
+435:     cmdOK.Enabled = True
+436:   End If
 End Sub
 
 Private Sub txtMargin_KeyUp(KeyCode As Integer, Shift As Integer)
-  If Not IsNumeric(txtMargin.Text) Then
-    txtMargin.Text = ""
-  End If
-  If txtMargin.Text <> "" Then
-    cmdOK.Enabled = True
-  End If
+440:   If Not IsNumeric(txtMargin.Text) Then
+441:     txtMargin.Text = ""
+442:   End If
+443:   If txtMargin.Text <> "" Then
+444:     cmdOK.Enabled = True
+445:   End If
 End Sub
