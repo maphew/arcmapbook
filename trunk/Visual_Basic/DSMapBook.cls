@@ -11,6 +11,34 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
+
+' Copyright 1995-2004 ESRI
+
+' All rights reserved under the copyright laws of the United States.
+
+' You may freely redistribute and use this sample code, with or without modification.
+
+' Disclaimer: THE SAMPLE CODE IS PROVIDED "AS IS" AND ANY EXPRESS OR IMPLIED 
+' WARRANTIES, INCLUDING THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
+' FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL ESRI OR 
+' CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, 
+' OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
+' SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+' INTERRUPTION) SUSTAINED BY YOU OR A THIRD PARTY, HOWEVER CAUSED AND ON ANY 
+' THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT ARISING IN ANY 
+' WAY OUT OF THE USE OF THIS SAMPLE CODE, EVEN IF ADVISED OF THE POSSIBILITY OF 
+' SUCH DAMAGE.
+
+' For additional information contact: Environmental Systems Research Institute, Inc.
+
+' Attn: Contracts Dept.
+
+' 380 New York Street
+
+' Redlands, California, U.S.A. 92373 
+
+' Email: contracts@esri.com
+
 Option Explicit
 
 Implements IDSMapBook
@@ -20,83 +48,83 @@ Private m_ContentColl As Collection
 Private m_bEnableBook As Boolean
 
 Private Sub Class_Initialize()
-  Set m_ContentColl = New Collection
+10:   Set m_ContentColl = New Collection
 End Sub
 
 Private Sub Class_Terminate()
-  Set m_ContentColl = Nothing
+14:   Set m_ContentColl = Nothing
 End Sub
 
 Private Sub IDSMapBook_AddContent(ByVal Content As Object)
-  m_ContentColl.Add Content
+18:   m_ContentColl.Add Content
 End Sub
 
 Private Property Get IDSMapBook_ContentCount() As Long
-  IDSMapBook_ContentCount = m_ContentColl.Count
+22:   IDSMapBook_ContentCount = m_ContentColl.Count
 End Property
 
 Private Property Get IDSMapBook_ContentItem(Index As Long) As Object
-  If Index > -1 And Index < m_ContentColl.Count Then
-    Set IDSMapBook_ContentItem = m_ContentColl.Item(Index + 1)
-  Else
-    Set IDSMapBook_ContentItem = Nothing
-  End If
+26:   If Index > -1 And Index < m_ContentColl.Count Then
+27:     Set IDSMapBook_ContentItem = m_ContentColl.Item(Index + 1)
+28:   Else
+29:     Set IDSMapBook_ContentItem = Nothing
+30:   End If
 End Property
 
 Private Property Let IDSMapBook_EnableBook(ByVal RHS As Boolean)
-  m_bEnableBook = RHS
+34:   m_bEnableBook = RHS
 End Property
 
 Private Property Get IDSMapBook_EnableBook() As Boolean
-  IDSMapBook_EnableBook = m_bEnableBook
+38:   IDSMapBook_EnableBook = m_bEnableBook
 End Property
 
 Private Sub IDSMapBook_RemoveContent(Index As Long)
-  If Index > -1 And Index < m_ContentColl.Count Then
-    m_ContentColl.Remove Index + 1
-  End If
+42:   If Index > -1 And Index < m_ContentColl.Count Then
+43:     m_ContentColl.Remove Index + 1
+44:   End If
 End Sub
 
-Private Property Get IPersistVariant_ID() As esriCore.IUID
+Private Property Get IPersistVariant_ID() As esriSystem.IUID
   Dim id As New UID
-  id = "DSMapBookPrj.DSMapBook"
-  Set IPersistVariant_ID = id
+49:   id = "DSMapBookPrj.DSMapBook"
+50:   Set IPersistVariant_ID = id
 End Property
 
-Private Sub IPersistVariant_Load(ByVal Stream As esriCore.IVariantStream)
+Private Sub IPersistVariant_Load(ByVal Stream As esriSystem.IVariantStream)
 'Load the persisted parameters of the renderer
 On Error GoTo ErrHand:
   Dim lLoop As Long, lCount As Long, pMapSeries As IDSMapSeries
     
-  m_bEnableBook = Stream.Read
-  lCount = Stream.Read
-  Set m_ContentColl = New Collection
-  If lCount > 0 Then
-    For lLoop = 1 To lCount
-      Set pMapSeries = Stream.Read
-      m_ContentColl.Add pMapSeries
-    Next lLoop
-  End If
+58:   m_bEnableBook = Stream.Read
+59:   lCount = Stream.Read
+60:   Set m_ContentColl = New Collection
+61:   If lCount > 0 Then
+62:     For lLoop = 1 To lCount
+63:       Set pMapSeries = Stream.Read
+64:       m_ContentColl.Add pMapSeries
+65:     Next lLoop
+66:   End If
     
   Exit Sub
 ErrHand:
-  MsgBox "MapBook - IPersistVariant_Load - " & Err.Description
+70:   MsgBox "MapBook - IPersistVariant_Load - " & Err.Description
 End Sub
 
-Private Sub IPersistVariant_Save(ByVal Stream As esriCore.IVariantStream)
+Private Sub IPersistVariant_Save(ByVal Stream As esriSystem.IVariantStream)
 'Write it all out
 On Error GoTo ErrHand:
   Dim lLoop As Long
     
-  Stream.Write m_bEnableBook
-  Stream.Write m_ContentColl.Count
-  If m_ContentColl.Count > 0 Then
-    For lLoop = 1 To m_ContentColl.Count
-      Stream.Write m_ContentColl.Item(lLoop)
-    Next lLoop
-  End If
+78:   Stream.Write m_bEnableBook
+79:   Stream.Write m_ContentColl.Count
+80:   If m_ContentColl.Count > 0 Then
+81:     For lLoop = 1 To m_ContentColl.Count
+82:       Stream.Write m_ContentColl.Item(lLoop)
+83:     Next lLoop
+84:   End If
     
   Exit Sub
 ErrHand:
-  MsgBox "MapBook - IPersistVariant_Save - " & Err.Description
+88:   MsgBox "MapBook - IPersistVariant_Save - " & Err.Description
 End Sub

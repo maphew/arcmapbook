@@ -1,4 +1,33 @@
 Attribute VB_Name = "modGeneralFunctions"
+
+' Copyright 1995-2004 ESRI
+
+' All rights reserved under the copyright laws of the United States.
+
+' You may freely redistribute and use this sample code, with or without modification.
+
+' Disclaimer: THE SAMPLE CODE IS PROVIDED "AS IS" AND ANY EXPRESS OR IMPLIED 
+' WARRANTIES, INCLUDING THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
+' FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL ESRI OR 
+' CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, 
+' OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
+' SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
+' INTERRUPTION) SUSTAINED BY YOU OR A THIRD PARTY, HOWEVER CAUSED AND ON ANY 
+' THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT ARISING IN ANY 
+' WAY OUT OF THE USE OF THIS SAMPLE CODE, EVEN IF ADVISED OF THE POSSIBILITY OF 
+' SUCH DAMAGE.
+
+' For additional information contact: Environmental Systems Research Institute, Inc.
+
+' Attn: Contracts Dept.
+
+' 380 New York Street
+
+' Redlands, California, U.S.A. 92373 
+
+' Email: contracts@esri.com
+
+
 Option Explicit
 
 Public Const c_DefaultFld_Shape = "SHAPE"
@@ -20,17 +49,17 @@ Public Function GetUnitsDescription(pUnits As esriUnits) As String
         Case esriDecimeters: GetUnitsDescription = "Decimeters"
         Case esriUnknownUnits: GetUnitsDescription = "Unknown"
         Case Else: GetUnitsDescription = "Unknown"
-    End Select
+22:     End Select
 End Function
 
 Public Function GetActiveDataFrameName(pApp As IApplication) As String
     Dim pMx As IMxDocument
     Dim pFocusMap As IMap
     
-    Set pMx = pApp.Document
-    Set pFocusMap = pMx.FocusMap
+29:     Set pMx = pApp.Document
+30:     Set pFocusMap = pMx.FocusMap
     
-    GetActiveDataFrameName = pFocusMap.Name
+32:     GetActiveDataFrameName = pFocusMap.Name
 End Function
 
 Public Function GetDataFrameElement(sDataFramName As String, pApp As IApplication) As IElement
@@ -45,31 +74,31 @@ Public Function GetDataFrameElement(sDataFramName As String, pApp As IApplicatio
     On Error GoTo ErrorHandler
     
     ' Init
-    Set pMx = pApp.Document
+47:     Set pMx = pApp.Document
     ' Loop through the elements (in the layout)
-    Set pGraphicsContainer = pMx.PageLayout
-    pGraphicsContainer.Reset
-    Set pElement = pGraphicsContainer.Next
-    While Not pElement Is Nothing
+49:     Set pGraphicsContainer = pMx.PageLayout
+50:     pGraphicsContainer.Reset
+51:     Set pElement = pGraphicsContainer.Next
+52:     While Not pElement Is Nothing
         ' If type of element is an IFrameElement
-        If TypeOf pElement Is IFrameElement Then
-            Set pElProps = pElement
+54:         If TypeOf pElement Is IFrameElement Then
+55:             Set pElProps = pElement
             ' If Name matches
-            If UCase(pElProps.Name) = UCase(sDataFramName) Then
+57:             If UCase(pElProps.Name) = UCase(sDataFramName) Then
                 ' Return element
-                Set GetDataFrameElement = pElement
-                Set pElement = Nothing
-            Else
-                Set pElement = pGraphicsContainer.Next
-            End If
-        Else
-            Set pElement = pGraphicsContainer.Next
-        End If
-    Wend
+59:                 Set GetDataFrameElement = pElement
+60:                 Set pElement = Nothing
+61:             Else
+62:                 Set pElement = pGraphicsContainer.Next
+63:             End If
+64:         Else
+65:             Set pElement = pGraphicsContainer.Next
+66:         End If
+67:     Wend
     
     Exit Function
 ErrorHandler:
-    Err.Raise Err.Number, Err.Source, "Error in GetDataFrameElement:" _
+71:     Err.Raise Err.Number, Err.Source, "Error in GetDataFrameElement:" _
         & vbCrLf & Err.Description
 End Function
 
@@ -83,31 +112,31 @@ Public Function FindFeatureLayerByDS(DatasetName As String, pApp As IApplication
     Dim pDataset As IDataset
     Dim i As Integer
     
-    Set pMxDoc = pApp.Document
-    Set pMap = pMxDoc.FocusMap
+85:     Set pMxDoc = pApp.Document
+86:     Set pMap = pMxDoc.FocusMap
   
-    With pMap
-        For i = 0 To .LayerCount - 1
-            If TypeOf .Layer(i) Is IFeatureLayer Then
-                Set pFeatureLayer = .Layer(i)
-                Set pDataset = pFeatureLayer.FeatureClass
-                If UCase(pDataset.Name) = UCase(DatasetName) Then
-                    Set FindFeatureLayerByDS = pFeatureLayer
-                    Exit For
-                End If
-            End If
-        Next i
-    End With
+88:     With pMap
+89:         For i = 0 To .LayerCount - 1
+90:             If TypeOf .Layer(i) Is IFeatureLayer Then
+91:                 Set pFeatureLayer = .Layer(i)
+92:                 Set pDataset = pFeatureLayer.FeatureClass
+93:                 If UCase(pDataset.Name) = UCase(DatasetName) Then
+94:                     Set FindFeatureLayerByDS = pFeatureLayer
+95:                     Exit For
+96:                 End If
+97:             End If
+98:         Next i
+99:     End With
   
-    If pFeatureLayer Is Nothing Then
-        Err.Raise vbObjectError, "FindFeatureLayerByDS", "Error in " _
+101:     If pFeatureLayer Is Nothing Then
+102:         Err.Raise vbObjectError, "FindFeatureLayerByDS", "Error in " _
             & "FindFeatureLayerByDS:" & vbCrLf & "Could not locate " _
             & "layer with a dataset name of '" & DatasetName & "'."
-    End If
+105:     End If
   
     Exit Function
 ErrorHandler:
-    Err.Raise Err.Number, Err.Source, "Error in routine: FindFeatureLayerByDS" _
+109:     Err.Raise Err.Number, Err.Source, "Error in routine: FindFeatureLayerByDS" _
         & vbCrLf & Err.Description
 End Function
 
@@ -121,30 +150,30 @@ Public Function FindFeatureLayerByName(FLName As String, pApp As IApplication) A
     Dim pDataset As IDataset
     Dim i As Integer
     
-    Set pMxDoc = pApp.Document
-    Set pMap = pMxDoc.FocusMap
+123:     Set pMxDoc = pApp.Document
+124:     Set pMap = pMxDoc.FocusMap
   
-    With pMap
-        For i = 0 To .LayerCount - 1
-            If TypeOf .Layer(i) Is IFeatureLayer Then
-                Set pFeatureLayer = .Layer(i)
-                If UCase(pFeatureLayer.Name) = UCase(FLName) Then
-                    Set FindFeatureLayerByName = pFeatureLayer
-                    Exit For
-                End If
-            End If
-        Next i
-    End With
+126:     With pMap
+127:         For i = 0 To .LayerCount - 1
+128:             If TypeOf .Layer(i) Is IFeatureLayer Then
+129:                 Set pFeatureLayer = .Layer(i)
+130:                 If UCase(pFeatureLayer.Name) = UCase(FLName) Then
+131:                     Set FindFeatureLayerByName = pFeatureLayer
+132:                     Exit For
+133:                 End If
+134:             End If
+135:         Next i
+136:     End With
   
-    If pFeatureLayer Is Nothing Then
-        Err.Raise vbObjectError, "FindFeatureLayerByName", "Error in " _
+138:     If pFeatureLayer Is Nothing Then
+139:         Err.Raise vbObjectError, "FindFeatureLayerByName", "Error in " _
             & "FindFeatureLayerByName:" & vbCrLf & "Could not locate " _
             & "layer with a Name of '" & FLName & "'."
-    End If
+142:     End If
   
     Exit Function
 ErrorHandler:
-    Err.Raise Err.Number, Err.Source, "Error in routine: FindFeatureLayerByName" _
+146:     Err.Raise Err.Number, Err.Source, "Error in routine: FindFeatureLayerByName" _
         & vbCrLf & Err.Description
 End Function
 
@@ -159,85 +188,85 @@ Public Function GetValidExtentForLayer(pFL As IFeatureLayer) As IEnvelope
     Dim dX2 As Double, dY2 As Double
     Dim pP As IPoint
     
-    If Not pFL Is Nothing Then
-        If Not pFL.FeatureClass Is Nothing Then
-            If TypeOf pFL.FeatureClass Is IGeoDataset Then
-                If pFL.FeatureClass.FeatureDataset Is Nothing Then
-                    dX1 = -1000000000
-                    dY1 = -1000000000
-                    dX2 = 1000000000
-                    dY2 = 1000000000
-                Else
-                    Set pW = pFL.FeatureClass.FeatureDataset.Workspace
-                    Set pWSR = pW
-                    Set pEnumSRI = pWSR.SpatialReferenceInfo
-                    Set pSR = pEnumSRI.Next(0)
-                    pSR.GetDomain dX1, dX2, dY1, dY2
-                End If
-                Set pP = New Point
-                Set GetValidExtentForLayer = New Envelope
-                pP.PutCoords dX1, dY1
-                GetValidExtentForLayer.LowerLeft = pP
-                pP.PutCoords dX2, dY2
-                GetValidExtentForLayer.UpperRight = pP
-            Else
-                Err.Raise vbObjectError, "GetValidExtentForLayer", _
+161:     If Not pFL Is Nothing Then
+162:         If Not pFL.FeatureClass Is Nothing Then
+163:             If TypeOf pFL.FeatureClass Is IGeoDataset Then
+164:                 If pFL.FeatureClass.FeatureDataset Is Nothing Then
+165:                     dX1 = -1000000000
+166:                     dY1 = -1000000000
+167:                     dX2 = 1000000000
+168:                     dY2 = 1000000000
+169:                 Else
+170:                     Set pW = pFL.FeatureClass.FeatureDataset.Workspace
+171:                     Set pWSR = pW
+172:                     Set pEnumSRI = pWSR.SpatialReferenceInfo
+173:                     Set pSR = pEnumSRI.Next(0)
+174:                     pSR.GetDomain dX1, dX2, dY1, dY2
+175:                 End If
+176:                 Set pP = New esrigeometry.Point
+177:                 Set GetValidExtentForLayer = New Envelope
+178:                 pP.PutCoords dX1, dY1
+179:                 GetValidExtentForLayer.LowerLeft = pP
+180:                 pP.PutCoords dX2, dY2
+181:                 GetValidExtentForLayer.UpperRight = pP
+182:             Else
+183:                 Err.Raise vbObjectError, "GetValidExtentForLayer", _
                     "The 'FeatureClass' property for the IFeatureLayer parameter is not an IGeoDataset"
-            End If
-        Else
-            Err.Raise vbObjectError, "GetValidExtentForLayer", _
+185:             End If
+186:         Else
+187:             Err.Raise vbObjectError, "GetValidExtentForLayer", _
                 "The IFeatureLayer parameter does not have a valid FeatureClass property"
-        End If
-    Else
-        Err.Raise vbObjectError, "GetValidExtentForLayer", _
+189:         End If
+190:     Else
+191:         Err.Raise vbObjectError, "GetValidExtentForLayer", _
             "The IFeatureLayer parameter is set to Nothing"
-    End If
+193:     End If
 End Function
 
 Public Function DoesShapeFileExist(pPath As String) As Boolean
   Dim pTruncPath As String
-  If InStr(1, pPath, ".shp") > 0 Then
-    pTruncPath = Left(pPath, InStr(1, pPath, ".shp") - 1)
-  Else
-    pTruncPath = pPath
-  End If
+198:   If InStr(1, pPath, ".shp") > 0 Then
+199:     pTruncPath = Left(pPath, InStr(1, pPath, ".shp") - 1)
+200:   Else
+201:     pTruncPath = pPath
+202:   End If
       
   'Make sure the specified file does not exist
   Dim fs As Object
-  Set fs = CreateObject("Scripting.FileSystemObject")
-  If fs.fileexists(pTruncPath & ".shp") Or fs.fileexists(pTruncPath & ".dbf") Or _
+206:   Set fs = CreateObject("Scripting.FileSystemObject")
+207:   If fs.fileexists(pTruncPath & ".shp") Or fs.fileexists(pTruncPath & ".dbf") Or _
    fs.fileexists(pTruncPath & ".shx") Then
-    DoesShapeFileExist = True
-  Else
-    DoesShapeFileExist = False
-  End If
+209:     DoesShapeFileExist = True
+210:   Else
+211:     DoesShapeFileExist = False
+212:   End If
 End Function
 
 Private Function DoesFeatureClassExist(location As IGxObject, newObjectName As String) As Boolean
 On Error GoTo ErrHand:
   Dim pFeatClass As IFeatureClass
   Dim pFeatDataset As IGxDataset
-  Set pFeatDataset = location
+219:   Set pFeatDataset = location
   Dim pFeatClassCont As IFeatureClassContainer, pData As IFeatureDataset
-  Set pData = pFeatDataset.Dataset
-  Set pFeatClassCont = pData
+221:   Set pData = pFeatDataset.Dataset
+222:   Set pFeatClassCont = pData
   Dim pEnumClass As IEnumFeatureClass, pDataset As IDataset
-  Set pEnumClass = pFeatClassCont.Classes
-  Set pFeatClass = pEnumClass.Next
-  While Not pFeatClass Is Nothing
-    Set pDataset = pFeatClass
-    If UCase(pDataset.Name) = UCase(newObjectName) Then
-      DoesFeatureClassExist = True
+224:   Set pEnumClass = pFeatClassCont.Classes
+225:   Set pFeatClass = pEnumClass.Next
+226:   While Not pFeatClass Is Nothing
+227:     Set pDataset = pFeatClass
+228:     If UCase(pDataset.Name) = UCase(newObjectName) Then
+229:       DoesFeatureClassExist = True
       Exit Function
-    End If
+231:     End If
       
-    Set pFeatClass = pEnumClass.Next
-  Wend
-  DoesFeatureClassExist = False
+233:     Set pFeatClass = pEnumClass.Next
+234:   Wend
+235:   DoesFeatureClassExist = False
   
   Exit Function
 ErrHand:
-  MsgBox Err.Description
+239:   MsgBox Err.Description
 End Function
 
 Public Function NewAccessFile(pDatabase As String, _
@@ -263,67 +292,67 @@ On Error GoTo ErrorHandler
     Dim pGeoDataset As IGeoDataset
     Dim i As Integer
   
-    Set pOutShpWspName = New WorkspaceName
+265:     Set pOutShpWspName = New WorkspaceName
 
-    pOutShpWspName.PathName = pDatabase
-    pOutShpWspName.WorkspaceFactoryProgID = "esriCore.AccessWorkspaceFactory"
-    Set pName = pOutShpWspName
-    Set pShapeWorkspace = pName.Open
-i = 1
+267:     pOutShpWspName.PathName = pDatabase
+268:     pOutShpWspName.WorkspaceFactoryProgID = "esriDataSourcesGDB.AccessWorkspaceFactory"
+269:     Set pName = pOutShpWspName
+270:     Set pShapeWorkspace = pName.Open
+271: i = 1
     'Open the dataset
-    Set pFeatureWorkspace = pShapeWorkspace
-    Set pDataset = pFeatureWorkspace.OpenFeatureDataset(pNewDataSet)
-i = 2
+273:     Set pFeatureWorkspace = pShapeWorkspace
+274:     Set pDataset = pFeatureWorkspace.OpenFeatureDataset(pNewDataSet)
+275: i = 2
     ' Add the SHAPE field (based on the dataset)
-    Set pFieldsEdit = pMoreFields
-    Set pField = New esriCore.Field
-    Set newFieldEdit = pField
-    With newFieldEdit
-        .Name = c_DefaultFld_Shape
-        .Type = esriFieldTypeGeometry
-        .IsNullable = True
-        .Editable = True
-    End With
-    Set pGeomDef = New GeometryDef
-    Set pGeomDefEdit = pGeomDef
-    With pGeomDefEdit
-        .GeometryType = esriGeometryPolygon
-        If TypeOf pDataset Is IGeoDataset Then
-            Set pGeoDataset = pDataset
-            Set .SpatialReference = pGeoDataset.SpatialReference
-        Else
-            Set .SpatialReference = New UnknownCoordinateSystem
-        End If
-        .GridCount = 1
-        .GridSize(0) = 200
-        .HasM = False
-        .HasZ = False
-        .AvgNumPoints = 4
-    End With
-    Set newFieldEdit.GeometryDef = pGeomDef
-    pFieldsEdit.AddField pField
+277:     Set pFieldsEdit = pMoreFields
+278:     Set pField = New Field
+279:     Set newFieldEdit = pField
+280:     With newFieldEdit
+281:         .Name = c_DefaultFld_Shape
+282:         .Type = esriFieldTypeGeometry
+283:         .IsNullable = True
+284:         .Editable = True
+285:     End With
+286:     Set pGeomDef = New GeometryDef
+287:     Set pGeomDefEdit = pGeomDef
+288:     With pGeomDefEdit
+289:         .GeometryType = esriGeometryPolygon
+290:         If TypeOf pDataset Is IGeoDataset Then
+291:             Set pGeoDataset = pDataset
+292:             Set .SpatialReference = pGeoDataset.SpatialReference
+293:         Else
+294:             Set .SpatialReference = New UnknownCoordinateSystem
+295:         End If
+296:         .GridCount = 1
+297:         .GridSize(0) = 200
+298:         .HasM = False
+299:         .HasZ = False
+300:         .AvgNumPoints = 4
+301:     End With
+302:     Set newFieldEdit.GeometryDef = pGeomDef
+303:     pFieldsEdit.AddField pField
     ' Check the fields
-    Set pFieldChecker = New FieldChecker
-    Set pFieldChecker.ValidateWorkspace = pShapeWorkspace
-    Set pNewFields = pMoreFields
-i = 3
-    Set pClone = pNewFields
-    Set pCloneFields = pClone.Clone
-    pFieldChecker.Validate pCloneFields, pErrorEnum, pOutputFields
+305:     Set pFieldChecker = New FieldChecker
+306:     Set pFieldChecker.ValidateWorkspace = pShapeWorkspace
+307:     Set pNewFields = pMoreFields
+308: i = 3
+309:     Set pClone = pNewFields
+310:     Set pCloneFields = pClone.Clone
+311:     pFieldChecker.Validate pCloneFields, pErrorEnum, pOutputFields
       
   ' Create the output featureclass
   Dim pUID As New UID
-  pUID = "{52353152-891A-11D0-BEC6-00805F7C4268}"
-    shapeFieldName = c_DefaultFld_Shape
-i = 4
-    Set pNewFeatClass = pDataset.CreateFeatureClass(pNewFile, pOutputFields, pUID, Nothing, esriFTSimple, shapeFieldName, "")
-i = 5
-    Set NewAccessFile = pNewFeatClass
+315:   pUID = "{52353152-891A-11D0-BEC6-00805F7C4268}"
+316:     shapeFieldName = c_DefaultFld_Shape
+317: i = 4
+318:     Set pNewFeatClass = pDataset.CreateFeatureClass(pNewFile, pOutputFields, pUID, Nothing, esriFTSimple, shapeFieldName, "")
+319: i = 5
+320:     Set NewAccessFile = pNewFeatClass
   
     Exit Function
   
 ErrorHandler:
-    MsgBox Err.Number & " " & Err.Description, vbCritical, "Error in NewAccessFile " & i
+325:     MsgBox Err.Number & " " & Err.Description, vbCritical, "Error in NewAccessFile " & i
 End Function
 
 Public Function NewShapeFile(pNewFile As String, pMap As IMap, _
@@ -348,65 +377,65 @@ Public Function NewShapeFile(pNewFile As String, pMap As IMap, _
     Dim pGeomDefEdit As IGeometryDefEdit
     
     ' Open the workspace for the new shapefile
-    Set pOutShpWspName = New WorkspaceName
-    pOutShpWspName.PathName = EntryName(pNewFile)
-    pOutShpWspName.WorkspaceFactoryProgID = "esriCore.ShapefileWorkspaceFactory.1"
-    Set pName = pOutShpWspName
-    Set pShapeWorkspace = pName.Open
+350:     Set pOutShpWspName = New WorkspaceName
+351:     pOutShpWspName.PathName = EntryName(pNewFile)
+352:     pOutShpWspName.WorkspaceFactoryProgID = "esriDataSourcesFile.ShapefileWorkspaceFactory.1"
+353:     Set pName = pOutShpWspName
+354:     Set pShapeWorkspace = pName.Open
     ' Add the SHAPE field (based on the Map)
-    Set pFieldsEdit = pMoreFields
-    Set pField = New esriCore.Field
-    Set newFieldEdit = pField
-    newFieldEdit.Name = c_DefaultFld_Shape
-    newFieldEdit.Type = esriFieldTypeGeometry
-    Set pGeomDef = New GeometryDef
-    Set pGeomDefEdit = pGeomDef
-    With pGeomDefEdit
-        .GeometryType = esriGeometryPolygon
-        Set .SpatialReference = pMap.SpatialReference
-    End With
-    Set newFieldEdit.GeometryDef = pGeomDef
-    pFieldsEdit.AddField pField
+356:     Set pFieldsEdit = pMoreFields
+357:     Set pField = New Field
+358:     Set newFieldEdit = pField
+359:     newFieldEdit.Name = c_DefaultFld_Shape
+360:     newFieldEdit.Type = esriFieldTypeGeometry
+361:     Set pGeomDef = New GeometryDef
+362:     Set pGeomDefEdit = pGeomDef
+363:     With pGeomDefEdit
+364:         .GeometryType = esriGeometryPolygon
+365:         Set .SpatialReference = pMap.SpatialReference
+366:     End With
+367:     Set newFieldEdit.GeometryDef = pGeomDef
+368:     pFieldsEdit.AddField pField
     ' Validate field names
-    Set pFieldChecker = New FieldChecker
-    Set pFieldChecker.ValidateWorkspace = pShapeWorkspace
-    Set pNewFields = pMoreFields
-    Set pClone = pNewFields
-    Set pCloneFields = pClone.Clone
-    pFieldChecker.Validate pCloneFields, pErrorEnum, pOutputFields
+370:     Set pFieldChecker = New FieldChecker
+371:     Set pFieldChecker.ValidateWorkspace = pShapeWorkspace
+372:     Set pNewFields = pMoreFields
+373:     Set pClone = pNewFields
+374:     Set pCloneFields = pClone.Clone
+375:     pFieldChecker.Validate pCloneFields, pErrorEnum, pOutputFields
     ' Create the output featureclass
-    shapeFieldName = c_DefaultFld_Shape
-    featureclassName = Mid(pNewFile, Len(pOutShpWspName.PathName) + 2)
-    Set pFeatureWorkspace = pShapeWorkspace
-    Set pNewFeatClass = pFeatureWorkspace.CreateFeatureClass(featureclassName, pOutputFields, _
+377:     shapeFieldName = c_DefaultFld_Shape
+378:     featureclassName = Mid(pNewFile, Len(pOutShpWspName.PathName) + 2)
+379:     Set pFeatureWorkspace = pShapeWorkspace
+380:     Set pNewFeatClass = pFeatureWorkspace.CreateFeatureClass(featureclassName, pOutputFields, _
                             Nothing, Nothing, esriFTSimple, shapeFieldName, "")
     ' Return
-    Set NewShapeFile = pNewFeatClass
+383:     Set NewShapeFile = pNewFeatClass
   
     Exit Function
   
 ErrorHandler:
-    MsgBox "Error creating " & pNewFile & vbCrLf & Err.Number & ": " & Err.Description, _
+388:     MsgBox "Error creating " & pNewFile & vbCrLf & Err.Number & ": " & Err.Description, _
         vbCritical, "Error in NewShapefile"
 End Function
 
 Public Function EntryName(sFile As String) As String
   ' work from the right side to the first file delimeter
   Dim iLength As Integer
-  iLength = Len(sFile)
+395:   iLength = Len(sFile)
   Dim iCounter As Integer
   Dim sDelim As String
-  sDelim = "\"
+398:   sDelim = "\"
   Dim sRight As String
   
-  For iCounter = iLength To 0 Step -1
+401:   For iCounter = iLength To 0 Step -1
     
-    If Mid$(sFile, iCounter, 1) = sDelim Then
-      EntryName = Mid$(sFile, 1, (iCounter - 1))
-      Exit For
-    End If
+403:     If Mid$(sFile, iCounter, 1) = sDelim Then
+404:       EntryName = Mid$(sFile, 1, (iCounter - 1))
+405:       Exit For
+406:     End If
   
-  Next
+408:   Next
   
 End Function
 
@@ -414,15 +443,15 @@ Public Sub TurnOffClipping(pSeriesProps As IDSMapSeriesProps, pApp As IApplicati
 On Error GoTo ErrHand:
   Dim pMap As IMap, pDoc As IMxDocument
   'Find the data frame
-  Set pDoc = pApp.Document
-  Set pMap = FindDataFrame(pDoc, pSeriesProps.DataFrameName)
+416:   Set pDoc = pApp.Document
+417:   Set pMap = FindDataFrame(pDoc, pSeriesProps.DataFrameName)
   If pMap Is Nothing Then Exit Sub
   
-  pMap.ClipGeometry = Nothing
+420:   pMap.ClipGeometry = Nothing
 
   Exit Sub
 ErrHand:
-  MsgBox "TurnOffClipping - " & Err.Description
+424:   MsgBox "TurnOffClipping - " & Err.Description
 End Sub
 
 Public Sub RemoveIndicators(pApp As IApplication)
@@ -430,31 +459,31 @@ On Error GoTo ErrHand:
   Dim lLoop As Long, pDoc As IMxDocument, pDelColl As Collection
   Dim pPage As IPageLayout, pGraphCont As IGraphicsContainer
   Dim pElem As IElement, pMapFrame As IMapFrame
-  Set pDoc = pApp.Document
-  Set pPage = pDoc.PageLayout
-  Set pDelColl = New Collection
-  Set pGraphCont = pPage
-  pGraphCont.Reset
-  Set pElem = pGraphCont.Next
-  Do While Not pElem Is Nothing
-    If TypeOf pElem Is IMapFrame Then
-      Set pMapFrame = pElem
-      If pMapFrame.Map.Name = "Local Indicator" Or _
+432:   Set pDoc = pApp.Document
+433:   Set pPage = pDoc.PageLayout
+434:   Set pDelColl = New Collection
+435:   Set pGraphCont = pPage
+436:   pGraphCont.Reset
+437:   Set pElem = pGraphCont.Next
+438:   Do While Not pElem Is Nothing
+439:     If TypeOf pElem Is IMapFrame Then
+440:       Set pMapFrame = pElem
+441:       If pMapFrame.Map.Name = "Local Indicator" Or _
        pMapFrame.Map.Name = "Global Indicator" Then
-        pDelColl.Add pMapFrame
-      End If
-    End If
+443:         pDelColl.Add pMapFrame
+444:       End If
+445:     End If
     
-    Set pElem = pGraphCont.Next
-  Loop
+447:     Set pElem = pGraphCont.Next
+448:   Loop
   
-  For lLoop = 1 To pDelColl.count
-    pGraphCont.DeleteElement pDelColl.Item(lLoop)
-  Next lLoop
+450:   For lLoop = 1 To pDelColl.count
+451:     pGraphCont.DeleteElement pDelColl.Item(lLoop)
+452:   Next lLoop
 
   Exit Sub
 ErrHand:
-  MsgBox "RemoveIndicators - " & Err.Description
+456:   MsgBox "RemoveIndicators - " & Err.Description
 End Sub
 
 Public Sub RemoveLabels(pDoc As IMxDocument)
@@ -462,42 +491,42 @@ On Error GoTo ErrHand:
   Dim pGraphicsCont As IGraphicsContainer
   Dim pTempColl As Collection, pElemProps As IElementProperties, lLoop As Long
   'Remove any previous neighbor labels.
-  Set pGraphicsCont = pDoc.PageLayout
-  pGraphicsCont.Reset
-  Set pTempColl = New Collection
-  Set pElemProps = pGraphicsCont.Next
-  Do While Not pElemProps Is Nothing
-    If pElemProps.Name = "DSMAPBOOK TEXT" Then
-      pTempColl.Add pElemProps
-    End If
-    Set pElemProps = pGraphicsCont.Next
-  Loop
-  For lLoop = 1 To pTempColl.count
-    pGraphicsCont.DeleteElement pTempColl.Item(lLoop)
-  Next lLoop
-  Set pTempColl = Nothing
+464:   Set pGraphicsCont = pDoc.PageLayout
+465:   pGraphicsCont.Reset
+466:   Set pTempColl = New Collection
+467:   Set pElemProps = pGraphicsCont.Next
+468:   Do While Not pElemProps Is Nothing
+469:     If pElemProps.Name = "DSMAPBOOK TEXT" Then
+470:       pTempColl.Add pElemProps
+471:     End If
+472:     Set pElemProps = pGraphicsCont.Next
+473:   Loop
+474:   For lLoop = 1 To pTempColl.count
+475:     pGraphicsCont.DeleteElement pTempColl.Item(lLoop)
+476:   Next lLoop
+477:   Set pTempColl = Nothing
 
   Exit Sub
 ErrHand:
-  MsgBox "RemoveLabels - " & Err.Description
+481:   MsgBox "RemoveLabels - " & Err.Description
 End Sub
 
 Public Function GetMapBookExtension(pApp As IApplication) As IDSMapBook
 On Error GoTo ErrHand:
   Dim pMapBookExt As DSMapBookExt, pMapBook As IDSMapBook
-  Set pMapBookExt = pApp.FindExtensionByName("DevSample_MapBook")
-  If pMapBookExt Is Nothing Then
-    MsgBox "Map Book code not installed properly!!  Make sure you can access the regsvr32 command" & vbCrLf & _
+487:   Set pMapBookExt = pApp.FindExtensionByName("DevSample_MapBook")
+488:   If pMapBookExt Is Nothing Then
+489:     MsgBox "Map Book code not installed properly!!  Make sure you can access the regsvr32 command" & vbCrLf & _
      "and rerun the _Install.bat batch file!!", , "Map Book Extension Not Found!!!"
-    Set GetMapBookExtension = Nothing
+491:     Set GetMapBookExtension = Nothing
     Exit Function
-  End If
+493:   End If
   
-  Set GetMapBookExtension = pMapBookExt.MapBook
+495:   Set GetMapBookExtension = pMapBookExt.MapBook
 
   Exit Function
 ErrHand:
-  MsgBox "GetMapBookExtension - " & Err.Description
+499:   MsgBox "GetMapBookExtension - " & Err.Description
 End Function
 
 Public Sub RemoveClipElement(pDoc As IMxDocument)
@@ -505,22 +534,22 @@ On Error GoTo ErrHand:
   Dim pGraphs As IGraphicsContainer, pElemProps As IElementProperties
   
   'Search for an existing clip element and delete it when found
-  Set pGraphs = pDoc.FocusMap
-  pGraphs.Reset
-  Set pElemProps = pGraphs.Next
-  Do While Not pElemProps Is Nothing
-    If TypeOf pElemProps Is IPolygonElement Then
-      If UCase(pElemProps.Name) = "DSMAPBOOK CLIP ELEMENT" Then
-        pGraphs.DeleteElement pElemProps
-        Exit Do
-      End If
-    End If
-    Set pElemProps = pGraphs.Next
-  Loop
-  pDoc.ActiveView.PartialRefresh esriViewGraphics, Nothing, Nothing
+507:   Set pGraphs = pDoc.FocusMap
+508:   pGraphs.Reset
+509:   Set pElemProps = pGraphs.Next
+510:   Do While Not pElemProps Is Nothing
+511:     If TypeOf pElemProps Is IPolygonElement Then
+512:       If UCase(pElemProps.Name) = "DSMAPBOOK CLIP ELEMENT" Then
+513:         pGraphs.DeleteElement pElemProps
+514:         Exit Do
+515:       End If
+516:     End If
+517:     Set pElemProps = pGraphs.Next
+518:   Loop
+519:   pDoc.ActiveView.PartialRefresh esriViewGraphics, Nothing, Nothing
 
   Exit Sub
 ErrHand:
-  MsgBox "RemoveClipElement - " & Erl & " - " & Err.Description
+523:   MsgBox "RemoveClipElement - " & Erl & " - " & Err.Description
 End Sub
 

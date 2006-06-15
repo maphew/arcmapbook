@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "Mscomctl.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
 Begin VB.Form frmMapSeriesWiz 
    BorderStyle     =   4  'Fixed ToolWindow
    Caption         =   "Map Sheet Wizard"
@@ -14,98 +14,54 @@ Begin VB.Form frmMapSeriesWiz
    ScaleWidth      =   6915
    ShowInTaskbar   =   0   'False
    StartUpPosition =   3  'Windows Default
-   Begin VB.Frame fraPage1 
-      BorderStyle     =   0  'None
-      Height          =   735
-      Left            =   30
-      TabIndex        =   4
-      Top             =   30
-      Visible         =   0   'False
-      Width           =   6855
-      Begin VB.Frame fraIndexLayer 
-         Caption         =   "Index Layer"
-         Height          =   2415
-         Left            =   3210
-         TabIndex        =   10
-         Top             =   900
-         Width           =   3525
-         Begin VB.ComboBox cmbIndexField 
-            Height          =   315
-            Left            =   240
-            Style           =   2  'Dropdown List
-            TabIndex        =   14
-            Top             =   1200
-            Width           =   3105
-         End
-         Begin VB.ComboBox cmbIndexLayer 
-            Height          =   315
-            Left            =   240
-            Style           =   2  'Dropdown List
-            TabIndex        =   12
-            Top             =   510
-            Width           =   3105
-         End
-         Begin VB.Label lblMapSheet 
-            Caption         =   "This field specifies the page name"
-            Height          =   225
-            Index           =   4
-            Left            =   240
-            TabIndex        =   13
-            Top             =   960
-            Width           =   2535
-         End
-         Begin VB.Label lblMapSheet 
-            Caption         =   "Choose the index layer:"
-            Height          =   225
-            Index           =   3
-            Left            =   240
-            TabIndex        =   11
-            Top             =   270
-            Width           =   1725
-         End
-      End
-      Begin VB.ComboBox cmbDetailFrame 
-         Height          =   315
-         Left            =   270
-         Style           =   2  'Dropdown List
-         TabIndex        =   9
-         Top             =   1140
-         Width           =   2625
-      End
-      Begin VB.Label Label1 
-         Caption         =   $"frmMapSeriesWiz.frx":0000
-         Height          =   615
-         Index           =   0
-         Left            =   30
-         TabIndex        =   7
-         Top             =   60
-         Width           =   6705
-      End
-      Begin VB.Label lblMapSheet 
-         Caption         =   "Choose the detail data frame:"
-         Height          =   225
-         Index           =   0
-         Left            =   30
-         TabIndex        =   8
-         Top             =   870
-         Width           =   2235
-      End
+   Begin VB.CommandButton cmdBack 
+      Caption         =   "< Back"
+      Height          =   345
+      Left            =   3330
+      TabIndex        =   2
+      Top             =   3780
+      Width           =   1125
+   End
+   Begin VB.CommandButton cmdNext 
+      Caption         =   "Next >"
+      Height          =   345
+      Left            =   4470
+      TabIndex        =   1
+      Top             =   3780
+      Width           =   1125
+   End
+   Begin VB.CommandButton cmdCancel 
+      Caption         =   "Cancel"
+      Height          =   345
+      Left            =   5760
+      TabIndex        =   0
+      Top             =   3780
+      Width           =   1125
    End
    Begin VB.Frame fraPage3 
       BorderStyle     =   0  'None
       Height          =   3525
-      Left            =   30
+      Left            =   60
       TabIndex        =   3
-      Top             =   90
+      Top             =   30
       Visible         =   0   'False
       Width           =   6855
       Begin VB.Frame fraOptions 
          Caption         =   "Options"
-         Height          =   2565
+         Height          =   2865
          Left            =   3450
          TabIndex        =   28
-         Top             =   750
+         Top             =   450
          Width           =   3255
+         Begin VB.CheckBox chkOptions 
+            Caption         =   "Select tile when drawing?"
+            Height          =   225
+            Index           =   4
+            Left            =   120
+            TabIndex        =   45
+            Top             =   2520
+            Width           =   2865
+         End
          Begin VB.CheckBox chkOptions 
             Caption         =   "Cross-hatch data outside tile?"
             Height          =   225
@@ -161,10 +117,10 @@ Begin VB.Form frmMapSeriesWiz
       End
       Begin VB.Frame fraExtent 
          Caption         =   "Extent"
-         Height          =   2565
+         Height          =   2865
          Left            =   90
          TabIndex        =   24
-         Top             =   750
+         Top             =   450
          Width           =   3255
          Begin VB.ComboBox cmbDataDriven 
             Height          =   315
@@ -263,12 +219,20 @@ Begin VB.Form frmMapSeriesWiz
    End
    Begin VB.Frame fraPage2 
       BorderStyle     =   0  'None
-      Height          =   1965
-      Left            =   360
+      Height          =   3585
+      Left            =   30
       TabIndex        =   5
-      Top             =   540
+      Top             =   30
       Visible         =   0   'False
-      Width           =   5805
+      Width           =   6855
+      Begin VB.TextBox txtNumbering 
+         Height          =   315
+         Left            =   2370
+         TabIndex        =   43
+         Text            =   "1"
+         Top             =   2580
+         Width           =   525
+      End
       Begin VB.Frame fraSuppressTiles 
          Caption         =   "Suppress tiles"
          Height          =   2565
@@ -303,7 +267,7 @@ Begin VB.Form frmMapSeriesWiz
       End
       Begin VB.Frame fraChooseTiles 
          Caption         =   "Choose tiles"
-         Height          =   2565
+         Height          =   1515
          Left            =   60
          TabIndex        =   16
          Top             =   750
@@ -358,7 +322,16 @@ Begin VB.Form frmMapSeriesWiz
          NumItems        =   0
       End
       Begin VB.Label Label1 
-         Caption         =   $"frmMapSeriesWiz.frx":00E0
+         Caption         =   "Begin numbering tiles/pages at:"
+         Height          =   255
+         Index           =   3
+         Left            =   90
+         TabIndex        =   44
+         Top             =   2610
+         Width           =   2295
+      End
+      Begin VB.Label Label1 
+         Caption         =   $"frmMapSeriesWiz.frx":0000
          Height          =   615
          Index           =   1
          Left            =   30
@@ -367,29 +340,82 @@ Begin VB.Form frmMapSeriesWiz
          Width           =   6705
       End
    End
-   Begin VB.CommandButton cmdBack 
-      Caption         =   "< Back"
-      Height          =   345
-      Left            =   3330
-      TabIndex        =   2
-      Top             =   3780
-      Width           =   1125
-   End
-   Begin VB.CommandButton cmdNext 
-      Caption         =   "Next >"
-      Height          =   345
-      Left            =   4470
-      TabIndex        =   1
-      Top             =   3780
-      Width           =   1125
-   End
-   Begin VB.CommandButton cmdCancel 
-      Caption         =   "Cancel"
-      Height          =   345
-      Left            =   5760
-      TabIndex        =   0
-      Top             =   3780
-      Width           =   1125
+   Begin VB.Frame fraPage1 
+      BorderStyle     =   0  'None
+      Height          =   3525
+      Left            =   90
+      TabIndex        =   4
+      Top             =   90
+      Visible         =   0   'False
+      Width           =   6855
+      Begin VB.Frame fraIndexLayer 
+         Caption         =   "Index Layer"
+         Height          =   2415
+         Left            =   3210
+         TabIndex        =   10
+         Top             =   900
+         Width           =   3525
+         Begin VB.ComboBox cmbIndexField 
+            Height          =   315
+            Left            =   240
+            Style           =   2  'Dropdown List
+            TabIndex        =   14
+            Top             =   1200
+            Width           =   3105
+         End
+         Begin VB.ComboBox cmbIndexLayer 
+            Height          =   315
+            Left            =   240
+            Style           =   2  'Dropdown List
+            TabIndex        =   12
+            Top             =   510
+            Width           =   3105
+         End
+         Begin VB.Label lblMapSheet 
+            Caption         =   "This field specifies the page name"
+            Height          =   225
+            Index           =   4
+            Left            =   240
+            TabIndex        =   13
+            Top             =   960
+            Width           =   2535
+         End
+         Begin VB.Label lblMapSheet 
+            Caption         =   "Choose the index layer:"
+            Height          =   225
+            Index           =   3
+            Left            =   240
+            TabIndex        =   11
+            Top             =   270
+            Width           =   1725
+         End
+      End
+      Begin VB.ComboBox cmbDetailFrame 
+         Height          =   315
+         Left            =   270
+         Style           =   2  'Dropdown List
+         TabIndex        =   9
+         Top             =   1140
+         Width           =   2625
+      End
+      Begin VB.Label Label1 
+         Caption         =   $"frmMapSeriesWiz.frx":00F8
+         Height          =   615
+         Index           =   0
+         Left            =   60
+         TabIndex        =   7
+         Top             =   60
+         Width           =   6705
+      End
+      Begin VB.Label lblMapSheet 
+         Caption         =   "Choose the detail data frame:"
+         Height          =   225
+         Index           =   0
+         Left            =   30
+         TabIndex        =   8
+         Top             =   870
+         Width           =   2235
+      End
    End
    Begin VB.Line Line1 
       BorderColor     =   &H80000005&
@@ -413,6 +439,34 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
+
+' Copyright 1995-2004 ESRI
+
+' All rights reserved under the copyright laws of the United States.
+
+' You may freely redistribute and use this sample code, with or without modification.
+
+' Disclaimer: THE SAMPLE CODE IS PROVIDED "AS IS" AND ANY EXPRESS OR IMPLIED
+' WARRANTIES, INCLUDING THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+' FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL ESRI OR
+' CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY,
+' OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+' SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+' INTERRUPTION) SUSTAINED BY YOU OR A THIRD PARTY, HOWEVER CAUSED AND ON ANY
+' THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT ARISING IN ANY
+' WAY OUT OF THE USE OF THIS SAMPLE CODE, EVEN IF ADVISED OF THE POSSIBILITY OF
+' SUCH DAMAGE.
+
+' For additional information contact: Environmental Systems Research Institute, Inc.
+
+' Attn: Contracts Dept.
+
+' 380 New York Street
+
+' Redlands, California, U.S.A. 92373
+
+' Email: contracts@esri.com
+
 Option Explicit
 
 Private m_iPage As Integer
@@ -426,51 +480,53 @@ Private m_pTextSym As ISimpleTextSymbol
 Private Sub PositionFrame(pFrame As Frame)
 On Error GoTo ErrHand:
 
-  If Not m_pCurrentFrame Is Nothing Then m_pCurrentFrame.Visible = False
-  pFrame.Visible = True
-  pFrame.Height = 3495
-  pFrame.Width = 6825
-  pFrame.Left = 30
-  pFrame.Top = 30
-  Set m_pCurrentFrame = pFrame
-  pFrame.Visible = True
+42:   If Not m_pCurrentFrame Is Nothing Then m_pCurrentFrame.Visible = False
+43:   pFrame.Visible = True
+44:   pFrame.Height = 3495
+45:   pFrame.Width = 6825
+46:   pFrame.Left = 30
+47:   pFrame.Top = 30
+48:   Set m_pCurrentFrame = pFrame
+49:   pFrame.Visible = True
      
   Exit Sub
 ErrHand:
-  MsgBox "PositionFrame - " & Err.Description
+53:   MsgBox "PositionFrame - " & Err.Description
   Exit Sub
 End Sub
 
 Private Sub chkOptions_Click(Index As Integer)
   Select Case Index
   Case 0  'Rotate
-    If chkOptions(0).Value = 0 Then
-      cmbRotateField.Enabled = False
-    Else
-      cmbRotateField.Enabled = True
-    End If
+60:     If chkOptions(0).Value = 0 Then
+61:       cmbRotateField.Enabled = False
+62:     Else
+63:       cmbRotateField.Enabled = True
+64:     End If
   Case 1  'Clip to outline
-    If chkOptions(1).Value = 0 Then
-      chkOptions(3).Enabled = False
-      chkOptions(3).Value = 0
-    Else
-      chkOptions(3).Enabled = True
-    End If
+66:     If chkOptions(1).Value = 0 Then
+67:       chkOptions(3).Enabled = False
+68:       chkOptions(3).Value = 0
+69:     Else
+70:       chkOptions(3).Enabled = True
+71:     End If
   Case 2  'Label neighboring tiles
-    If chkOptions(2).Value = 0 Then
-      cmdLabelProps.Enabled = False
-    Else
-      cmdLabelProps.Enabled = True
-    End If
-  End Select
+73:     If chkOptions(2).Value = 0 Then
+74:       cmdLabelProps.Enabled = False
+75:     Else
+76:       cmdLabelProps.Enabled = True
+77:     End If
+  Case 4  'Select tile when drawing - Added 11/23/04
+    
+80:   End Select
 End Sub
 
 Private Sub chkSuppress_Click()
-  If chkSuppress.Value = 0 Then
-    lstSuppressTiles.Enabled = False
-  Else
-    lstSuppressTiles.Enabled = True
-  End If
+84:   If chkSuppress.Value = 0 Then
+85:     lstSuppressTiles.Enabled = False
+86:   Else
+87:     lstSuppressTiles.Enabled = True
+88:   End If
 End Sub
 
 Private Sub cmbDetailFrame_Click()
@@ -479,74 +535,74 @@ On Error GoTo ErrHand:
   Dim pFeatLayer As IFeatureLayer, pGroupLayer As ICompositeLayer
   
   'Set the Next button to false
-  cmdNext.Enabled = False
+97:   cmdNext.Enabled = False
   
   'Find the selected map
-  cmbIndexLayer.Clear
-  If cmbDetailFrame.Text = "" Then
-    MsgBox "No detail frame selected!!!"
+100:   cmbIndexLayer.Clear
+101:   If cmbDetailFrame.Text = "" Then
+102:     MsgBox "No detail frame selected!!!"
     Exit Sub
-  End If
+104:   End If
   
-  Set pDoc = m_pApp.Document
-  Set m_pMap = FindDataFrame(pDoc, cmbDetailFrame.Text)
-  If m_pMap Is Nothing Then
-    MsgBox "Could not find detail frame!!!"
+106:   Set pDoc = m_pApp.Document
+107:   Set m_pMap = FindDataFrame(pDoc, cmbDetailFrame.Text)
+108:   If m_pMap Is Nothing Then
+109:     MsgBox "Could not find detail frame!!!"
     Exit Sub
-  End If
+111:   End If
   
   'Populate the index layer combo
-  lstSuppressTiles.Clear
-  cmbIndexLayer.Clear
-  For lLoop = 0 To m_pMap.LayerCount - 1
-    If TypeOf m_pMap.Layer(lLoop) Is ICompositeLayer Then
-      CompositeLayer m_pMap.Layer(lLoop)
-    Else
-      LayerCheck m_pMap.Layer(lLoop)
-    End If
-  Next lLoop
-  If cmbIndexLayer.ListCount = 0 Then
-    MsgBox "You need at least one polygon layer in the detail frame to serve as the index layer!!!"
-  Else
-    cmbIndexLayer.ListIndex = 0
-  End If
+114:   lstSuppressTiles.Clear
+115:   cmbIndexLayer.Clear
+116:   For lLoop = 0 To m_pMap.LayerCount - 1
+117:     If TypeOf m_pMap.Layer(lLoop) Is ICompositeLayer Then
+118:       CompositeLayer m_pMap.Layer(lLoop)
+119:     Else
+120:       LayerCheck m_pMap.Layer(lLoop)
+121:     End If
+122:   Next lLoop
+123:   If cmbIndexLayer.ListCount = 0 Then
+124:     MsgBox "You need at least one polygon layer in the detail frame to serve as the index layer!!!"
+125:   Else
+126:     cmbIndexLayer.ListIndex = 0
+127:   End If
   
   Exit Sub
 ErrHand:
-  MsgBox "cmbDetailFrame_Click - " & Err.Description
+131:   MsgBox "cmbDetailFrame_Click - " & Err.Description
 End Sub
 
 Private Sub CompositeLayer(pCompLayer As ICompositeLayer)
 On Error GoTo ErrHand:
   Dim lLoop As Long
-  For lLoop = 0 To pCompLayer.count - 1
-    If TypeOf pCompLayer.Layer(lLoop) Is ICompositeLayer Then
-      CompositeLayer pCompLayer.Layer(lLoop)
-    Else
-      LayerCheck pCompLayer.Layer(lLoop)
-    End If
-  Next lLoop
+137:   For lLoop = 0 To pCompLayer.count - 1
+138:     If TypeOf pCompLayer.Layer(lLoop) Is ICompositeLayer Then
+139:       CompositeLayer pCompLayer.Layer(lLoop)
+140:     Else
+141:       LayerCheck pCompLayer.Layer(lLoop)
+142:     End If
+143:   Next lLoop
 
   Exit Sub
 ErrHand:
-  MsgBox "CompositeLayer - " & Err.Description
+147:   MsgBox "CompositeLayer - " & Err.Description
 End Sub
 
 Private Sub LayerCheck(pLayer As ILayer)
 On Error GoTo ErrHand:
   Dim pFeatLayer As IFeatureLayer
   
-  If TypeOf pLayer Is IFeatureLayer Then
-    Set pFeatLayer = pLayer
-    If pFeatLayer.FeatureClass.ShapeType = esriGeometryPolygon Then
-      cmbIndexLayer.AddItem pFeatLayer.Name
-    End If
-    lstSuppressTiles.AddItem pFeatLayer.Name
-  End If
+154:   If TypeOf pLayer Is IFeatureLayer Then
+155:     Set pFeatLayer = pLayer
+156:     If pFeatLayer.FeatureClass.ShapeType = esriGeometryPolygon Then
+157:       cmbIndexLayer.AddItem pFeatLayer.Name
+158:     End If
+159:     lstSuppressTiles.AddItem pFeatLayer.Name
+160:   End If
 
   Exit Sub
 ErrHand:
-  MsgBox "LayerCheck - " & Err.Description
+164:   MsgBox "LayerCheck - " & Err.Description
 End Sub
 
 Private Sub cmbIndexLayer_Click()
@@ -554,125 +610,125 @@ On Error GoTo ErrHand:
   Dim lLoop As Long, pFields As IFields, pField As IField
   
   'Set the Next button to false
-  cmdNext.Enabled = False
+172:   cmdNext.Enabled = False
   
   'Find the selected layer
-  cmbIndexField.Clear
-  If cmbIndexLayer.Text = "" Then
-    MsgBox "No index layer selected!!!"
+175:   cmbIndexField.Clear
+176:   If cmbIndexLayer.Text = "" Then
+177:     MsgBox "No index layer selected!!!"
     Exit Sub
-  End If
+179:   End If
   
-  Set m_pIndexLayer = FindLayer(cmbIndexLayer.Text, m_pMap)
-  If m_pIndexLayer Is Nothing Then
-    MsgBox "Could not find specified layer!!!"
+181:   Set m_pIndexLayer = FindLayer(cmbIndexLayer.Text, m_pMap)
+182:   If m_pIndexLayer Is Nothing Then
+183:     MsgBox "Could not find specified layer!!!"
     Exit Sub
-  End If
+185:   End If
   
   'Populate the index layer combos
-  Set pFields = m_pIndexLayer.FeatureClass.Fields
-  cmbDataDriven.Clear
-  cmbRotateField.Clear
-  For lLoop = 0 To pFields.FieldCount - 1
+188:   Set pFields = m_pIndexLayer.FeatureClass.Fields
+189:   cmbDataDriven.Clear
+190:   cmbRotateField.Clear
+191:   For lLoop = 0 To pFields.FieldCount - 1
     Select Case pFields.Field(lLoop).Type
     Case esriFieldTypeString
-      cmbIndexField.AddItem pFields.Field(lLoop).Name
+194:       cmbIndexField.AddItem pFields.Field(lLoop).Name
     Case esriFieldTypeDouble, esriFieldTypeSingle, esriFieldTypeInteger
-      If UCase(pFields.Field(lLoop).Name) <> "SHAPE_LENGTH" And _
+196:       If UCase(pFields.Field(lLoop).Name) <> "SHAPE_LENGTH" And _
        UCase(pFields.Field(lLoop).Name) <> "SHAPE_AREA" Then
-        cmbDataDriven.AddItem pFields.Field(lLoop).Name
-        cmbRotateField.AddItem pFields.Field(lLoop).Name
-      End If
-    End Select
-  Next lLoop
-  If cmbIndexField.ListCount = 0 Then
+198:         cmbDataDriven.AddItem pFields.Field(lLoop).Name
+199:         cmbRotateField.AddItem pFields.Field(lLoop).Name
+200:       End If
+201:     End Select
+202:   Next lLoop
+203:   If cmbIndexField.ListCount = 0 Then
 '    MsgBox "You need at least one string field in the layer for labeling the pages!!!"
-  Else
-    cmbIndexField.ListIndex = 0
-    cmdNext.Enabled = True
-  End If
-  If cmbDataDriven.ListCount > 0 Then
-    cmbDataDriven.ListIndex = 0
-    cmbRotateField.ListIndex = 0
-    optExtent.Item(2).Enabled = True
-    chkOptions(0).Enabled = True
-  Else
-    optExtent.Item(2).Enabled = False
-    chkOptions(0).Enabled = False
-  End If
+205:   Else
+206:     cmbIndexField.ListIndex = 0
+207:     cmdNext.Enabled = True
+208:   End If
+209:   If cmbDataDriven.ListCount > 0 Then
+210:     cmbDataDriven.ListIndex = 0
+211:     cmbRotateField.ListIndex = 0
+212:     optExtent.Item(2).Enabled = True
+213:     chkOptions(0).Enabled = True
+214:   Else
+215:     optExtent.Item(2).Enabled = False
+216:     chkOptions(0).Enabled = False
+217:   End If
 
   Exit Sub
 ErrHand:
-  MsgBox "cmbIndexField_Click - " & Err.Description
+221:   MsgBox "cmbIndexField_Click - " & Err.Description
 End Sub
 
 Private Sub cmdBack_Click()
-  m_pCurrentFrame.Visible = False
+225:   m_pCurrentFrame.Visible = False
   Select Case m_iPage
   Case 2
-    PositionFrame fraPage1
-    m_iPage = 1
+228:     PositionFrame fraPage1
+229:     m_iPage = 1
   Case 3
-    cmdNext.Caption = "Next >"
-    PositionFrame fraPage2
-    m_iPage = 2
-  End Select
-  cmdNext.Enabled = True
+231:     cmdNext.Caption = "Next >"
+232:     PositionFrame fraPage2
+233:     m_iPage = 2
+234:   End Select
+235:   cmdNext.Enabled = True
 End Sub
 
 Private Sub cmdCancel_Click()
-  Unload Me
+239:   Unload Me
 End Sub
 
 Private Sub cmdLabelProps_Click()
 On Error GoTo ErrHand:
   Dim bChanged As Boolean, pTextSymEditor As ITextSymbolEditor
-  Set pTextSymEditor = New TextSymbolEditor
-  bChanged = pTextSymEditor.EditTextSymbol(m_pTextSym, m_pApp.hwnd)
-  Me.SetFocus
+245:   Set pTextSymEditor = New TextSymbolEditor
+246:   bChanged = pTextSymEditor.EditTextSymbol(m_pTextSym, m_pApp.hwnd)
+247:   Me.SetFocus
   
   Exit Sub
 ErrHand:
-  MsgBox "cmdLabelProps_Click - " & Err.Description
+251:   MsgBox "cmdLabelProps_Click - " & Err.Description
 End Sub
 
 Private Sub cmdNext_Click()
 On Error GoTo ErrHand:
   Dim pMapSeries As IDSMapSeries
-  m_pCurrentFrame.Visible = False
-  cmdBack.Enabled = True
+257:   m_pCurrentFrame.Visible = False
+258:   cmdBack.Enabled = True
   Select Case m_iPage
   Case 1  'Done with date frame and index layer
-    CheckForSelected    'Check index layer to see if there are selected features
-    PositionFrame fraPage2
-    m_iPage = 2
+261:     CheckForSelected    'Check index layer to see if there are selected features
+262:     PositionFrame fraPage2
+263:     m_iPage = 2
   Case 2  'Done with tile specification
-    PositionFrame fraPage3
-    m_iPage = 3
-    cmdNext.Caption = "Finish"
-    If optExtent(0).Value Then
-      If txtMargin.Text = "" Then
-        cmdNext.Enabled = False
-      Else
-        cmdNext.Enabled = True
-      End If
-    ElseIf optExtent(1).Value Then
-      If txtFixed.Text = "" Then
-        cmdNext.Enabled = False
-      Else
-        cmdNext.Enabled = True
-      End If
-    Else
-      cmdNext.Enabled = True
-    End If
+265:     PositionFrame fraPage3
+266:     m_iPage = 3
+267:     cmdNext.Caption = "Finish"
+268:     If optExtent(0).Value Then
+269:       If txtMargin.Text = "" Then
+270:         cmdNext.Enabled = False
+271:       Else
+272:         cmdNext.Enabled = True
+273:       End If
+274:     ElseIf optExtent(1).Value Then
+275:       If txtFixed.Text = "" Then
+276:         cmdNext.Enabled = False
+277:       Else
+278:         cmdNext.Enabled = True
+279:       End If
+280:     Else
+281:       cmdNext.Enabled = True
+282:     End If
   Case 3  'Finish button selected
-    CreateSeries
-    Unload Me
-  End Select
+284:     CreateSeries
+285:     Unload Me
+286:   End Select
   
   Exit Sub
 ErrHand:
-  MsgBox "cmdNext_click - " & Err.Description
+290:   MsgBox "cmdNext_click - " & Err.Description
   Exit Sub
 End Sub
 
@@ -689,190 +745,206 @@ On Error GoTo ErrHandler:
   Dim pActiveView As IActiveView, lRotIndex As Long, lScaleIndex As Long
   'Added 6/18/03 to support cross hatch outside clip area
   Dim pSeriesOpt2 As IDSMapSeriesOptions2
+  Dim pSeriesOpt3 As IDSMapSeriesOptions3    'Added 11/23/04 to support tile selection
+  'Add 2/18/04 to support the storing of page numbers
+  Dim lPageNumber As Long
   
-  Set pMapBook = GetMapBookExtension(m_pApp)
+311:   Set pMapBook = GetMapBookExtension(m_pApp)
   If pMapBook Is Nothing Then Exit Sub
   
-  pMapBook.EnableBook = True
-  Set pDoc = m_pApp.Document
+314:   pMapBook.EnableBook = True
+315:   Set pDoc = m_pApp.Document
   
-  Set pMapSeries = New DSMapSeries
-  Set pSeriesOpt = pMapSeries
-  Set pSeriesOpt2 = pSeriesOpt  'Added 6/18/03 to support cross hatch outside clip area
-  Set pSeriesProps = pMapSeries
-  pMapSeries.EnableSeries = True
+317:   Set pMapSeries = New DSMapSeries
+318:   Set pSeriesOpt = pMapSeries
+319:   Set pSeriesOpt2 = pSeriesOpt  'Added 6/18/03 to support cross hatch outside clip area
+320:   Set pSeriesOpt3 = pSeriesOpt    'Added 11/23/04
+321:   Set pSeriesProps = pMapSeries
+322:   pMapSeries.EnableSeries = True
   
   'Find the detail frame
-  Set pMap = FindDataFrame(pDoc, cmbDetailFrame.Text)
-  If pMap Is Nothing Then
-    MsgBox "Detail frame not found!!!"
+325:   Set pMap = FindDataFrame(pDoc, cmbDetailFrame.Text)
+326:   If pMap Is Nothing Then
+327:     MsgBox "Detail frame not found!!!"
     Exit Sub
-  End If
-  pSeriesProps.DataFrameName = pMap.Name
+329:   End If
+330:   pSeriesProps.DataFrameName = pMap.Name
   
   'Find the layer
-  Set pFeatLayer = FindLayer(cmbIndexLayer.Text, pMap)
-  If pFeatLayer Is Nothing Then
-    MsgBox "Index layer not found!!!"
+333:   Set pFeatLayer = FindLayer(cmbIndexLayer.Text, pMap)
+334:   If pFeatLayer Is Nothing Then
+335:     MsgBox "Index layer not found!!!"
     Exit Sub
-  End If
-  pSeriesProps.IndexLayerName = pFeatLayer.Name
-  pSeriesProps.IndexFieldName = cmbIndexField.Text
+337:   End If
+338:   pSeriesProps.IndexLayerName = pFeatLayer.Name
+339:   pSeriesProps.IndexFieldName = cmbIndexField.Text
     
   'Determine the tiles we are interested in
-  Set pQuery = New QueryFilter
-  sFieldName = cmbIndexField.Text
-  pQuery.AddField sFieldName
+342:   Set pQuery = New QueryFilter
+343:   sFieldName = cmbIndexField.Text
+344:   pQuery.AddField sFieldName
 '  pQuery.WhereClause = sFieldName & " <> ''"
-  pQuery.WhereClause = sFieldName & " is not null"
-  If optTiles(0).Value Then
-    Set pCursor = pFeatLayer.Search(pQuery, True)
-    pSeriesProps.TileSelectionMethod = 0
-  ElseIf optTiles(1).Value Then
-    Set pFeatLayerSel = pFeatLayer
-    pFeatLayerSel.SelectionSet.Search pQuery, True, pCursor
-    pSeriesProps.TileSelectionMethod = 1
-  Else
-    Set pActiveView = pMap
-    Set pSpatialQuery = New SpatialFilter
-    pSpatialQuery.AddField sFieldName
-    pSpatialQuery.SpatialRel = esriSpatialRelIntersects
-    Set pSpatialQuery.Geometry = pActiveView.Extent
-    pSpatialQuery.WhereClause = sFieldName & " <> ''"
-    pSpatialQuery.GeometryField = pFeatLayer.FeatureClass.shapeFieldName
-    Set pCursor = pFeatLayer.Search(pSpatialQuery, True)
-    pSeriesProps.TileSelectionMethod = 2
-  End If
+346:   pQuery.WhereClause = sFieldName & " is not null"
+347:   If optTiles(0).Value Then
+348:     Set pCursor = pFeatLayer.Search(pQuery, True)
+349:     pSeriesProps.TileSelectionMethod = 0
+350:   ElseIf optTiles(1).Value Then
+351:     Set pFeatLayerSel = pFeatLayer
+352:     pFeatLayerSel.SelectionSet.Search pQuery, True, pCursor
+353:     pSeriesProps.TileSelectionMethod = 1
+354:   Else
+355:     Set pActiveView = pMap
+356:     Set pSpatialQuery = New SpatialFilter
+357:     pSpatialQuery.AddField sFieldName
+358:     pSpatialQuery.SpatialRel = esriSpatialRelIntersects
+359:     Set pSpatialQuery.Geometry = pActiveView.Extent
+360:     pSpatialQuery.WhereClause = sFieldName & " <> ''"
+361:     pSpatialQuery.GeometryField = pFeatLayer.FeatureClass.shapeFieldName
+362:     Set pCursor = pFeatLayer.Search(pSpatialQuery, True)
+363:     pSeriesProps.TileSelectionMethod = 2
+364:   End If
+  
+  'Add 2/18/04 to keep track of starting page number
+367:   pSeriesProps.StartNumber = CLng(txtNumbering.Text)
   
   'Set the clip, label and rotate properties
   'Updated 6/18/03 to support cross hatch outside clip area
-  If chkOptions(1).Value = 1 Then
-    If chkOptions(3).Value = 1 Then
-      pSeriesOpt2.ClipData = 2
-    Else
-      pSeriesOpt2.ClipData = 1
-    End If
-  Else
-    pSeriesOpt2.ClipData = 0
-  End If
+371:   If chkOptions(1).Value = 1 Then
+372:     If chkOptions(3).Value = 1 Then
+373:       pSeriesOpt2.ClipData = 2
+374:     Else
+375:       pSeriesOpt2.ClipData = 1
+376:     End If
+377:   Else
+378:     pSeriesOpt2.ClipData = 0
+379:   End If
 '  If chkOptions(1).Value = 1 Then
 '    pSeriesOpt.ClipData = True
 '  Else
 '    pSeriesOpt.ClipData = False
 '  End If
   
-  If chkOptions(0).Value = 1 Then
-    pSeriesOpt.RotateFrame = True
-    pSeriesOpt.RotationField = cmbRotateField.Text
-    lRotIndex = pFeatLayer.FeatureClass.FindField(cmbRotateField.Text)
-  Else
-    pSeriesOpt.RotateFrame = False
-  End If
-  If chkOptions(2).Value = 1 Then
-    pSeriesOpt.LabelNeighbors = True
-  Else
-    pSeriesOpt.LabelNeighbors = False
-  End If
-  Set pSeriesOpt.LabelSymbol = m_pTextSym
+386:   If chkOptions(0).Value = 1 Then
+387:     pSeriesOpt.RotateFrame = True
+388:     pSeriesOpt.RotationField = cmbRotateField.Text
+389:     lRotIndex = pFeatLayer.FeatureClass.FindField(cmbRotateField.Text)
+390:   Else
+391:     pSeriesOpt.RotateFrame = False
+392:   End If
+393:   If chkOptions(2).Value = 1 Then
+394:     pSeriesOpt.LabelNeighbors = True
+395:   Else
+396:     pSeriesOpt.LabelNeighbors = False
+397:   End If
+398:   Set pSeriesOpt.LabelSymbol = m_pTextSym
+  
+  'Set selection tile drawing property - Added 11/23/04
+401:   If chkOptions(4).Value = 1 Then
+402:     pSeriesOpt3.SelectTile = True
+403:   Else
+404:     pSeriesOpt3.SelectTile = False
+405:   End If
   
   'Set the extent properties
-  If optExtent(0).Value Then         'Variable
-    pSeriesOpt.ExtentType = 0
-    If txtMargin.Text = "" Then
-      pSeriesOpt.Margin = 0
-    Else
-      pSeriesOpt.Margin = CDbl(txtMargin.Text)
-    End If
-    pSeriesOpt.MarginType = cmbMargin.ListIndex
-  ElseIf optExtent(1).Value Then    'Fixed
-    pSeriesOpt.ExtentType = 1
-    pSeriesOpt.FixedScale = txtFixed.Text
-  Else                        'Data driven
-    pSeriesOpt.ExtentType = 2
-    pSeriesOpt.DataDrivenField = cmbDataDriven.Text
-    lScaleIndex = pFeatLayer.FeatureClass.FindField(cmbDataDriven.Text)
-  End If
+408:   If optExtent(0).Value Then         'Variable
+409:     pSeriesOpt.ExtentType = 0
+410:     If txtMargin.Text = "" Then
+411:       pSeriesOpt.Margin = 0
+412:     Else
+413:       pSeriesOpt.Margin = CDbl(txtMargin.Text)
+414:     End If
+415:     pSeriesOpt.MarginType = cmbMargin.ListIndex
+416:   ElseIf optExtent(1).Value Then    'Fixed
+417:     pSeriesOpt.ExtentType = 1
+418:     pSeriesOpt.FixedScale = txtFixed.Text
+419:   Else                        'Data driven
+420:     pSeriesOpt.ExtentType = 2
+421:     pSeriesOpt.DataDrivenField = cmbDataDriven.Text
+422:     lScaleIndex = pFeatLayer.FeatureClass.FindField(cmbDataDriven.Text)
+423:   End If
   
   'Store suppression information
-  If chkSuppress.Value = 1 And lstSuppressTiles.SelCount > 0 Then
-    pSeriesProps.SuppressLayers = True
-    For lLoop = 0 To lstSuppressTiles.ListCount - 1
-      If lstSuppressTiles.Selected(lLoop) Then
-        pSeriesProps.AddLayerToSuppress lstSuppressTiles.List(lLoop)
-      End If
-    Next lLoop
-  Else
-    pSeriesProps.SuppressLayers = False
-  End If
+426:   If chkSuppress.Value = 1 And lstSuppressTiles.SelCount > 0 Then
+427:     pSeriesProps.SuppressLayers = True
+428:     For lLoop = 0 To lstSuppressTiles.ListCount - 1
+429:       If lstSuppressTiles.Selected(lLoop) Then
+430:         pSeriesProps.AddLayerToSuppress lstSuppressTiles.List(lLoop)
+431:       End If
+432:     Next lLoop
+433:   Else
+434:     pSeriesProps.SuppressLayers = False
+435:   End If
   
   'Create the pages and populate the treeview
-  Set pTmpColl = New Collection
-  lIndex = pFeatLayer.FeatureClass.FindField(sFieldName)
-  Set pFeature = pCursor.NextFeature
-  With g_pFrmMapSeries.tvwMapBook
-    Set pNode = .Nodes.Add("MapBook", tvwChild, "MapSeries", "Map Series", 3)
-    pNode.Tag = "MapSeries"
+438:   Set pTmpColl = New Collection
+439:   lIndex = pFeatLayer.FeatureClass.FindField(sFieldName)
+440:   Set pFeature = pCursor.NextFeature
+441:   With g_pFrmMapSeries.tvwMapBook
+442:     Set pNode = .Nodes.Add("MapBook", tvwChild, "MapSeries", "Map Series", 3)
+443:     pNode.Tag = "MapSeries"
     
     'Add tile names to a listbox first for sort purposes
-    g_pFrmMapSeries.lstSorter.Clear
-    Do While Not pFeature Is Nothing
-      sName = pFeature.Value(lIndex)
-      Set pTmpPage = New tmpPageClass
-      pTmpPage.PageName = sName
-      pTmpPage.PageRotation = 0
-      pTmpPage.PageScale = 1
-      Set pClone = pFeature.Shape
-      Set pTmpPage.PageShape = pClone.Clone
+446:     g_pFrmMapSeries.lstSorter.Clear
+447:     Do While Not pFeature Is Nothing
+448:       sName = pFeature.Value(lIndex)
+449:       Set pTmpPage = New tmpPageClass
+450:       pTmpPage.PageName = sName
+451:       pTmpPage.PageRotation = 0
+452:       pTmpPage.PageScale = 1
+453:       Set pClone = pFeature.Shape
+454:       Set pTmpPage.PageShape = pClone.Clone
       'Track the rotation and scale values (if we are going to use them) to the end
       'of the name, so we can assign them to the page when it is added without having
       'to query the index layer again.
-      If chkOptions(0).Value = 1 And lRotIndex >= 0 Then
-        If Not IsNull(pFeature.Value(lRotIndex)) Then
-          pTmpPage.PageRotation = pFeature.Value(lRotIndex)
-        End If
-      End If
-      If optExtent(2).Value And lScaleIndex >= 0 Then
-        If Not IsNull(pFeature.Value(lScaleIndex)) Then
-          pTmpPage.PageScale = pFeature.Value(lScaleIndex)
-        End If
-      End If
-      If chkSuppress.Value = 1 And lstSuppressTiles.SelCount > 0 Then
-        If FeaturesInTile(pFeature, pMap) Then
-          g_pFrmMapSeries.lstSorter.AddItem sName
-          pTmpColl.Add pTmpPage, sName
-        End If
-      Else
-        g_pFrmMapSeries.lstSorter.AddItem sName
-        pTmpColl.Add pTmpPage, sName
-      End If
-      Set pFeature = pCursor.NextFeature
-    Loop
+458:       If chkOptions(0).Value = 1 And lRotIndex >= 0 Then
+459:         If Not IsNull(pFeature.Value(lRotIndex)) Then
+460:           pTmpPage.PageRotation = pFeature.Value(lRotIndex)
+461:         End If
+462:       End If
+463:       If optExtent(2).Value And lScaleIndex >= 0 Then
+464:         If Not IsNull(pFeature.Value(lScaleIndex)) Then
+465:           pTmpPage.PageScale = pFeature.Value(lScaleIndex)
+466:         End If
+467:       End If
+468:       If chkSuppress.Value = 1 And lstSuppressTiles.SelCount > 0 Then
+469:         If FeaturesInTile(pFeature, pMap) Then
+470:           g_pFrmMapSeries.lstSorter.AddItem sName
+471:           pTmpColl.Add pTmpPage, sName
+472:         End If
+473:       Else
+474:         g_pFrmMapSeries.lstSorter.AddItem sName
+475:         pTmpColl.Add pTmpPage, sName
+476:       End If
+477:       Set pFeature = pCursor.NextFeature
+478:     Loop
     
     'Now loop back through the list and add the tile names as nodes in the tree
-    For lLoop = 0 To g_pFrmMapSeries.lstSorter.ListCount - 1
-      Set pMapPage = New DSMapPage
-      sName = g_pFrmMapSeries.lstSorter.List(lLoop)
-      Set pNode = .Nodes.Add("MapSeries", tvwChild, "a" & sName, lLoop + 1 & " - " & sName, 5)
-      Set pTmpPage = pTmpColl.Item(sName)
-      pNode.Tag = lLoop
-      pMapPage.PageName = sName
-      pMapPage.PageRotation = pTmpPage.PageRotation
-      pMapPage.PageScale = pTmpPage.PageScale
-      Set pMapPage.PageShape = pTmpPage.PageShape
-      pMapPage.LastOutputted = #1/1/1900#
-      pMapPage.EnablePage = True
-      pMapSeries.AddPage pMapPage
-    Next lLoop
-    .Nodes.Item("MapBook").Expanded = True
-    .Nodes.Item("MapSeries").Expanded = True
-  End With
+481:     For lLoop = 0 To g_pFrmMapSeries.lstSorter.ListCount - 1
+482:       Set pMapPage = New DSMapPage
+483:       lPageNumber = lLoop + CLng(txtNumbering.Text)
+484:       sName = g_pFrmMapSeries.lstSorter.List(lLoop)
+485:       Set pNode = .Nodes.Add("MapSeries", tvwChild, "a" & sName, lPageNumber & " - " & sName, 5)
+486:       Set pTmpPage = pTmpColl.Item(sName)
+487:       pNode.Tag = lLoop
+488:       pMapPage.PageName = sName
+489:       pMapPage.PageRotation = pTmpPage.PageRotation
+490:       pMapPage.PageScale = pTmpPage.PageScale
+491:       Set pMapPage.PageShape = pTmpPage.PageShape
+492:       pMapPage.LastOutputted = #1/1/1900#
+493:       pMapPage.EnablePage = True
+494:       pMapPage.PageNumber = lPageNumber
+495:       pMapSeries.AddPage pMapPage
+496:     Next lLoop
+497:     .Nodes.Item("MapBook").Expanded = True
+498:     .Nodes.Item("MapSeries").Expanded = True
+499:   End With
   
   'Add the series to the book
-  pMapBook.AddContent pMapSeries
+502:   pMapBook.AddContent pMapSeries
 
   Exit Sub
 ErrHandler:
-  MsgBox "CreateSeries - most likely you do not have unique names in your index layer!!!"
+506:   MsgBox "CreateSeries - most likely you do not have unique names in your index layer!!!"
 End Sub
 
 Private Sub CheckForSelected()
@@ -880,18 +952,18 @@ On Error GoTo ErrHand:
   Dim pFeatSel As IFeatureSelection
   
   'Make sure there is something to check
-  optTiles(1).Enabled = False
+514:   optTiles(1).Enabled = False
   If m_pIndexLayer Is Nothing Then Exit Sub
   
   'Check for selected features in the index layer
-  Set pFeatSel = m_pIndexLayer
-  If pFeatSel.SelectionSet.count <> 0 Then
-    optTiles(1).Enabled = True
-  End If
+518:   Set pFeatSel = m_pIndexLayer
+519:   If pFeatSel.SelectionSet.count <> 0 Then
+520:     optTiles(1).Enabled = True
+521:   End If
 
   Exit Sub
 ErrHand:
-  MsgBox "CheckForSelected - " & Err.Description
+525:   MsgBox "CheckForSelected - " & Err.Description
 End Sub
 
 Private Sub Form_Load()
@@ -900,117 +972,119 @@ On Error GoTo ErrHand:
   'Get the extension
   If m_pApp Is Nothing Then Exit Sub
     
-  m_bFormLoad = True
-  Set m_pCurrentFrame = Nothing
-  PositionFrame fraPage1
-  cmdNext.Enabled = False
-  cmdBack.Enabled = False
+534:   m_bFormLoad = True
+535:   Set m_pCurrentFrame = Nothing
+536:   PositionFrame fraPage1
+537:   cmdNext.Enabled = False
+538:   cmdBack.Enabled = False
   
   'Initialize variables and controls
-  m_iPage = 1
-  chkOptions(0).Value = 0
-  chkOptions(1).Value = 0
-  chkOptions(2).Value = 0
-  chkSuppress.Value = 0
-  optTiles(0).Value = True
-  optExtent(0).Value = True
-  lstSuppressTiles.Enabled = False
-  cmbRotateField.Enabled = False
-  cmdLabelProps.Enabled = False
-  chkOptions(3).Enabled = False
+541:   m_iPage = 1
+542:   chkOptions(0).Value = 0
+543:   chkOptions(1).Value = 0
+544:   chkOptions(2).Value = 0
+545:   chkOptions(4).Value = 0
+546:   chkSuppress.Value = 0
+547:   optTiles(0).Value = True
+548:   optExtent(0).Value = True
+549:   lstSuppressTiles.Enabled = False
+550:   cmbRotateField.Enabled = False
+551:   cmdLabelProps.Enabled = False
+552:   chkOptions(3).Enabled = False
+553:   txtNumbering.Text = "1"
   
   'Populate the data frame combo
-  Set pDoc = m_pApp.Document
-  cmbIndexField.Clear
-  cmbDetailFrame.Clear
-  For lLoop = 0 To pDoc.Maps.count - 1
-    cmbDetailFrame.AddItem pDoc.Maps.Item(lLoop).Name
-  Next lLoop
-  cmbDetailFrame.ListIndex = 0
-  m_bFormLoad = False
+556:   Set pDoc = m_pApp.Document
+557:   cmbIndexField.Clear
+558:   cmbDetailFrame.Clear
+559:   For lLoop = 0 To pDoc.Maps.count - 1
+560:     cmbDetailFrame.AddItem pDoc.Maps.Item(lLoop).Name
+561:   Next lLoop
+562:   cmbDetailFrame.ListIndex = 0
+563:   m_bFormLoad = False
   
   'Populate the extent options
-  cmbMargin.Clear
-  cmbMargin.AddItem "percent"
-  cmbMargin.AddItem "mapunits"
-  cmbMargin.Text = "percent"
-  txtMargin.Text = "0"
+566:   cmbMargin.Clear
+567:   cmbMargin.AddItem "percent"
+568:   cmbMargin.AddItem "mapunits"
+569:   cmbMargin.Text = "percent"
+570:   txtMargin.Text = "0"
   
   'Set the initial Label symbol
-  Set pDoc = m_pApp.Document
-  Set m_pTextSym = New TextSymbol
-  m_pTextSym.Font = pDoc.DefaultTextFont
-  m_pTextSym.Size = pDoc.DefaultTextFontSize.Size
+573:   Set pDoc = m_pApp.Document
+574:   Set m_pTextSym = New TextSymbol
+575:   m_pTextSym.Font = pDoc.DefaultTextFont
+576:   m_pTextSym.Size = pDoc.DefaultTextFontSize.Size
   
   'Make sure the wizard stays on top
-  TopMost Me
+579:   TopMost Me
 
   Exit Sub
   
 ErrHand:
-  MsgBox "frmMapSheetWiz Load - " & Err.Description
+584:   MsgBox "frmMapSheetWiz Load - " & Err.Description
   Exit Sub
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
-  Set m_pApp = Nothing
-  Set m_pCurrentFrame = Nothing
-  Set m_pMap = Nothing
-  Set m_pIndexLayer = Nothing
+589:   Set m_pApp = Nothing
+590:   Set m_pCurrentFrame = Nothing
+591:   Set m_pMap = Nothing
+592:   Set m_pIndexLayer = Nothing
 End Sub
 
 Private Sub optExtent_Click(Index As Integer)
 On Error GoTo ErrHand:
   Select Case Index
   Case 0  'Variable
-    txtMargin.Enabled = True
-    cmbMargin.Enabled = True
-    txtFixed.Enabled = False
-    cmbDataDriven.Enabled = False
-    If txtMargin.Text = "" Then
-      cmdNext.Enabled = False
-    Else
-      cmdNext.Enabled = True
-    End If
+599:     txtMargin.Enabled = True
+600:     cmbMargin.Enabled = True
+601:     txtFixed.Enabled = False
+602:     cmbDataDriven.Enabled = False
+603:     If txtMargin.Text = "" Then
+604:       cmdNext.Enabled = False
+605:     Else
+606:       cmdNext.Enabled = True
+607:     End If
   Case 1  'Fixed
-    txtMargin.Enabled = False
-    cmbMargin.Enabled = False
-    txtFixed.Enabled = True
-    cmbDataDriven.Enabled = False
-    If txtFixed.Text = "" Then
-      cmdNext.Enabled = False
-    Else
-      cmdNext.Enabled = True
-    End If
+609:     txtMargin.Enabled = False
+610:     cmbMargin.Enabled = False
+611:     txtFixed.Enabled = True
+612:     cmbDataDriven.Enabled = False
+613:     If txtFixed.Text = "" Then
+614:       cmdNext.Enabled = False
+615:     Else
+616:       cmdNext.Enabled = True
+617:     End If
   Case 2  'Data driven
-    txtMargin.Enabled = False
-    cmbMargin.Enabled = False
-    txtFixed.Enabled = False
-    cmbDataDriven.Enabled = True
-    cmdNext.Enabled = True
-  End Select
+619:     txtMargin.Enabled = False
+620:     cmbMargin.Enabled = False
+621:     txtFixed.Enabled = False
+622:     cmbDataDriven.Enabled = True
+623:     cmdNext.Enabled = True
+624:   End Select
 
   Exit Sub
 ErrHand:
-  MsgBox "optExtent_Click - " & Err.Description
+628:   MsgBox "optExtent_Click - " & Err.Description
 End Sub
 
 Private Sub txtFixed_KeyUp(KeyCode As Integer, Shift As Integer)
-  If Not IsNumeric(txtFixed.Text) Then
-    txtFixed.Text = ""
-  End If
-  If txtFixed.Text <> "" Then
-    cmdNext.Enabled = True
-  End If
+632:   If Not IsNumeric(txtFixed.Text) Then
+633:     txtFixed.Text = ""
+634:   End If
+635:   If txtFixed.Text <> "" Then
+636:     cmdNext.Enabled = True
+637:   End If
 End Sub
 
 Private Sub txtMargin_KeyUp(KeyCode As Integer, Shift As Integer)
-  If Not IsNumeric(txtMargin.Text) Then
-    txtMargin.Text = ""
-  End If
-  If txtMargin.Text <> "" Then
-    cmdNext.Enabled = True
-  End If
+641:   If Not IsNumeric(txtMargin.Text) Then
+642:     txtMargin.Text = ""
+643:   End If
+644:   If txtMargin.Text <> "" Then
+645:     cmdNext.Enabled = True
+646:   End If
 End Sub
 
 Private Function FeaturesInTile(pFeature As IFeature, pMap As IMap) As Boolean
@@ -1021,28 +1095,35 @@ On Error GoTo ErrHand:
   Dim lLoop As Long, pFeatLayer As IFeatureLayer, pSpatial As ISpatialFilter
   Dim pFeatCursor As IFeatureCursor, pSearchFeat As IFeature
   
-  FeaturesInTile = False
+657:   FeaturesInTile = False
   
-  Set pSpatial = New SpatialFilter
-  pSpatial.SpatialRel = esriSpatialRelIntersects
-  Set pSpatial.Geometry = pFeature.Shape
-  For lLoop = 0 To lstSuppressTiles.ListCount - 1
-    If lstSuppressTiles.Selected(lLoop) Then
-      Set pFeatLayer = FindLayer(lstSuppressTiles.List(lLoop), pMap)
-      pSpatial.GeometryField = pFeatLayer.FeatureClass.shapeFieldName
-      Set pFeatCursor = pFeatLayer.Search(pSpatial, True)
-      Set pSearchFeat = pFeatCursor.NextFeature
-      If Not pSearchFeat Is Nothing Then
-        FeaturesInTile = True
+659:   Set pSpatial = New SpatialFilter
+660:   pSpatial.SpatialRel = esriSpatialRelIntersects
+661:   Set pSpatial.Geometry = pFeature.Shape
+662:   For lLoop = 0 To lstSuppressTiles.ListCount - 1
+663:     If lstSuppressTiles.Selected(lLoop) Then
+664:       Set pFeatLayer = FindLayer(lstSuppressTiles.List(lLoop), pMap)
+665:       pSpatial.GeometryField = pFeatLayer.FeatureClass.shapeFieldName
+666:       Set pFeatCursor = pFeatLayer.Search(pSpatial, True)
+667:       Set pSearchFeat = pFeatCursor.NextFeature
+668:       If Not pSearchFeat Is Nothing Then
+669:         FeaturesInTile = True
         Exit Function
-      End If
-    End If
-  Next lLoop
+671:       End If
+672:     End If
+673:   Next lLoop
 
   Exit Function
   
 ErrHand:
-  MsgBox "FeaturesInTile - " & Err.Description
+678:   MsgBox "FeaturesInTile - " & Err.Description
 End Function
 
-
+Private Sub txtNumbering_KeyUp(KeyCode As Integer, Shift As Integer)
+682:   If Not IsNumeric(txtNumbering.Text) Then
+683:     txtNumbering.Text = "1"
+'  ElseIf CInt(txtNumbering.Text) < 0 Then
+'    MsgBox "Can not use a number less than 0!!!"
+'    txtNumbering.Text = "1"
+687:   End If
+End Sub

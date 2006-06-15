@@ -11,6 +11,34 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
+
+' Copyright 1995-2004 ESRI
+
+' All rights reserved under the copyright laws of the United States.
+
+' You may freely redistribute and use this sample code, with or without modification.
+
+' Disclaimer: THE SAMPLE CODE IS PROVIDED "AS IS" AND ANY EXPRESS OR IMPLIED
+' WARRANTIES, INCLUDING THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+' FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL ESRI OR
+' CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY,
+' OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+' SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+' INTERRUPTION) SUSTAINED BY YOU OR A THIRD PARTY, HOWEVER CAUSED AND ON ANY
+' THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT ARISING IN ANY
+' WAY OUT OF THE USE OF THIS SAMPLE CODE, EVEN IF ADVISED OF THE POSSIBILITY OF
+' SUCH DAMAGE.
+
+' For additional information contact: Environmental Systems Research Institute, Inc.
+
+' Attn: Contracts Dept.
+
+' 380 New York Street
+
+' Redlands, California, U.S.A. 92373
+
+' Email: contracts@esri.com
+
 Option Explicit
 
 Implements IDSMapPage
@@ -23,17 +51,18 @@ Dim m_dPageRotation As Double
 Dim m_dPageScale As Double
 Dim m_dLastOutputted As Date
 Dim m_pPageShape As IPolygon
+Dim m_lPageNumber As Long
 
 Private Sub Class_Initialize()
-  Set m_PageItemColl = New Collection
+44:   Set m_PageItemColl = New Collection
 End Sub
 
 Private Sub Class_Terminate()
-  Set m_PageItemColl = Nothing
+48:   Set m_PageItemColl = Nothing
 End Sub
 
-Private Sub IDSMapPage_AddPageItem(ByVal PageItem As esriCore.IElement)
-  m_PageItemColl.Add PageItem
+Private Sub IDSMapPage_AddPageItem(ByVal PageItem As IElement)
+52:   m_PageItemColl.Add PageItem
 End Sub
 
 Private Sub IDSMapPage_DrawPage(pDoc As IMxDocument, pDSMapSeries As IDSMapSeries, bRefreshFlag As Boolean)
@@ -43,65 +72,66 @@ On Error GoTo ErrHand:
   Dim pGraphicsCont As IGraphicsContainer, pTempColl As Collection, pElemProps As IElementProperties
   Dim pTextSym As ISimpleTextSymbol, pClone As IClone, pSeriesOpts2 As IDSMapSeriesOptions2
   Dim pSeriesProps As IDSMapSeriesProps, pSeriesOpts As IDSMapSeriesOptions
-  Set pSeriesProps = pDSMapSeries
+  Dim pSeriesOpts3 As IDSMapSeriesOptions3
+63:   Set pSeriesProps = pDSMapSeries
   
   'Find the data frame
-  Set pMap = FindDataFrame(pDoc, pSeriesProps.DataFrameName)
-  If pMap Is Nothing Then
-    MsgBox "Could not find map in DrawPage routine!!!"
+66:   Set pMap = FindDataFrame(pDoc, pSeriesProps.DataFrameName)
+67:   If pMap Is Nothing Then
+68:     MsgBox "Could not find map in DrawPage routine!!!"
     Exit Sub
-  End If
+70:   End If
   
   'Find the Index layer
-  For lLoop = 0 To pMap.LayerCount - 1
-    If TypeOf pMap.Layer(lLoop) Is ICompositeLayer Then
-      Set pFeatLayer = CompositeLayer1(pMap.Layer(lLoop), pSeriesProps.IndexLayerName)
-      If Not pFeatLayer Is Nothing Then Exit For
-    Else
-      If pMap.Layer(lLoop).Name = pSeriesProps.IndexLayerName Then
-        Set pFeatLayer = pMap.Layer(lLoop)
-        Exit For
-      End If
-    End If
-  Next lLoop
-  If pFeatLayer Is Nothing Then
-    MsgBox "Could not find index layer in DrawPage routine!!!"
+73:   For lLoop = 0 To pMap.LayerCount - 1
+74:     If TypeOf pMap.Layer(lLoop) Is ICompositeLayer Then
+75:       Set pFeatLayer = CompositeLayer1(pMap.Layer(lLoop), pSeriesProps.IndexLayerName)
+76:       If Not pFeatLayer Is Nothing Then Exit For
+77:     Else
+78:       If pMap.Layer(lLoop).Name = pSeriesProps.IndexLayerName Then
+79:         Set pFeatLayer = pMap.Layer(lLoop)
+80:         Exit For
+81:       End If
+82:     End If
+83:   Next lLoop
+84:   If pFeatLayer Is Nothing Then
+85:     MsgBox "Could not find index layer in DrawPage routine!!!"
     Exit Sub
-  End If
+87:   End If
   
   'Switch to the Layout view if we are not already there
-  If Not TypeOf pDoc.ActiveView Is IPageLayout Then
-    Set pDoc.ActiveView = pDoc.PageLayout
-  End If
+90:   If Not TypeOf pDoc.ActiveView Is IPageLayout Then
+91:     Set pDoc.ActiveView = pDoc.PageLayout
+92:   End If
   
   'Remove any previous neighbor labels.
-  Set pGraphicsCont = pDoc.ActiveView
-  pGraphicsCont.Reset
-  Set pTempColl = New Collection
-  Set pElemProps = pGraphicsCont.Next
-  Do While Not pElemProps Is Nothing
-    If pElemProps.Name = "DSMAPBOOK TEXT" Then
-      pTempColl.Add pElemProps
-    End If
-    Set pElemProps = pGraphicsCont.Next
-  Loop
-  For lLoop = 1 To pTempColl.Count
-    pGraphicsCont.DeleteElement pTempColl.Item(lLoop)
-  Next lLoop
-  Set pTempColl = Nothing
+95:   Set pGraphicsCont = pDoc.ActiveView
+96:   pGraphicsCont.Reset
+97:   Set pTempColl = New Collection
+98:   Set pElemProps = pGraphicsCont.Next
+99:   Do While Not pElemProps Is Nothing
+100:     If pElemProps.Name = "DSMAPBOOK TEXT" Then
+101:       pTempColl.Add pElemProps
+102:     End If
+103:     Set pElemProps = pGraphicsCont.Next
+104:   Loop
+105:   For lLoop = 1 To pTempColl.Count
+106:     pGraphicsCont.DeleteElement pTempColl.Item(lLoop)
+107:   Next lLoop
+108:   Set pTempColl = Nothing
   
   'Rotate the frame if necessary
-  Set pActive = pMap
-  Set pSeriesOpts = pSeriesProps
-  Set pSeriesOpts2 = pSeriesOpts
-  If pSeriesOpts.RotateFrame Then
+111:   Set pActive = pMap
+112:   Set pSeriesOpts = pSeriesProps
+113:   Set pSeriesOpts2 = pSeriesOpts
+114:   If pSeriesOpts.RotateFrame Then
 '    If m_dPageRotation > 0 Then
-      pActive.ScreenDisplay.DisplayTransformation.Rotation = m_dPageRotation
+116:       pActive.ScreenDisplay.DisplayTransformation.Rotation = m_dPageRotation
 '    End If
-  End If
+118:   End If
   
   'Set the extent and possibly the scale for the map
-  SetMapExtent pSeriesOpts, pActive
+121:   SetMapExtent pSeriesOpts, pActive
     
   'Set the clip property
   'Updated 6/18/03 to support cross hatching of area outside the clip
@@ -109,220 +139,302 @@ On Error GoTo ErrHand:
   Case 0   'No clipping
 '    pMap.ClipGeometry = Nothing
   Case 1   'Clipping only
-    pMap.ClipGeometry = m_pPageShape
+129:     pMap.ClipGeometry = m_pPageShape
   Case 2   'clipping with cross hatching of area outside the clip
-'    pMap.ClipGeometry = Nothing
-    CreateClipElement pDoc, pActive, pFeatLayer
-  End Select
+131:     pMap.ClipGeometry = Nothing
+132:     CreateClipElement pDoc, pActive, pFeatLayer
+133:   End Select
   
   'Check for indicator maps and update those also
-  RefreshIndicators pDoc, pSeriesProps, bRefreshFlag
+136:   RefreshIndicators pDoc, pSeriesProps, bRefreshFlag
   
   'Check for Date and Title elements
-  UpdateTaggedElements pDoc, m_sPageName, bRefreshFlag, pDSMapSeries
+139:   UpdateTaggedElements pDoc, m_sPageName, bRefreshFlag, pDSMapSeries
   
   'Label neighboring tiles if necessary
-  If pSeriesOpts.LabelNeighbors Then
-    Set pClone = pSeriesOpts.LabelSymbol
-    Set pTextSym = pClone.Clone
-    lIndex = pFeatLayer.FeatureClass.FindField(pSeriesProps.IndexFieldName)
-    If lIndex >= 0 Then
-      LabelNeighbors pDoc, pFeatLayer, pTextSym, lIndex, pSeriesProps.DataFrameName
-    End If
-  End If
+142:   If pSeriesOpts.LabelNeighbors Then
+143:     Set pClone = pSeriesOpts.LabelSymbol
+144:     Set pTextSym = pClone.Clone
+145:     lIndex = pFeatLayer.FeatureClass.FindField(pSeriesProps.IndexFieldName)
+146:     If lIndex >= 0 Then
+147:       LabelNeighbors pDoc, pFeatLayer, pTextSym, lIndex, pSeriesProps.DataFrameName
+148:     End If
+149:   End If
   
-  If bRefreshFlag Then
-    pDoc.ActiveView.Refresh
-  End If
+   '--------------------------------
+  ' DetailExtension:
+  '
+  ' Update detail maps by executing "Create maps" button.
+  ' Added 6/17/2004 to support inset creation from a separate tool.
+  '
+  Dim pDocument As IDocument
+  Dim pUID As IUID
+  Dim pCommandItem As ICommandItem
+  Dim pCommand As ICommand, bFlag As Boolean
+  
+162:   Set pUID = New UID
+163:   bFlag = False
+On Error GoTo NoDetails:
+165:   pUID.Value = "DetailAreaExt.CreateDetailsCmd"
+On Error GoTo ErrHand:
+   
+168:    If Not bFlag Then
+169:     Set pDocument = pDoc
+170:     Set pCommandItem = pDocument.CommandBars.Find(pUID)
+171:     If Not pCommandItem Is Nothing Then
+172:       If TypeOf pCommandItem Is ICommand Then
+173:         Set pCommand = pCommandItem
+174:         If pCommand.Enabled Then
+175:           pCommandItem.Execute
+176:         End If
+177:       End If
+178:     End If
+179:   End If
+  
+  '  End of DetailExtension additions
+  '-------------------------------
+  
+  'Select the tile if this option is selected - Added 11/23/2004 by LY
+  Dim pFeatSel As IFeatureSelection, pQuery As IQueryFilter
+186:   Set pSeriesOpts3 = pDSMapSeries
+187:   If pSeriesOpts3.SelectTile Then
+188:     Set pQuery = New QueryFilter
+189:     pQuery.WhereClause = pSeriesProps.IndexFieldName & " = '" & m_sPageName & "'"
+190:     Set pFeatSel = pFeatLayer
+191:     pFeatSel.SelectFeatures pQuery, esriSelectionResultNew, True
+192:   End If
+  '-------------------------------------------------------------------------
+  
+195:   If bRefreshFlag Then
+196:     pDoc.ActiveView.Refresh
+197:   End If
 
   Exit Sub
+  
+NoDetails:
+202:   bFlag = True
+203:   Resume Next
+  
 ErrHand:
-  MsgBox "IDSMapPage_DrawPage - " & Err.Description
+206:   MsgBox "IDSMapPage_DrawPage - " & Erl & " - " & Err.Description
 End Sub
 
-Private Function IDSMapPage_IndexPage(pIndexLayer As esriCore.IFeatureLayer, sFieldName As String) As Collection
+Private Function IDSMapPage_IndexPage(pIndexLayer As IFeatureLayer, sFieldName As String) As Collection
 On Error GoTo ErrHand:
   Dim pFilter As ISpatialFilter, pIndex As Collection, lFieldIndex As Long
   Dim pCursor As IFeatureCursor, pFeat As IFeature, sValue As String, lLoop As Long
   
   'Check for a valid index layer
-  Set IDSMapPage_IndexPage = Nothing
-  If pIndexLayer Is Nothing Then
-    MsgBox "You did not send a valid index layer to the IndexPage function!!"
+215:   Set IDSMapPage_IndexPage = Nothing
+216:   If pIndexLayer Is Nothing Then
+217:     MsgBox "You did not send a valid index layer to the IndexPage function!!"
     Exit Function
-  End If
+219:   End If
   
   'Check for a valid field name
-  If sFieldName = "" Or sFieldName = " " Then
-    MsgBox "You did not send a valid field name to the IndexPage function!!"
+222:   If sFieldName = "" Or sFieldName = " " Then
+223:     MsgBox "You did not send a valid field name to the IndexPage function!!"
     Exit Function
-  End If
+225:   End If
   
   'Check for field name in the layer
-  lFieldIndex = pIndexLayer.FeatureClass.FindField(sFieldName)
-  If lFieldIndex < 0 Then
-    MsgBox "Could not find field name in the index layer of the IndexPage function!!"
+228:   lFieldIndex = pIndexLayer.FeatureClass.FindField(sFieldName)
+229:   If lFieldIndex < 0 Then
+230:     MsgBox "Could not find field name in the index layer of the IndexPage function!!"
     Exit Function
-  End If
+232:   End If
   
   'Perform the query of the index layer using the page shape
-  Set pFilter = New SpatialFilter
-  pFilter.AddField sFieldName
-  pFilter.WhereClause = sFieldName & " <> '' and " & sFieldName & " <> ' '"
-  Set pFilter.Geometry = m_pPageShape
-  pFilter.GeometryField = pIndexLayer.FeatureClass.ShapeFieldName
-  pFilter.SpatialRel = esriSpatialRelIntersects
-  Set pCursor = pIndexLayer.Search(pFilter, True)
+235:   Set pFilter = New SpatialFilter
+236:   pFilter.AddField sFieldName
+237:   pFilter.WhereClause = sFieldName & " <> '' and " & sFieldName & " <> ' '"
+238:   Set pFilter.Geometry = m_pPageShape
+239:   pFilter.GeometryField = pIndexLayer.FeatureClass.ShapeFieldName
+240:   pFilter.SpatialRel = esriSpatialRelIntersects
+241:   Set pCursor = pIndexLayer.Search(pFilter, True)
   
   'Populate the collection with the results of the query
-  Set pIndex = New Collection
-  Set pFeat = pCursor.NextFeature
-  Do While Not pFeat Is Nothing
-    sValue = pFeat.Value(lFieldIndex)
-    If pIndex.Count > 0 Then
-      For lLoop = 1 To pIndex.Count
-        If sValue < pIndex.Item(lLoop) Then
-          pIndex.Add sValue, sValue, lLoop
-          Exit For
-        ElseIf sValue = pIndex.Item(lLoop) Then
-          Exit For
-        End If
-        If lLoop = pIndex.Count Then
-          pIndex.Add sValue, sValue
-        End If
-      Next lLoop
-    Else
-      pIndex.Add sValue, sValue
-    End If
+244:   Set pIndex = New Collection
+245:   Set pFeat = pCursor.NextFeature
+246:   Do While Not pFeat Is Nothing
+247:     sValue = pFeat.Value(lFieldIndex)
+248:     If pIndex.Count > 0 Then
+249:       For lLoop = 1 To pIndex.Count
+250:         If sValue < pIndex.Item(lLoop) Then
+251:           pIndex.Add sValue, sValue, lLoop
+252:           Exit For
+253:         ElseIf sValue = pIndex.Item(lLoop) Then
+254:           Exit For
+255:         End If
+256:         If lLoop = pIndex.Count Then
+257:           pIndex.Add sValue, sValue
+258:         End If
+259:       Next lLoop
+260:     Else
+261:       pIndex.Add sValue, sValue
+262:     End If
     
-    Set pFeat = pCursor.NextFeature
-  Loop
+264:     Set pFeat = pCursor.NextFeature
+265:   Loop
   
-  Set IDSMapPage_IndexPage = pIndex
+267:   Set IDSMapPage_IndexPage = pIndex
 
   Exit Function
   
 ErrHand:
-  MsgBox "IDSMapPage_IndexPage - " & Err.Description
+272:   MsgBox "IDSMapPage_IndexPage - " & Err.Description
 End Function
 
 Private Property Let IDSMapPage_LastOutputted(RHS As Date)
- m_dLastOutputted = RHS
+276:  m_dLastOutputted = RHS
 End Property
 
 Private Property Get IDSMapPage_LastOutputted() As Date
-  IDSMapPage_LastOutputted = m_dLastOutputted
+280:   IDSMapPage_LastOutputted = m_dLastOutputted
 End Property
 
-Private Property Get IDSMapPage_PageItem(Index As Long) As esriCore.IElement
-  If Index > -1 And Index < m_PageItemColl.Count Then
-    Set IDSMapPage_PageItem = m_PageItemColl.Item(Index + 1)
-  Else
-    Set IDSMapPage_PageItem = Nothing
-  End If
+Private Property Get IDSMapPage_PageItem(Index As Long) As IElement
+284:   If Index > -1 And Index < m_PageItemColl.Count Then
+285:     Set IDSMapPage_PageItem = m_PageItemColl.Item(Index + 1)
+286:   Else
+287:     Set IDSMapPage_PageItem = Nothing
+288:   End If
 End Property
 
 Private Property Get IDSMapPage_PageItemCount() As Long
-  IDSMapPage_PageItemCount = m_PageItemColl.Count
+292:   IDSMapPage_PageItemCount = m_PageItemColl.Count
 End Property
 
 Private Property Let IDSMapPage_PageName(RHS As String)
-  m_sPageName = RHS
+296:   m_sPageName = RHS
 End Property
 
 Private Property Get IDSMapPage_PageName() As String
-  IDSMapPage_PageName = m_sPageName
+300:   IDSMapPage_PageName = m_sPageName
 End Property
 
 Private Property Let IDSMapPage_EnablePage(RHS As Boolean)
-  m_bPrintPage = RHS
+304:   m_bPrintPage = RHS
 End Property
 
 Private Property Get IDSMapPage_EnablePage() As Boolean
-  IDSMapPage_EnablePage = m_bPrintPage
+308:   IDSMapPage_EnablePage = m_bPrintPage
+End Property
+
+Private Property Let IDSMapPage_PageNumber(RHS As Long)
+312:   m_lPageNumber = RHS
+End Property
+
+Private Property Get IDSMapPage_PageNumber() As Long
+316:   IDSMapPage_PageNumber = m_lPageNumber
 End Property
 
 Private Property Let IDSMapPage_PageRotation(RHS As Double)
-  m_dPageRotation = RHS
+320:   m_dPageRotation = RHS
 End Property
 
 Private Property Get IDSMapPage_PageRotation() As Double
-  IDSMapPage_PageRotation = m_dPageRotation
+324:   IDSMapPage_PageRotation = m_dPageRotation
 End Property
 
 Private Property Let IDSMapPage_PageScale(RHS As Double)
-  m_dPageScale = RHS
+328:   m_dPageScale = RHS
 End Property
 
 Private Property Get IDSMapPage_PageScale() As Double
-  IDSMapPage_PageScale = m_dPageScale
+332:   IDSMapPage_PageScale = m_dPageScale
 End Property
 
-Private Property Set IDSMapPage_PageShape(RHS As esriCore.IPolygon)
-  Set m_pPageShape = RHS
+Private Property Set IDSMapPage_PageShape(RHS As IPolygon)
+336:   Set m_pPageShape = RHS
 End Property
 
-Private Property Get IDSMapPage_PageShape() As esriCore.IPolygon
-  Set IDSMapPage_PageShape = m_pPageShape
+Private Property Get IDSMapPage_PageShape() As IPolygon
+340:   Set IDSMapPage_PageShape = m_pPageShape
 End Property
 
 Private Sub IDSMapPage_RemovePageItem(Index As Long)
-  If Index > -1 And Index < m_PageItemColl.Count Then
-    m_PageItemColl.Remove Index + 1
-  End If
+344:   If Index > -1 And Index < m_PageItemColl.Count Then
+345:     m_PageItemColl.Remove Index + 1
+346:   End If
 End Sub
 
-Private Property Get IPersistVariant_ID() As esriCore.IUID
+Private Property Get IPersistVariant_ID() As esriSystem.IUID
   Dim id As New UID
-  id = "DSMapBookPrj.DSMapPage"
-  Set IPersistVariant_ID = id
+351:   id = "DSMapBookPrj.DSMapPage"
+352:   Set IPersistVariant_ID = id
 End Property
 
-Private Sub IPersistVariant_Load(ByVal Stream As esriCore.IVariantStream)
+Private Sub IPersistVariant_Load(ByVal Stream As esriSystem.IVariantStream)
 'Load the persisted parameters of the renderer
 On Error GoTo ErrHand:
-  Dim lLoop As Long, lCount As Long, pElem As IElement
+  Dim lLoop As Long, lCount As Long, pElem As IElement, sFirstItem As String
+  Dim lPropCount As Long
+  
+  'Added 2/18/04 to make the list of persisted properties more dynamic
+362:   sFirstItem = Stream.Read
+363:   If UCase(Left(sFirstItem, 18)) = "PAGEPROPERTYCOUNT-" Then
+364:     lPropCount = Mid(sFirstItem, 19) - 1
+365:     m_sPageName = Stream.Read
+366:   Else
+367:     lPropCount = 5
+368:     m_sPageName = sFirstItem
+369:   End If
     
-  m_sPageName = Stream.Read
-  m_bPrintPage = Stream.Read
-  m_dPageRotation = Stream.Read
-  m_dPageScale = Stream.Read
-  m_dLastOutputted = Stream.Read
-  Set m_pPageShape = Stream.Read
-  lCount = Stream.Read
-  If lCount > 0 Then
-    For lLoop = 1 To lCount
-      Set pElem = Stream.Read
-      m_PageItemColl.Add pElem
-    Next lLoop
-  End If
+  'Original page properties
+372:   m_bPrintPage = Stream.Read
+373:   m_dPageRotation = Stream.Read
+374:   m_dPageScale = Stream.Read
+375:   m_dLastOutputted = Stream.Read
+376:   Set m_pPageShape = Stream.Read
+  
+  'Additional properties added after 2/18/04
+379:   If lPropCount > 5 Then    'Checking for page number
+380:     m_lPageNumber = Stream.Read
+381:   Else
+382:     m_lPageNumber = -1
+383:   End If
+  
+  'More original properties.  Writen out below the new properties because they are of variable length
+386:   lCount = Stream.Read
+387:   If lCount > 0 Then
+388:     For lLoop = 1 To lCount
+389:       Set pElem = Stream.Read
+390:       m_PageItemColl.Add pElem
+391:     Next lLoop
+392:   End If
     
   Exit Sub
 ErrHand:
-  MsgBox "MapPage - IPersistVariant_Load - " & Err.Description
+396:   MsgBox "MapPage - IPersistVariant_Load - " & Erl & " - " & Err.Description
 End Sub
 
-Private Sub IPersistVariant_Save(ByVal Stream As esriCore.IVariantStream)
+Private Sub IPersistVariant_Save(ByVal Stream As esriSystem.IVariantStream)
 'Write it all out
 On Error GoTo ErrHand:
   Dim lLoop As Long
+  
+  'Added 2/18/04 to make the list of persisted properties more dynamic
+405:   Stream.Write "PAGEPROPERTYCOUNT-7"
     
-  Stream.Write m_sPageName
-  Stream.Write m_bPrintPage
-  Stream.Write m_dPageRotation
-  Stream.Write m_dPageScale
-  Stream.Write m_dLastOutputted
-  Stream.Write m_pPageShape
-  Stream.Write m_PageItemColl.Count
-  If m_PageItemColl.Count > 0 Then
-    For lLoop = 1 To m_PageItemColl.Count
-      Stream.Write m_PageItemColl.Item(lLoop)
-    Next lLoop
-  End If
+407:   Stream.Write m_sPageName
+408:   Stream.Write m_bPrintPage
+409:   Stream.Write m_dPageRotation
+410:   Stream.Write m_dPageScale
+411:   Stream.Write m_dLastOutputted
+412:   Stream.Write m_pPageShape
+413:   Stream.Write m_lPageNumber   'Added 2/18/04
+  
+415:   Stream.Write m_PageItemColl.Count
+416:   If m_PageItemColl.Count > 0 Then
+417:     For lLoop = 1 To m_PageItemColl.Count
+418:       Stream.Write m_PageItemColl.Item(lLoop)
+419:     Next lLoop
+420:   End If
     
   Exit Sub
 ErrHand:
-  MsgBox "MapPage - IPersistVariant_Save - " & Err.Description
+424:   MsgBox "MapPage - IPersistVariant_Save - " & Err.Description
 End Sub
 
 Private Sub LabelNeighbors(pDoc As IMxDocument, pFLayer As IFeatureLayer, pTextSym As ISimpleTextSymbol, _
@@ -333,29 +445,29 @@ On Error GoTo ErrHand:
   Dim pGraphSel As IGraphicsContainerSelect
   Dim pSpatial As ISpatialFilter, pFeatCursor As IFeatureCursor
   Dim pFeats As IFeature, pActive As IActiveView, sText As String
-  Set pMap = pDoc.FocusMap
-  Set pActive = pDoc.ActiveView
+435:   Set pMap = pDoc.FocusMap
+436:   Set pActive = pDoc.ActiveView
   
-  Set pSpatial = New SpatialFilter
-  Set pSpatial.Geometry = m_pPageShape
-  pSpatial.GeometryField = pFLayer.FeatureClass.ShapeFieldName
-  pSpatial.SpatialRel = esriSpatialRelTouches
-  Set pFeatCursor = pFLayer.Search(pSpatial, False)
-  Set pFeats = pFeatCursor.NextFeature
-  Do While Not pFeats Is Nothing
+438:   Set pSpatial = New SpatialFilter
+439:   Set pSpatial.Geometry = m_pPageShape
+440:   pSpatial.GeometryField = pFLayer.FeatureClass.ShapeFieldName
+441:   pSpatial.SpatialRel = esriSpatialRelTouches
+442:   Set pFeatCursor = pFLayer.Search(pSpatial, False)
+443:   Set pFeats = pFeatCursor.NextFeature
+444:   Do While Not pFeats Is Nothing
     'If there is a value for the selected adjacent tile, then get it and label the feature
-    If Not IsNull(pFeats.Value(lIndex)) Then
-      sText = pFeats.Value(lIndex)
-      LabelAdjacent pFeats, pMap, pActive, pTextSym, sText, sFrameName
-    End If
-    Set pFeats = pFeatCursor.NextFeature
-  Loop
-  Set pGraphSel = pActive
-  pGraphSel.UnselectAllElements
+446:     If Not IsNull(pFeats.Value(lIndex)) Then
+447:       sText = pFeats.Value(lIndex)
+448:       LabelAdjacent pFeats, pMap, pActive, pTextSym, sText, sFrameName
+449:     End If
+450:     Set pFeats = pFeatCursor.NextFeature
+451:   Loop
+452:   Set pGraphSel = pActive
+453:   pGraphSel.UnselectAllElements
 
   Exit Sub
 ErrHand:
-  MsgBox "LabelNeighbors - " & Err.Description
+457:   MsgBox "LabelNeighbors - " & Err.Description
 End Sub
 
 Sub LabelAdjacent(pLabelFeat As IFeature, pMap As IMap, pActive As IActiveView, pTextSym As ITextSymbol, _
@@ -381,144 +493,144 @@ On Error GoTo ErrHand:
   Dim pPoints As IPointCollection, pPoints2 As IPointCollection, dAngle As Double
   Dim pIntPoints As IPointCollection, pIntTopo As ITopologicalOperator
 
-  Set pTopoOp = m_pPageShape
-  Set pCommonGeom = pTopoOp.Intersect(pLabelFeat.Shape, esriGeometry1Dimension)
-  If pCommonGeom.IsEmpty Then
-    Set pCommonGeom = pTopoOp.Intersect(pLabelFeat.Shape, esriGeometry0Dimension)
-    Set pMulti = pCommonGeom
-    Set pMidPt = pMulti.Point(0)
-  Else
-    Set pPolyLine = pCommonGeom
-    Set pMidPt = New Point
-    pPolyLine.QueryPoint esriNoExtension, 0.5, True, pMidPt
-  End If
+483:   Set pTopoOp = m_pPageShape
+484:   Set pCommonGeom = pTopoOp.Intersect(pLabelFeat.Shape, esriGeometry1Dimension)
+485:   If pCommonGeom.IsEmpty Then
+486:     Set pCommonGeom = pTopoOp.Intersect(pLabelFeat.Shape, esriGeometry0Dimension)
+487:     Set pMulti = pCommonGeom
+488:     Set pMidPt = pMulti.Point(0)
+489:   Else
+490:     Set pPolyLine = pCommonGeom
+491:     Set pMidPt = New esriGeometry.Point
+492:     pPolyLine.QueryPoint esriNoExtension, 0.5, True, pMidPt
+493:   End If
     
   'Find center point of map frame
-  Set pCenterPt = New esriCore.Point
-  Set pMapView = pMap
-  Set pEnv = pMapView.Extent
-  pCenterPt.X = pEnv.XMin + ((pEnv.XMax - pEnv.XMin) / 2)
-  pCenterPt.Y = pEnv.YMin + ((pEnv.YMax - pEnv.YMin) / 2)
+496:   Set pCenterPt = New esriGeometry.Point
+497:   Set pMapView = pMap
+498:   Set pEnv = pMapView.Extent
+499:   pCenterPt.X = pEnv.XMin + ((pEnv.XMax - pEnv.XMin) / 2)
+500:   pCenterPt.Y = pEnv.YMin + ((pEnv.YMax - pEnv.YMin) / 2)
 
   'Get the geometry of the map frame
-  Set pGraph = pActive
-  pGraph.Reset
-  Set pElem = pGraph.Next
-  Do While Not pElem Is Nothing
-    If TypeOf pElem Is IMapFrame Then
-      Set pTmpFrame = pElem
-      If pTmpFrame.Map.Name = sFrameName Then
-        Set pMapFrame = pElem
-        Exit Do
-      End If
-    End If
-    Set pElem = pGraph.Next
-  Loop
+503:   Set pGraph = pActive
+504:   pGraph.Reset
+505:   Set pElem = pGraph.Next
+506:   Do While Not pElem Is Nothing
+507:     If TypeOf pElem Is IMapFrame Then
+508:       Set pTmpFrame = pElem
+509:       If pTmpFrame.Map.Name = sFrameName Then
+510:         Set pMapFrame = pElem
+511:         Exit Do
+512:       End If
+513:     End If
+514:     Set pElem = pGraph.Next
+515:   Loop
   If pMapFrame Is Nothing Then Exit Sub
   
-  Set pMapEnv = pMapFrame.MapBounds
-  Set pFramePoly = pElem.Geometry
+518:   Set pMapEnv = pMapFrame.MapBounds
+519:   Set pFramePoly = pElem.Geometry
   
   'Create curves and intersect them
-  Set pPoints = New Polyline
-  pPoints.AddPoint pMapEnv.LowerLeft
-  pPoints.AddPoint pMapEnv.LowerRight
-  pPoints.AddPoint pMapEnv.UpperRight
-  pPoints.AddPoint pMapEnv.UpperLeft
-  pPoints.AddPoint pMapEnv.LowerLeft
+522:   Set pPoints = New Polyline
+523:   pPoints.AddPoint pMapEnv.LowerLeft
+524:   pPoints.AddPoint pMapEnv.LowerRight
+525:   pPoints.AddPoint pMapEnv.UpperRight
+526:   pPoints.AddPoint pMapEnv.UpperLeft
+527:   pPoints.AddPoint pMapEnv.LowerLeft
   
-  Set pPoints2 = RotatedAndExtendedLine(pCenterPt, pMidPt)
+529:   Set pPoints2 = RotatedAndExtendedLine(pCenterPt, pMidPt)
   'If for some reason nothing is returned, go with a rotation of 0
   If pPoints2 Is Nothing Then Exit Sub
-  Set pPolyline2 = pPoints2
+532:   Set pPolyline2 = pPoints2
   If pPolyline2.IsEmpty Then Exit Sub
     
   'Find the intersection point of the line we created and the map extent boundary
-  Set pIntTopo = pPoints2
-  Set pIntPoints = pIntTopo.Intersect(pPoints, esriGeometry0Dimension)
+536:   Set pIntTopo = pPoints2
+537:   Set pIntPoints = pIntTopo.Intersect(pPoints, esriGeometry0Dimension)
   If pIntPoints.PointCount = 0 Then Exit Sub
   
-  Set pEndPt = pIntPoints.Point(0)
+540:   Set pEndPt = pIntPoints.Point(0)
   
   'Extrapolate the point on the extent to a point on the outside of the map frame
   'Figure out which segment we are closest to
-  Set pProx = pEndPt
-  dDist = 999999
-  iSeg = -1
-  For lLoop = 0 To 3
-    Set pLine = New esriCore.Line
+544:   Set pProx = pEndPt
+545:   dDist = 999999
+546:   iSeg = -1
+547:   For lLoop = 0 To 3
+548:     Set pLine = New esriGeometry.Line
     Select Case lLoop
     Case 0
-      pLine.PutCoords pMapEnv.LowerLeft, pMapEnv.UpperLeft
+551:       pLine.PutCoords pMapEnv.LowerLeft, pMapEnv.UpperLeft
     Case 1
-      pLine.PutCoords pMapEnv.UpperLeft, pMapEnv.UpperRight
+553:       pLine.PutCoords pMapEnv.UpperLeft, pMapEnv.UpperRight
     Case 2
-      pLine.PutCoords pMapEnv.UpperRight, pMapEnv.LowerRight
+555:       pLine.PutCoords pMapEnv.UpperRight, pMapEnv.LowerRight
     Case Else
-      pLine.PutCoords pMapEnv.LowerRight, pMapEnv.LowerLeft
-    End Select
+557:       pLine.PutCoords pMapEnv.LowerRight, pMapEnv.LowerLeft
+558:     End Select
     
-    dTmpDist = pProx.ReturnDistance(pLine)
-    If dTmpDist < dDist Then
-      dDist = dTmpDist
-      iSeg = lLoop
-      Set pCurve2 = pLine
-    End If
-  Next lLoop
-  Set pOutPt = New esriCore.Point
-  pCurve2.QueryPointAndDistance esriNoExtension, pEndPt, True, pOutPt, dAlong, dFrom, bSide
+560:     dTmpDist = pProx.ReturnDistance(pLine)
+561:     If dTmpDist < dDist Then
+562:       dDist = dTmpDist
+563:       iSeg = lLoop
+564:       Set pCurve2 = pLine
+565:     End If
+566:   Next lLoop
+567:   Set pOutPt = New esriGeometry.Point
+568:   pCurve2.QueryPointAndDistance esriNoExtension, pEndPt, True, pOutPt, dAlong, dFrom, bSide
   
   'We know have the segment and ratio length on that segment, so we can transfer that
   'information to the frame geometry and find the corresponding point there
-  Set pPt = New esriCore.Point
-  Set pLine = New esriCore.Line
+572:   Set pPt = New esriGeometry.Point
+573:   Set pLine = New esriGeometry.Line
   Select Case iSeg
   Case 0
-    pLine.PutCoords pFramePoly.Point(0), pFramePoly.Point(1)
-    pTextSym.HorizontalAlignment = esriTHACenter
-    pTextSym.VerticalAlignment = esriTVABottom
+576:     pLine.PutCoords pFramePoly.Point(0), pFramePoly.Point(1)
+577:     pTextSym.HorizontalAlignment = esriTHACenter
+578:     pTextSym.VerticalAlignment = esriTVABottom
   Case 1
-    pLine.PutCoords pFramePoly.Point(1), pFramePoly.Point(2)
-    pTextSym.HorizontalAlignment = esriTHACenter
-    pTextSym.VerticalAlignment = esriTVABottom
+580:     pLine.PutCoords pFramePoly.Point(1), pFramePoly.Point(2)
+581:     pTextSym.HorizontalAlignment = esriTHACenter
+582:     pTextSym.VerticalAlignment = esriTVABottom
   Case 2
-    pLine.PutCoords pFramePoly.Point(2), pFramePoly.Point(3)
-    pTextSym.HorizontalAlignment = esriTHACenter
-    pTextSym.VerticalAlignment = esriTVABottom
+584:     pLine.PutCoords pFramePoly.Point(2), pFramePoly.Point(3)
+585:     pTextSym.HorizontalAlignment = esriTHACenter
+586:     pTextSym.VerticalAlignment = esriTVABottom
   Case 3
-    pLine.PutCoords pFramePoly.Point(3), pFramePoly.Point(0)
-    pTextSym.HorizontalAlignment = esriTHACenter
-    pTextSym.VerticalAlignment = esriTVATop
-  End Select
-  pPt.ConstructAlong pLine, esriNoExtension, dAlong, True
-  Set pNewPt = pPt
+588:     pLine.PutCoords pFramePoly.Point(3), pFramePoly.Point(0)
+589:     pTextSym.HorizontalAlignment = esriTHACenter
+590:     pTextSym.VerticalAlignment = esriTVATop
+591:   End Select
+592:   pPt.ConstructAlong pLine, esriNoExtension, dAlong, True
+593:   Set pNewPt = pPt
   
   'Now that we have a point along the data frame, we can place the label based on
   'that point and which side of the frame it is on
-  Set pTextElem = New TextElement
-  Set pElem = pTextElem
-  pTextElem.Symbol = pTextSym
-  pElem.Geometry = pNewPt
-  Set pElemProps = pElem
-  pElemProps.Name = "DSMAPBOOK TEXT"
-  pTextElem.Text = sText
-  Set pTrans2D = pTextElem
+597:   Set pTextElem = New TextElement
+598:   Set pElem = pTextElem
+599:   pTextElem.Symbol = pTextSym
+600:   pElem.Geometry = pNewPt
+601:   Set pElemProps = pElem
+602:   pElemProps.Name = "DSMAPBOOK TEXT"
+603:   pTextElem.Text = sText
+604:   Set pTrans2D = pTextElem
   Select Case iSeg
   Case 0
-    dAngle = 90 * (3.14159265358979 / 180)
+607:     dAngle = 90 * (3.14159265358979 / 180)
   Case 1
-    dAngle = 0
+609:     dAngle = 0
   Case 2
-    dAngle = 270 * (3.14159265358979 / 180)
+611:     dAngle = 270 * (3.14159265358979 / 180)
   Case 3
-    dAngle = 0
-  End Select
-  pTrans2D.Rotate pNewPt, dAngle
-  pGraph.AddElement pElem, 0
+613:     dAngle = 0
+614:   End Select
+615:   pTrans2D.Rotate pNewPt, dAngle
+616:   pGraph.AddElement pElem, 0
   
   Exit Sub
 ErrHand:
-  MsgBox "LabelAdjacent - " & Err.Description
+620:   MsgBox "LabelAdjacent - " & Err.Description
 End Sub
 
 Private Function RotatedAndExtendedLine(pCenterPt As IPoint, pMidPt As IPoint) As IPolyline
@@ -528,46 +640,46 @@ On Error GoTo ErrHand:
   Dim pNewPoints As IPointCollection, pNewPoint As IConstructPoint, dA As Double
   
   'Create a line so we can get the current angle and distance
-  Set pLine = New esriCore.Line
-  pLine.PutCoords pCenterPt, pMidPt
-  dLength = pLine.Length
+630:   Set pLine = New esriGeometry.Line
+631:   pLine.PutCoords pCenterPt, pMidPt
+632:   dLength = pLine.Length
   
-  If m_dPageRotation = 0 Then
+634:   If m_dPageRotation = 0 Then
     'Create another point at the same angle to make sure our line crosses the extent boundary
-    Set pNewPt = New esriCore.Point
-    pNewPt.ConstructAngleDistance pMidPt, pLine.Angle, dLength * 100
-    Set pPoints = New Polyline
-    pPoints.AddPoint pCenterPt
-    pPoints.AddPoint pMidPt
-    pPoints.AddPoint pNewPt
-    Set RotatedAndExtendedLine = pPoints
+636:     Set pNewPt = New esriGeometry.Point
+637:     pNewPt.ConstructAngleDistance pMidPt, pLine.Angle, dLength * 100
+638:     Set pPoints = New Polyline
+639:     pPoints.AddPoint pCenterPt
+640:     pPoints.AddPoint pMidPt
+641:     pPoints.AddPoint pNewPt
+642:     Set RotatedAndExtendedLine = pPoints
     Exit Function
-  End If
+644:   End If
   
   'If the page is rotated, then we have to rotate the labeling of adjacent tiles also
-  dOrigAngle = pLine.Angle * (180 / 3.14159265358979)
-  dA = dOrigAngle
-  If dOrigAngle < 0 Then
-    dOrigAngle = 360 - Abs(dOrigAngle)
-  End If
-  dNewAngle = dOrigAngle + m_dPageRotation
-  If dNewAngle >= 360 Then
-    dNewAngle = dNewAngle - 360
-  End If
-  dRadAngle = dNewAngle * (3.14159265358979 / 180)
+647:   dOrigAngle = pLine.Angle * (180 / 3.14159265358979)
+648:   dA = dOrigAngle
+649:   If dOrigAngle < 0 Then
+650:     dOrigAngle = 360 - Abs(dOrigAngle)
+651:   End If
+652:   dNewAngle = dOrigAngle + m_dPageRotation
+653:   If dNewAngle >= 360 Then
+654:     dNewAngle = dNewAngle - 360
+655:   End If
+656:   dRadAngle = dNewAngle * (3.14159265358979 / 180)
   
-  'Make a new line at the rotated angle we just calculated.  The new line is made shorter than the original
+  'Make a new esrigeometry.line at the rotated angle we just calculated.  The new esrigeometry.line is made shorter than the original
   'to ensure the line does not extend past the map bounds we need to intersect it with in the next stage
-  Set pNewPoint = New esriCore.Point
-  Set pNewPoints = New Polyline
-  pNewPoint.ConstructAngleDistance pCenterPt, dRadAngle, dLength * 100
-  pNewPoints.AddPoint pCenterPt
-  pNewPoints.AddPoint pNewPoint
-  Set RotatedAndExtendedLine = pNewPoints
+660:   Set pNewPoint = New esriGeometry.Point
+661:   Set pNewPoints = New Polyline
+662:   pNewPoint.ConstructAngleDistance pCenterPt, dRadAngle, dLength * 100
+663:   pNewPoints.AddPoint pCenterPt
+664:   pNewPoints.AddPoint pNewPoint
+665:   Set RotatedAndExtendedLine = pNewPoints
   
   Exit Function
 ErrHand:
-  MsgBox "RotatedLine - " & Err.Description
+669:   MsgBox "RotatedLine - " & Err.Description
 End Function
 
 Private Sub RefreshIndicators(pDoc As IMxDocument, pSeriesProps As IDSMapSeriesProps, bRefreshFlag As Boolean)
@@ -576,61 +688,63 @@ On Error GoTo ErrHand:
   Dim pGridLayer As IFeatureLayer, pGridSel As IFeatureSelection
   Dim lLoop As Long, pActive As IActiveView, pSpatial As ISpatialFilter
   Dim pFeature As IFeature, pCursor As IFeatureCursor, pEnv As IEnvelope
-  Dim pQuery As IQueryFilter, lLoop2 As Long, pMap As IMap
+  Dim pQuery As IQueryFilter, lLoop2 As Long, pMap As IMap, pSelEvents As ISelectionEvents
 
   'Check for indicator maps and update those also
-  For lLoop = 0 To pDoc.Maps.Count - 1
-    If pDoc.Maps.Item(lLoop).Name = "Global Indicator" Or pDoc.Maps.Item(lLoop).Name = "Local Indicator" Then
-      Set pMap = pDoc.Maps.Item(lLoop)
+681:   For lLoop = 0 To pDoc.Maps.Count - 1
+682:     If pDoc.Maps.Item(lLoop).Name = "Global Indicator" Or pDoc.Maps.Item(lLoop).Name = "Local Indicator" Then
+683:       Set pMap = pDoc.Maps.Item(lLoop)
       'Find the Index layer
-      For lLoop2 = 0 To pMap.LayerCount - 1
-        If pMap.Layer(lLoop2).Name = "Identifier Layer" Then
-          Set pGridLayer = pMap.Layer(lLoop2)
-          Exit For
-        End If
-      Next lLoop2
-      If pGridLayer Is Nothing Then
-        MsgBox "Could not find layer called Identifier Layer, can not redraw " & pMap.Name & " frame!!!"
+685:       For lLoop2 = 0 To pMap.LayerCount - 1
+686:         If pMap.Layer(lLoop2).Name = "Identifier Layer" Then
+687:           Set pGridLayer = pMap.Layer(lLoop2)
+688:           Exit For
+689:         End If
+690:       Next lLoop2
+691:       If pGridLayer Is Nothing Then
+692:         MsgBox "Could not find layer called Identifier Layer, can not redraw " & pMap.Name & " frame!!!"
         Exit Sub
-      End If
+694:       End If
       
 '      Set pGridLayer = pDoc.Maps.Item(lLoop).Layer(0)
-      Set pGridSel = pGridLayer
-      Set pQuery = New QueryFilter
-      pQuery.WhereClause = pSeriesProps.IndexFieldName & " = '" & m_sPageName & "'"
-      pGridSel.Clear
-      pGridSel.SelectFeatures pQuery, esriSelectionResultNew, True
+697:       Set pGridSel = pGridLayer
+698:       Set pQuery = New QueryFilter
+699:       pQuery.WhereClause = pSeriesProps.IndexFieldName & " = '" & m_sPageName & "'"
+700:       pGridSel.Clear
+701:       pGridSel.SelectFeatures pQuery, esriSelectionResultNew, True
         
-      If pMap.Name = "Global Indicator" Then
-        Set pActive = pDoc.Maps.Item(lLoop)
-        If bRefreshFlag Then pActive.Refresh
-      ElseIf pMap.Name = "Local Indicator" Then
-        Set pSpatial = New SpatialFilter
-        Set pSpatial.Geometry = m_pPageShape
-        pSpatial.GeometryField = pGridLayer.FeatureClass.ShapeFieldName
-        pSpatial.SpatialRel = esriSpatialRelIntersects
-        Set pCursor = pGridLayer.Search(pSpatial, False)
-        Set pFeature = pCursor.NextFeature
-        Do While Not pFeature Is Nothing
-          If pEnv Is Nothing Then
-            Set pEnv = pFeature.Shape.Envelope
-          Else
-            pEnv.Union pFeature.Shape.Envelope
-          End If
-          Set pFeature = pCursor.NextFeature
-        Loop
-        Set pActive = pMap
-        pActive.Extent = pEnv
-        If bRefreshFlag Then pActive.Refresh
-      End If
+703:       If pMap.Name = "Global Indicator" Then
+704:         Set pActive = pDoc.Maps.Item(lLoop)
+705:         If bRefreshFlag Then pActive.Refresh
+706:       ElseIf pMap.Name = "Local Indicator" Then
+707:         Set pSpatial = New SpatialFilter
+708:         Set pSpatial.Geometry = m_pPageShape
+709:         pSpatial.GeometryField = pGridLayer.FeatureClass.ShapeFieldName
+710:         pSpatial.SpatialRel = esriSpatialRelIntersects
+711:         Set pCursor = pGridLayer.Search(pSpatial, False)
+712:         Set pFeature = pCursor.NextFeature
+713:         Do While Not pFeature Is Nothing
+714:           If pEnv Is Nothing Then
+715:             Set pEnv = pFeature.Shape.Envelope
+716:           Else
+717:             pEnv.Union pFeature.Shape.Envelope
+718:           End If
+719:           Set pFeature = pCursor.NextFeature
+720:         Loop
+721:         Set pActive = pMap
+722:         pActive.Extent = pEnv
+723:         If bRefreshFlag Then pActive.Refresh
+724:       End If
+725:       Set pSelEvents = pMap
+726:       pSelEvents.SelectionChanged
       
-      Set pGridLayer = Nothing
-    End If
-  Next lLoop
+728:       Set pGridLayer = Nothing
+729:     End If
+730:   Next lLoop
 
   Exit Sub
 ErrHand:
-  MsgBox "RefreshIndicators - " & Err.Description
+734:   MsgBox "RefreshIndicators - " & Err.Description
 End Sub
 
 Private Sub UpdateTaggedElements(pDoc As IMxDocument, sTileName As String, bRefreshFlag As Boolean, _
@@ -640,43 +754,45 @@ On Error GoTo ErrHand:
   Dim pGraphicsCont As IGraphicsContainer, pElemProps As IElementProperties
   Dim pTextElement As ITextElement, pActive As IActiveView, pElem As IElement
   Dim pEnv As IEnvelope, pEnv2 As IEnvelope, sText As String, bUpdate As Boolean
-  Set pGraphicsCont = pDoc.PageLayout
-  Set pActive = pGraphicsCont
-  pGraphicsCont.Reset
-  Set pElemProps = pGraphicsCont.Next
-  Do While Not pElemProps Is Nothing
-    If TypeOf pElemProps Is ITextElement Then
-      bUpdate = True
+744:   Set pGraphicsCont = pDoc.PageLayout
+745:   Set pActive = pGraphicsCont
+746:   pGraphicsCont.Reset
+747:   Set pElemProps = pGraphicsCont.Next
+748:   Do While Not pElemProps Is Nothing
+749:     If TypeOf pElemProps Is ITextElement Then
+750:       bUpdate = True
       Select Case pElemProps.Name
       Case "DSMAPBOOK - DATE"
-        sText = Format(Date, "mmm dd, yyyy")
+753:         sText = Format(Date, "mmm dd, yyyy")
       Case "DSMAPBOOK - TITLE"
-        sText = sTileName
+755:         sText = sTileName
+      Case "DSMAPBOOK - PAGENUMBER"
+757:         sText = CStr(m_lPageNumber)
       Case "DSMAPBOOK - EXTRAITEM"
-        sText = GetExtraItemValue(pDoc, sTileName, pElemProps.Type, pDSMapSeries)
+759:         sText = GetExtraItemValue(pDoc, sTileName, pElemProps.Type, pDSMapSeries)
       Case Else
-        bUpdate = False
-      End Select
+761:         bUpdate = False
+762:       End Select
       
-      If bUpdate Then
-        Set pElem = pElemProps
-        Set pEnv = New Envelope
-        pElem.QueryBounds pActive.ScreenDisplay, pEnv
-        Set pTextElement = pElemProps
-        pTextElement.Text = sText
-        pGraphicsCont.UpdateElement pTextElement
-        Set pEnv2 = New Envelope
-        pElem.QueryBounds pActive.ScreenDisplay, pEnv2
-        pEnv.Union pEnv2
-        If bRefreshFlag Then pActive.PartialRefresh esriViewGraphics, Nothing, pEnv
-      End If
-    End If
-    Set pElemProps = pGraphicsCont.Next
-  Loop
+764:       If bUpdate Then
+765:         Set pElem = pElemProps
+766:         Set pEnv = New Envelope
+767:         pElem.QueryBounds pActive.ScreenDisplay, pEnv
+768:         Set pTextElement = pElemProps
+769:         pTextElement.Text = sText
+770:         pGraphicsCont.UpdateElement pTextElement
+771:         Set pEnv2 = New Envelope
+772:         pElem.QueryBounds pActive.ScreenDisplay, pEnv2
+773:         pEnv.Union pEnv2
+774:         If bRefreshFlag Then pActive.PartialRefresh esriViewGraphics, Nothing, pEnv
+775:       End If
+776:     End If
+777:     Set pElemProps = pGraphicsCont.Next
+778:   Loop
 
   Exit Sub
 ErrHand:
-  MsgBox "UpdateTaggedElements - " & Erl & " - " & Err.Description
+782:   MsgBox "UpdateTaggedElements - " & Erl & " - " & Err.Description
 End Sub
 
 Private Function GetExtraItemValue(pDoc As IMxDocument, sTileName As String, sFieldName As String, _
@@ -686,58 +802,58 @@ On Error GoTo ErrHand:
   Dim pFeat As IFeature, lIndex As Long, pMap As IMap, lIndex2 As Long
   
   'Find the data frame
-  Set pMap = FindDataFrame(pDoc, pSeriesProps.DataFrameName)
-  If pMap Is Nothing Then
-    MsgBox "Could not find map in GetExtraItem routine!!!"
-    GetExtraItemValue = "missing"
+792:   Set pMap = FindDataFrame(pDoc, pSeriesProps.DataFrameName)
+793:   If pMap Is Nothing Then
+794:     MsgBox "Could not find map in GetExtraItem routine!!!"
+795:     GetExtraItemValue = "missing"
     Exit Function
-  End If
+797:   End If
   
   'Find the Index layer
-  Set pIndexLayer = FindLayer(pSeriesProps.IndexLayerName, pMap)
-  If pIndexLayer Is Nothing Then
-    MsgBox "Could not find index layer (" & pSeriesProps.IndexLayerName & ") in GetExtraItemValue routine!!!"
-    GetExtraItemValue = "missing"
+800:   Set pIndexLayer = FindLayer(pSeriesProps.IndexLayerName, pMap)
+801:   If pIndexLayer Is Nothing Then
+802:     MsgBox "Could not find index layer (" & pSeriesProps.IndexLayerName & ") in GetExtraItemValue routine!!!"
+803:     GetExtraItemValue = "missing"
     Exit Function
-  End If
+805:   End If
   
   'Find the field in the index layer
-  lIndex = pIndexLayer.FeatureClass.FindField(sFieldName)
-  If lIndex < 0 Then
-    MsgBox "Could not find the field (" & sFieldName & ") you tagged the item with in the index layer!!!"
-    GetExtraItemValue = "missing"
+808:   lIndex = pIndexLayer.FeatureClass.FindField(sFieldName)
+809:   If lIndex < 0 Then
+810:     MsgBox "Could not find the field (" & sFieldName & ") you tagged the item with in the index layer!!!"
+811:     GetExtraItemValue = "missing"
     Exit Function
-  End If
+813:   End If
   
   'Find the tile name field in the index layer
-  lIndex2 = pIndexLayer.FeatureClass.FindField(pSeriesProps.IndexFieldName)
-  If lIndex2 < 0 Then
-    MsgBox "Could not find tile name field (" & pSeriesProps.IndexFieldName & ") in the index layer!!!"
-    GetExtraItemValue = "missing"
+816:   lIndex2 = pIndexLayer.FeatureClass.FindField(pSeriesProps.IndexFieldName)
+817:   If lIndex2 < 0 Then
+818:     MsgBox "Could not find tile name field (" & pSeriesProps.IndexFieldName & ") in the index layer!!!"
+819:     GetExtraItemValue = "missing"
     Exit Function
-  End If
+821:   End If
   
   'Create the query object then select the appropriate tile from the index layer
-  Set pQuery = New QueryFilter
-  pQuery.WhereClause = pSeriesProps.IndexFieldName & " = '" & sTileName & "'"
-  Set pFCursor = pIndexLayer.Search(pQuery, False)
-  Set pFeat = pFCursor.NextFeature
-  If pFeat Is Nothing Then
-    MsgBox "Could not select the tile from the index layer to tag with Extra Item!!!"
-    GetExtraItemValue = "missing"
+824:   Set pQuery = New QueryFilter
+825:   pQuery.WhereClause = pSeriesProps.IndexFieldName & " = '" & sTileName & "'"
+826:   Set pFCursor = pIndexLayer.Search(pQuery, False)
+827:   Set pFeat = pFCursor.NextFeature
+828:   If pFeat Is Nothing Then
+829:     MsgBox "Could not select the tile from the index layer to tag with Extra Item!!!"
+830:     GetExtraItemValue = "missing"
     Exit Function
-  End If
+832:   End If
   
   'Send back the value of the field
-  If IsNull(pFeat.Value(lIndex)) Then
-    GetExtraItemValue = " "
-  Else
-    GetExtraItemValue = pFeat.Value(lIndex)
-  End If
+835:   If IsNull(pFeat.Value(lIndex)) Then
+836:     GetExtraItemValue = " "
+837:   Else
+838:     GetExtraItemValue = pFeat.Value(lIndex)
+839:   End If
 
   Exit Function
 ErrHand:
-  MsgBox "GetExtraItemValue - " & Erl & " - " & Err.Description
+843:   MsgBox "GetExtraItemValue - " & Erl & " - " & Err.Description
 End Function
 
 Private Sub CreateClipElement(pDoc As IMxDocument, pActive As IActiveView, _
@@ -751,55 +867,55 @@ On Error GoTo ErrHand:
   
   'Search for an existing clip element and delete it when found
 '  Set pGraphs = pDoc.FocusMap
-  Set pGraphs = pActive
-  pGraphs.Reset
-  Set pElemProps = pGraphs.Next
-  Do While Not pElemProps Is Nothing
-    If TypeOf pElemProps Is IPolygonElement Then
-      If UCase(pElemProps.Name) = "DSMAPBOOK CLIP ELEMENT" Then
-        pGraphs.DeleteElement pElemProps
-        Exit Do
-      End If
-    End If
-    Set pElemProps = pGraphs.Next
-  Loop
+857:   Set pGraphs = pActive
+858:   pGraphs.Reset
+859:   Set pElemProps = pGraphs.Next
+860:   Do While Not pElemProps Is Nothing
+861:     If TypeOf pElemProps Is IPolygonElement Then
+862:       If UCase(pElemProps.Name) = "DSMAPBOOK CLIP ELEMENT" Then
+863:         pGraphs.DeleteElement pElemProps
+864:         Exit Do
+865:       End If
+866:     End If
+867:     Set pElemProps = pGraphs.Next
+868:   Loop
   
-  Set pElem = New PolygonElement
-  Set pPoly = m_pPageShape
-  Set pNewElem = New PolygonElement
-  Set pNewPoly = New Polygon
-  pNewPoly.AddPoint pFeatLayer.AreaOfInterest.LowerLeft
-  pNewPoly.AddPoint pFeatLayer.AreaOfInterest.UpperLeft
-  pNewPoly.AddPoint pFeatLayer.AreaOfInterest.UpperRight
-  pNewPoly.AddPoint pFeatLayer.AreaOfInterest.LowerRight
-  Set pPoly2 = pNewPoly
-  pPoly2.Close
+870:   Set pElem = New PolygonElement
+871:   Set pPoly = m_pPageShape
+872:   Set pNewElem = New PolygonElement
+873:   Set pNewPoly = New Polygon
+874:   pNewPoly.AddPoint pFeatLayer.AreaOfInterest.LowerLeft
+875:   pNewPoly.AddPoint pFeatLayer.AreaOfInterest.UpperLeft
+876:   pNewPoly.AddPoint pFeatLayer.AreaOfInterest.UpperRight
+877:   pNewPoly.AddPoint pFeatLayer.AreaOfInterest.LowerRight
+878:   Set pPoly2 = pNewPoly
+879:   pPoly2.Close
   
   Dim pLineSym As ISimpleLineSymbol, pLineFillSym As ILineFillSymbol
   Dim pFillShape As IFillShapeElement, pColor As IGrayColor
-  Set pColor = New GrayColor
-  pColor.Level = 150
-  Set pLineSym = New SimpleLineSymbol
-  pLineSym.Color = pColor
-  Set pLineFillSym = New LineFillSymbol
-  pLineFillSym.Angle = 45
-  pLineFillSym.Color = pColor
-  pLineFillSym.Outline = pLineSym
-  Set pLineFillSym.LineSymbol = pLineSym
-  pLineFillSym.Separation = 5
+883:   Set pColor = New GrayColor
+884:   pColor.Level = 150
+885:   Set pLineSym = New SimpleLineSymbol
+886:   pLineSym.Color = pColor
+887:   Set pLineFillSym = New LineFillSymbol
+888:   pLineFillSym.Angle = 45
+889:   pLineFillSym.Color = pColor
+890:   pLineFillSym.Outline = pLineSym
+891:   Set pLineFillSym.LineSymbol = pLineSym
+892:   pLineFillSym.Separation = 5
   
-  Set pTopoOp = pPoly2
-  Set pFinalGeom = pTopoOp.Difference(pPoly)
-  pNewElem.Geometry = pFinalGeom
-  Set pFillShape = pNewElem
-  pFillShape.Symbol = pLineFillSym
-  Set pElemProps = pFillShape
-  pElemProps.Name = "DSMapBook Clip Element"
-  pGraphs.AddElement pNewElem, 0
+894:   Set pTopoOp = pPoly2
+895:   Set pFinalGeom = pTopoOp.Difference(pPoly)
+896:   pNewElem.Geometry = pFinalGeom
+897:   Set pFillShape = pNewElem
+898:   pFillShape.Symbol = pLineFillSym
+899:   Set pElemProps = pFillShape
+900:   pElemProps.Name = "DSMapBook Clip Element"
+901:   pGraphs.AddElement pNewElem, 0
 
   Exit Sub
 ErrHand:
-  MsgBox "CreateClipElement - " & Erl & " - " & Err.Description
+905:   MsgBox "CreateClipElement - " & Erl & " - " & Err.Description
 End Sub
 
 Private Sub SetMapExtent(pSeriesOpts As IDSMapSeriesOptions, pActiveView As IActiveView)
@@ -807,33 +923,33 @@ On Error GoTo ErrHand:
 'Routine for calculating the extent of the tile to be displayed in the layout
   Dim dMult As Double, pEnv As IEnvelope, pMap As IMap
   
-  Set pMap = pActiveView
+913:   Set pMap = pActiveView
   Select Case pSeriesOpts.ExtentType
   Case 0  'Variable
-    If pSeriesOpts.Margin > 0 Then
-      Set pEnv = m_pPageShape.Envelope
+916:     If pSeriesOpts.Margin > 0 Then
+917:       Set pEnv = m_pPageShape.Envelope
       Select Case pSeriesOpts.MarginType
       Case 0  'Percent
-        dMult = 1 + (pSeriesOpts.Margin / 100)
-        pEnv.Expand dMult, dMult, True
+920:         dMult = 1 + (pSeriesOpts.Margin / 100)
+921:         pEnv.Expand dMult, dMult, True
       Case 1  'mapunits
-        pEnv.Expand pSeriesOpts.Margin, pSeriesOpts.Margin, False
-      End Select
-      pActiveView.Extent = pEnv
-    Else
-      pActiveView.Extent = m_pPageShape.Envelope
-    End If
+923:         pEnv.Expand pSeriesOpts.Margin, pSeriesOpts.Margin, False
+924:       End Select
+925:       pActiveView.Extent = pEnv
+926:     Else
+927:       pActiveView.Extent = m_pPageShape.Envelope
+928:     End If
   Case 1  'Fixed
-    pActiveView.Extent = m_pPageShape.Envelope
-    pMap.MapScale = pSeriesOpts.FixedScale
+930:     pActiveView.Extent = m_pPageShape.Envelope
+931:     pMap.MapScale = pSeriesOpts.FixedScale
   Case 2  'DataDriven
-    pActiveView.Extent = m_pPageShape.Envelope
-    pMap.MapScale = m_dPageScale
-  End Select
+933:     pActiveView.Extent = m_pPageShape.Envelope
+934:     pMap.MapScale = m_dPageScale
+935:   End Select
 
   Exit Sub
 ErrHand:
-  MsgBox "SetMapExtent - " & Err.Description
+939:   MsgBox "SetMapExtent - " & Err.Description
 End Sub
 
 Public Function FindDataFrame(pDoc As IMxDocument, sFrameName As String) As IMap
@@ -841,44 +957,44 @@ On Error GoTo ErrHand:
   Dim lLoop As Long, pMap As IMap
   
   'Find the data frame
-  For lLoop = 0 To pDoc.Maps.Count - 1
-    If pDoc.Maps.Item(lLoop).Name = sFrameName Then
-      Set pMap = pDoc.Maps.Item(lLoop)
-      Exit For
-    End If
-  Next lLoop
-  If Not pMap Is Nothing Then
-    Set FindDataFrame = pMap
-  End If
+947:   For lLoop = 0 To pDoc.Maps.Count - 1
+948:     If pDoc.Maps.Item(lLoop).Name = sFrameName Then
+949:       Set pMap = pDoc.Maps.Item(lLoop)
+950:       Exit For
+951:     End If
+952:   Next lLoop
+953:   If Not pMap Is Nothing Then
+954:     Set FindDataFrame = pMap
+955:   End If
 
   Exit Function
 ErrHand:
-  MsgBox "FindDataFrame - " & Err.Description
+959:   MsgBox "FindDataFrame - " & Err.Description
 End Function
 
 Private Function CompositeLayer1(pCompLayer As ICompositeLayer, sIndexName As String) As IFeatureLayer
 On Error GoTo ErrHand:
   Dim lLoop As Long, pFeatLayer As IFeatureLayer
-  For lLoop = 0 To pCompLayer.Count - 1
-    If TypeOf pCompLayer.Layer(lLoop) Is ICompositeLayer Then
-      Set pFeatLayer = CompositeLayer1(pCompLayer.Layer(lLoop), sIndexName)
-      If Not pFeatLayer Is Nothing Then
-        Set CompositeLayer1 = pFeatLayer
+965:   For lLoop = 0 To pCompLayer.Count - 1
+966:     If TypeOf pCompLayer.Layer(lLoop) Is ICompositeLayer Then
+967:       Set pFeatLayer = CompositeLayer1(pCompLayer.Layer(lLoop), sIndexName)
+968:       If Not pFeatLayer Is Nothing Then
+969:         Set CompositeLayer1 = pFeatLayer
         Exit Function
-      End If
-    Else
-      If pCompLayer.Layer(lLoop).Name = sIndexName Then
-        Set CompositeLayer1 = pCompLayer.Layer(lLoop)
+971:       End If
+972:     Else
+973:       If pCompLayer.Layer(lLoop).Name = sIndexName Then
+974:         Set CompositeLayer1 = pCompLayer.Layer(lLoop)
         Exit Function
-      End If
-    End If
-  Next lLoop
+976:       End If
+977:     End If
+978:   Next lLoop
   
-  Set CompositeLayer1 = Nothing
+980:   Set CompositeLayer1 = Nothing
 
   Exit Function
 ErrHand:
-  MsgBox "CompositeLayer - " & Err.Description
+984:   MsgBox "CompositeLayer - " & Err.Description
 End Function
 
 Private Function FindLayer(sLayerName As String, pMap As IMap) As IFeatureLayer
@@ -888,51 +1004,51 @@ On Error GoTo ErrHand:
   Dim lLoop As Integer
   Dim pFLayer As IFeatureLayer
 
-  For lLoop = 0 To pMap.LayerCount - 1
-    If TypeOf pMap.Layer(lLoop) Is ICompositeLayer Then
-      Set pFLayer = FindCompositeLayer(pMap.Layer(lLoop), sLayerName, pMap)
-      If Not pFLayer Is Nothing Then
-        Set FindLayer = pFLayer
+994:   For lLoop = 0 To pMap.LayerCount - 1
+995:     If TypeOf pMap.Layer(lLoop) Is ICompositeLayer Then
+996:       Set pFLayer = FindCompositeLayer(pMap.Layer(lLoop), sLayerName, pMap)
+997:       If Not pFLayer Is Nothing Then
+998:         Set FindLayer = pFLayer
         Exit Function
-      End If
-    ElseIf TypeOf pMap.Layer(lLoop) Is IFeatureLayer Then
-      Set pFLayer = pMap.Layer(lLoop)
-      If UCase(pFLayer.Name) = UCase(sLayerName) Then
-        Set FindLayer = pFLayer
+1000:       End If
+1001:     ElseIf TypeOf pMap.Layer(lLoop) Is IFeatureLayer Then
+1002:       Set pFLayer = pMap.Layer(lLoop)
+1003:       If UCase(pFLayer.Name) = UCase(sLayerName) Then
+1004:         Set FindLayer = pFLayer
         Exit Function
-      End If
-    End If
-  Next lLoop
+1006:       End If
+1007:     End If
+1008:   Next lLoop
   
-  Set FindLayer = Nothing
+1010:   Set FindLayer = Nothing
   
   Exit Function
   
 ErrHand:
-  MsgBox "FindLayer - " & Erl & " - " & Err.Description
+1015:   MsgBox "FindLayer - " & Erl & " - " & Err.Description
 End Function
 
 Private Function FindCompositeLayer(pCompLayer As ICompositeLayer, sLayerName As String, pMap As IMap) As IFeatureLayer
 On Error GoTo ErrHand:
   Dim lLoop As Long, pFeatLayer As IFeatureLayer
-  For lLoop = 0 To pCompLayer.Count - 1
-    If TypeOf pCompLayer.Layer(lLoop) Is ICompositeLayer Then
-      Set pFeatLayer = FindCompositeLayer(pCompLayer.Layer(lLoop), sLayerName, pMap)
-      If Not pFeatLayer Is Nothing Then
-        Set FindCompositeLayer = pFeatLayer
+1021:   For lLoop = 0 To pCompLayer.Count - 1
+1022:     If TypeOf pCompLayer.Layer(lLoop) Is ICompositeLayer Then
+1023:       Set pFeatLayer = FindCompositeLayer(pCompLayer.Layer(lLoop), sLayerName, pMap)
+1024:       If Not pFeatLayer Is Nothing Then
+1025:         Set FindCompositeLayer = pFeatLayer
         Exit Function
-      End If
-    Else
-      If TypeOf pCompLayer.Layer(lLoop) Is IFeatureLayer Then
-        If UCase(pCompLayer.Layer(lLoop).Name) = UCase(sLayerName) Then
-          Set FindCompositeLayer = pCompLayer.Layer(lLoop)
+1027:       End If
+1028:     Else
+1029:       If TypeOf pCompLayer.Layer(lLoop) Is IFeatureLayer Then
+1030:         If UCase(pCompLayer.Layer(lLoop).Name) = UCase(sLayerName) Then
+1031:           Set FindCompositeLayer = pCompLayer.Layer(lLoop)
           Exit Function
-        End If
-      End If
-    End If
-  Next lLoop
+1033:         End If
+1034:       End If
+1035:     End If
+1036:   Next lLoop
 
   Exit Function
 ErrHand:
-  MsgBox "CompositeLayer - " & Erl & " - " & Err.Description
+1040:   MsgBox "CompositeLayer - " & Erl & " - " & Err.Description
 End Function
