@@ -12,32 +12,16 @@ Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
 
-' Copyright 1995-2004 ESRI
-
-' All rights reserved under the copyright laws of the United States.
-
-' You may freely redistribute and use this sample code, with or without modification.
-
-' Disclaimer: THE SAMPLE CODE IS PROVIDED "AS IS" AND ANY EXPRESS OR IMPLIED
-' WARRANTIES, INCLUDING THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
-' FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL ESRI OR
-' CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY,
-' OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
-' SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
-' INTERRUPTION) SUSTAINED BY YOU OR A THIRD PARTY, HOWEVER CAUSED AND ON ANY
-' THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT ARISING IN ANY
-' WAY OUT OF THE USE OF THIS SAMPLE CODE, EVEN IF ADVISED OF THE POSSIBILITY OF
-' SUCH DAMAGE.
-
-' For additional information contact: Environmental Systems Research Institute, Inc.
-
-' Attn: Contracts Dept.
-
-' 380 New York Street
-
-' Redlands, California, U.S.A. 92373
-
-' Email: contracts@esri.com
+' Copyright 2006 ESRI
+' 							  
+' All rights reserved under the copyright laws of the United States
+' and applicable international laws, treaties, and conventions.
+' 
+' You may freely redistribute and use this sample code, with or
+' without modification, provided you include the original copyright
+' notice and use restrictions.
+' 
+' See use restrictions at /arcgis/developerkit/userestrictions.
 
 Option Explicit
 
@@ -247,7 +231,8 @@ On Error GoTo ErrHand:
   'Perform the query of the index layer using the page shape
 235:   Set pFilter = New SpatialFilter
 236:   pFilter.AddField sFieldName
-237:   pFilter.WhereClause = sFieldName & " <> '' and " & sFieldName & " <> ' '"
+237:   pFilter.WhereClause = sFieldName & " is not null"
+'237:   pFilter.WhereClause = sFieldName & " <> '' and " & sFieldName & " <> ' '"
 238:   Set pFilter.Geometry = m_pPageShape
 239:   pFilter.GeometryField = pIndexLayer.FeatureClass.ShapeFieldName
 240:   pFilter.SpatialRel = esriSpatialRelIntersects
@@ -706,8 +691,7 @@ On Error GoTo ErrHand:
         Exit Sub
 694:       End If
       
-      Set pGridLayer = pDoc.Maps.Item(lLoop).Layer(0)
-      
+'      Set pGridLayer = pDoc.Maps.Item(lLoop).Layer(0)
 697:       Set pGridSel = pGridLayer
 698:       Set pQuery = New QueryFilter
 699:       pQuery.WhereClause = pSeriesProps.IndexFieldName & " = '" & m_sPageName & "'"
@@ -716,9 +700,6 @@ On Error GoTo ErrHand:
         
 703:       If pMap.Name = "Global Indicator" Then
 704:         Set pActive = pDoc.Maps.Item(lLoop)
-
-            pActive.ScreenDisplay.DisplayTransformation.Rotation = m_dPageRotation
-            
 705:         If bRefreshFlag Then pActive.Refresh
 706:       ElseIf pMap.Name = "Local Indicator" Then
 707:         Set pSpatial = New SpatialFilter
@@ -736,12 +717,7 @@ On Error GoTo ErrHand:
 719:           Set pFeature = pCursor.NextFeature
 720:         Loop
 721:         Set pActive = pMap
-
-            pActive.ScreenDisplay.DisplayTransformation.Rotation = m_dPageRotation
-            
 722:         pActive.Extent = pEnv
-             pMap.ClearSelection
-
 723:         If bRefreshFlag Then pActive.Refresh
 724:       End If
 725:       Set pSelEvents = pMap
