@@ -1,27 +1,32 @@
-Copyright 1995-2004 ESRI
+--------------------------------------------------------------------------
+Copyright © 2006 ESRI
 
-All rights reserved under the copyright laws of the United States.
+All rights reserved under the copyright laws of the United States and 
+applicable international laws, treaties, and conventions.
 
-You may freely redistribute and use this sample code, with or without modification.
+You may freely redistribute and use this sample code, with or without 
+modification, provided you include the original copyright notice and use 
+restrictions.  
 
-Disclaimer: THE SAMPLE CODE IS PROVIDED "AS IS" AND ANY EXPRESS OR IMPLIED 
+Disclaimer:  THE SAMPLE CODE IS PROVIDED "AS IS" AND ANY EXPRESS OR IMPLIED 
 WARRANTIES, INCLUDING THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS 
-FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL ESRI OR 
-CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, 
-OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF 
-SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS 
-INTERRUPTION) SUSTAINED BY YOU OR A THIRD PARTY, HOWEVER CAUSED AND ON ANY 
-THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT ARISING IN ANY 
-WAY OUT OF THE USE OF THIS SAMPLE CODE, EVEN IF ADVISED OF THE POSSIBILITY OF 
-SUCH DAMAGE.
+FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL ESRI OR 
+CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, 
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, 
+PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; 
+OR BUSINESS INTERRUPTION) SUSTAINED BY YOU OR A THIRD PARTY, HOWEVER CAUSED 
+AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR 
+TORT ARISING IN ANY WAY OUT OF THE USE OF THIS SAMPLE CODE, EVEN IF ADVISED 
+OF THE POSSIBILITY OF SUCH DAMAGE.
 
-For additional information contact: Environmental Systems Research Institute, Inc.
-
-Attn: Contracts Dept.
+For additional information, contact:
+Environmental Systems Research Institute, Inc.
+Attn: Contracts and Legal Services Department
 380 New York Street
-Redlands, California, U.S.A. 92373 
+Redlands, California, 92373
+USA
 
-Email: contracts@esri.com
-
--- http://edn.esri.com/index.cfm?fa=codeExch.sampleDetail&pg=/arcobjects/9.1/Samples/Cartography/Map_Production/DSMapBook/Visual_Basic/clsDSMapBook.htm
-
+email: contracts@esri.com
+--------------------------------------------------------------------------
+Copied verbatim from "../arcgis/developerkit/userestrictions.txt" on a 
+machine with ArcGIS 9.2 Developer's Kit installed.
