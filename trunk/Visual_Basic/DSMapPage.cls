@@ -13,14 +13,14 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
 
 ' Copyright 2006 ESRI
-' 							  
+'
 ' All rights reserved under the copyright laws of the United States
 ' and applicable international laws, treaties, and conventions.
-' 
+'
 ' You may freely redistribute and use this sample code, with or
 ' without modification, provided you include the original copyright
 ' notice and use restrictions.
-' 
+'
 ' See use restrictions at /arcgis/developerkit/userestrictions.
 
 Option Explicit
@@ -729,7 +729,7 @@ On Error GoTo ErrHand:
 
   Exit Sub
 ErrHand:
-734:   MsgBox "RefreshIndicators - " & Err.Description
+734:   MsgBox "RefreshIndicators - " & Erl & " - " & Err.Description
 End Sub
 
 Private Sub UpdateTaggedElements(pDoc As IMxDocument, sTileName As String, bRefreshFlag As Boolean, _

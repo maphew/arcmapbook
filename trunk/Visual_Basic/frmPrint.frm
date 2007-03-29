@@ -341,14 +341,14 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 
 ' Copyright 2006 ESRI
-' 							  
+'
 ' All rights reserved under the copyright laws of the United States
 ' and applicable international laws, treaties, and conventions.
-' 
+'
 ' You may freely redistribute and use this sample code, with or
 ' without modification, provided you include the original copyright
 ' notice and use restrictions.
-' 
+'
 ' See use restrictions at /arcgis/developerkit/userestrictions.
 
 Private m_pMapPage As IDSMapPage
@@ -358,51 +358,51 @@ Private m_pApp As IApplication
 Private m_pExportFrame As IModelessFrame
 
 Private Sub chkPrintToFile_Click()
-36:   If Me.chkPrintToFile.Value = 1 Then
-37:     Me.txtCopies.Text = 1
-38:     Me.fraCopies.Enabled = False
-39:     Me.txtCopies.Enabled = False
-40:     Me.UpDown1.Enabled = False
-41:     Me.lblNumberofCopies.Enabled = False
-42:   Else
-43:     fraCopies.Enabled = True
-44:     Me.txtCopies.Enabled = True
-45:     Me.UpDown1.Enabled = True
-46:     Me.lblNumberofCopies.Enabled = True
-47:   End If
+20:   If Me.chkPrintToFile.value = 1 Then
+21:     Me.txtCopies.Text = 1
+22:     Me.fraCopies.Enabled = False
+23:     Me.txtCopies.Enabled = False
+24:     Me.UpDown1.Enabled = False
+25:     Me.lblNumberofCopies.Enabled = False
+26:   Else
+27:     fraCopies.Enabled = True
+28:     Me.txtCopies.Enabled = True
+29:     Me.UpDown1.Enabled = True
+30:     Me.lblNumberofCopies.Enabled = True
+31:   End If
 End Sub
 
 Private Sub cmdCancel_Click()
-51:     m_pExportFrame.Visible = False
-52:     Unload Me
+35:     m_pExportFrame.Visible = False
+36:     Unload Me
 End Sub
 
 Public Property Let ExportFrame(ByVal pExportFrame As IModelessFrame)
-56:     Set m_pExportFrame = pExportFrame
+40:     Set m_pExportFrame = pExportFrame
 End Property
 
 Public Property Get aDSMapPage() As IDSMapPage
-60:     Set aDSMapPage = m_pMapPage
+44:     Set aDSMapPage = m_pMapPage
 End Property
 
 Public Property Let aDSMapPage(ByVal pMapPage As IDSMapPage)
-64:     Set m_pMapPage = pMapPage
+48:     Set m_pMapPage = pMapPage
 End Property
 
 Public Property Get aDSMapSeries() As IDSMapSeries
-68:     Set aDSMapSeries = m_pMapSeries
+52:     Set aDSMapSeries = m_pMapSeries
 End Property
 
 Public Property Let aDSMapSeries(ByVal pMapSeries As IDSMapSeries)
-72:     Set m_pMapSeries = pMapSeries
+56:     Set m_pMapSeries = pMapSeries
 End Property
 
 Public Property Get aDSMapBook() As IDSMapBook
-76:     Set aDSMapBook = m_pMapBook
+60:     Set aDSMapBook = m_pMapBook
 End Property
 
 Public Property Let aDSMapBook(ByVal pMapBook As IDSMapBook)
-80:     Set m_pMapBook = pMapBook
+64:     Set m_pMapBook = pMapBook
 End Property
 
 Private Sub cmdOK_Click()
@@ -417,57 +417,57 @@ On Error GoTo ErrorHandler
   Dim pPage As IPage
   Dim pMouse As IMouseCursor
   
-95:   Set pMouse = New MouseCursor
-96:   pMouse.SetCursor 2
+79:   Set pMouse = New MouseCursor
+80:   pMouse.SetCursor 2
 
-98:   Set pMxApp = m_pApp
-99:   Set pPrinter = pMxApp.Printer
-100:   Set pMxDoc = m_pApp.Document
-101:   Set pLayout = pMxDoc.PageLayout
-102:   Set pPage = pLayout.Page
+82:   Set pMxApp = m_pApp
+83:   Set pPrinter = pMxApp.Printer
+84:   Set pMxDoc = m_pApp.Document
+85:   Set pLayout = pMxDoc.PageLayout
+86:   Set pPage = pLayout.Page
   
-104:   If Me.chkPrintToFile.Value = 1 Then
+88:   If Me.chkPrintToFile.value = 1 Then
 '    If UCase(pPrinter.FileExtension) = "PS" Then
-106:       Me.dlgPrint.Filter = "Postscript Files (*.ps,*.eps)|*.ps,*.eps"
+90:       Me.dlgPrint.Filter = "Postscript Files (*.ps,*.eps)|*.ps,*.eps"
 '    Else
 '      Me.dlgPrint.Filter = UCase(pPrinter.FileExtension) & " (*." & LCase(pPrinter.FileExtension) & ")" & "|*." & LCase(pPrinter.FileExtension)
 '    End If
     
-111:     Me.dlgPrint.DialogTitle = "Print to File"
+95:     Me.dlgPrint.DialogTitle = "Print to File"
 '    Me.Hide
-113:     m_pExportFrame.Visible = False
-114:     Me.dlgPrint.ShowSave
+97:     m_pExportFrame.Visible = False
+98:     Me.dlgPrint.ShowSave
     
     Dim sFileName As String, sPrefix As String, sExt As String, sSplit() As String
     
-118:     sFileName = Me.dlgPrint.FileName
-119:     If sFileName <> "" Then
-120:       If InStr(1, sFileName, ".", vbTextCompare) > 0 Then
-121:         sSplit = Split(sFileName, ".", , vbTextCompare)
-122:         sPrefix = sSplit(0)
-123:         sExt = sSplit(1)
-124:       Else
-125:         sPrefix = sFileName
-126:         sExt = "ps"
-127:         sFileName = sFileName & ".ps"
-128:       End If
-129:     Else
-130:       MsgBox "Please specify a file name for the page(s)"
+102:     sFileName = Me.dlgPrint.FileName
+103:     If sFileName <> "" Then
+104:       If InStr(1, sFileName, ".", vbTextCompare) > 0 Then
+105:         sSplit = Split(sFileName, ".", , vbTextCompare)
+106:         sPrefix = sSplit(0)
+107:         sExt = sSplit(1)
+108:       Else
+109:         sPrefix = sFileName
+110:         sExt = "ps"
+111:         sFileName = sFileName & ".ps"
+112:       End If
+113:     Else
+114:       MsgBox "Please specify a file name for the page(s)"
 '      Me.Show
-132:       m_pExportFrame.Visible = True
+116:       m_pExportFrame.Visible = True
       Exit Sub
-134:     End If
-135:   End If
+118:     End If
+119:   End If
   
-137:   If Me.optTile.Value = True Then
-138:       pPage.PageToPrinterMapping = esriPageMappingTile
-139:   ElseIf Me.optScale = True Then
-140:       pPage.PageToPrinterMapping = esriPageMappingScale
-141:   ElseIf Me.optProceed.Value = True Then
-142:       pPage.PageToPrinterMapping = esriPageMappingCrop
-143:   End If
+121:   If Me.optTile.value = True Then
+122:       pPage.PageToPrinterMapping = esriPageMappingTile
+123:   ElseIf Me.optScale = True Then
+124:       pPage.PageToPrinterMapping = esriPageMappingScale
+125:   ElseIf Me.optProceed.value = True Then
+126:       pPage.PageToPrinterMapping = esriPageMappingCrop
+127:   End If
   
-145:   pPrinter.Paper.Orientation = pLayout.Page.Orientation
+129:   pPrinter.Paper.Orientation = pLayout.Page.Orientation
   
   Dim rectDeviceBounds As tagRECT
   Dim pVisBounds As IEnvelope
@@ -485,231 +485,231 @@ On Error GoTo ErrorHandler
   Dim numPages As Long
   Dim a As Long
   
-163:   Set PagesToPrint = New Collection
+147:   Set PagesToPrint = New Collection
   
-165:   If Not m_pMapPage Is Nothing Then
-166:       PagesToPrint.Add m_pMapPage
-167:   End If
+149:   If Not m_pMapPage Is Nothing Then
+150:       PagesToPrint.Add m_pMapPage
+151:   End If
   
-169:   If m_pMapPage Is Nothing And m_pMapBook Is Nothing Then
-170:     If Me.optPrintAll.Value = True Then
-171:       For i = 0 To m_pMapSeries.PageCount - 1
-172:         If chkDisabled.Value = 1 Then
-173:           If m_pMapSeries.Page(i).EnablePage Then
-174:             PagesToPrint.Add m_pMapSeries.Page(i)
-175:           End If
-176:         Else
-177:           PagesToPrint.Add m_pMapSeries.Page(i)
-178:         End If
-179:       Next i
-180:     ElseIf Me.optPrintPages.Value = True Then
+153:   If m_pMapPage Is Nothing And m_pMapBook Is Nothing Then
+154:     If Me.optPrintAll.value = True Then
+155:       For i = 0 To m_pMapSeries.PageCount - 1
+156:         If chkDisabled.value = 1 Then
+157:           If m_pMapSeries.Page(i).EnablePage Then
+158:             PagesToPrint.Add m_pMapSeries.Page(i)
+159:           End If
+160:         Else
+161:           PagesToPrint.Add m_pMapSeries.Page(i)
+162:         End If
+163:       Next i
+164:     ElseIf Me.optPrintPages.value = True Then
       'parse out the pages to print
-182:       If chkDisabled.Value = 1 Then
-183:         Set PagesToPrint = ParseOutPages(Me.txtPrintPages.Text, m_pMapSeries, True)
-184:       Else
-185:         Set PagesToPrint = ParseOutPages(Me.txtPrintPages.Text, m_pMapSeries, False)
-186:       End If
+166:       If chkDisabled.value = 1 Then
+167:         Set PagesToPrint = ParseOutPages(Me.txtPrintPages.Text, m_pMapSeries, True)
+168:       Else
+169:         Set PagesToPrint = ParseOutPages(Me.txtPrintPages.Text, m_pMapSeries, False)
+170:       End If
       If PagesToPrint.count = 0 Then Exit Sub
-188:     End If
-189:   End If
+172:     End If
+173:   End If
       
-191:   numPages = CLng(Me.txtCopies.Text)
+175:   numPages = CLng(Me.txtCopies.Text)
   
-194:   If PagesToPrint.count > 0 Then
-195:     Set pSeriesOpts = m_pMapSeries
-196:     Set pSeriesOpts2 = pSeriesOpts
-197:     If pSeriesOpts2.ClipData > 0 Then
-198:       g_bClipFlag = True
-199:     End If
-200:     If pSeriesOpts.RotateFrame Then
-201:       g_bRotateFlag = True
-202:     End If
-203:     If pSeriesOpts.LabelNeighbors Then
-204:       g_bLabelNeighbors = True
-205:     End If
-206:     For i = 1 To PagesToPrint.count
-207:       Set pMapPage = PagesToPrint.Item(i)
-208:       pMapPage.DrawPage pMxDoc, m_pMapSeries, False
-209:       CheckNumberOfPages pPage, pPrinter, iNumPages
-210:       lblPrintStatus.Caption = "Printing page " & pMapPage.PageName & " ..."
+177:   If PagesToPrint.count > 0 Then
+178:     Set pSeriesOpts = m_pMapSeries
+179:     Set pSeriesOpts2 = pSeriesOpts
+180:     If pSeriesOpts2.ClipData > 0 Then
+181:       g_bClipFlag = True
+182:     End If
+183:     If pSeriesOpts.RotateFrame Then
+184:       g_bRotateFlag = True
+185:     End If
+186:     If pSeriesOpts.LabelNeighbors Then
+187:       g_bLabelNeighbors = True
+188:     End If
+189:     For i = 1 To PagesToPrint.count
+190:       Set pMapPage = PagesToPrint.Item(i)
+191:       pMapPage.DrawPage pMxDoc, m_pMapSeries, False
+192:       CheckNumberOfPages pPage, pPrinter, iNumPages
+193:       lblPrintStatus.Caption = "Printing page " & pMapPage.PageName & " ..."
         
-212:       For iCurrentPage = 1 To iNumPages
-213:         SetupToPrint pPrinter, pPage, iCurrentPage, lDPI, rectDeviceBounds, pVisBounds, devFrameEnvelope
-214:         If Me.chkPrintToFile.Value = 1 Then
-215:           If pPage.PageToPrinterMapping = esriPageMappingTile Then
-216:             pPrinter.PrintToFile = sPrefix & "_" & pMapPage.PageName & "_" & iCurrentPage & "." & sExt
-217:           Else
-218:             pPrinter.PrintToFile = sPrefix & "_" & pMapPage.PageName & "." & sExt
-219:           End If
-220:         End If
-221:         For a = 1 To numPages
-222:           hdc = pPrinter.StartPrinting(devFrameEnvelope, 0)
-223:             pMxDoc.ActiveView.Output hdc, lDPI, rectDeviceBounds, pVisBounds, Nothing
-224:             pMapPage.LastOutputted = Format(Date, "mm/dd/yyyy")
-225:           pPrinter.FinishPrinting
-226:         Next a
-227:       Next iCurrentPage
-228:     Next i
-229:   End If
+195:       For iCurrentPage = 1 To iNumPages
+196:         SetupToPrint pPrinter, pPage, iCurrentPage, lDPI, rectDeviceBounds, pVisBounds, devFrameEnvelope
+197:         If Me.chkPrintToFile.value = 1 Then
+198:           If pPage.PageToPrinterMapping = esriPageMappingTile Then
+199:             pPrinter.PrintToFile = sPrefix & "_" & pMapPage.PageName & "_" & iCurrentPage & "." & sExt
+200:           Else
+201:             pPrinter.PrintToFile = sPrefix & "_" & pMapPage.PageName & "." & sExt
+202:           End If
+203:         End If
+204:         For a = 1 To numPages
+205:           hdc = pPrinter.StartPrinting(devFrameEnvelope, 0)
+206:             pMxDoc.ActiveView.Output hdc, lDPI, rectDeviceBounds, pVisBounds, Nothing
+207:             pMapPage.LastOutputted = Format(Date, "mm/dd/yyyy")
+208:           pPrinter.FinishPrinting
+209:         Next a
+210:       Next iCurrentPage
+211:     Next i
+212:   End If
   
-231:   If Not m_pMapBook Is Nothing Then
+214:   If Not m_pMapBook Is Nothing Then
     Dim pSeriesCount As Long
     Dim MapSeriesColl As Collection
     Dim pMapSeries As IDSMapSeries
     Dim count As Long
     
-237:     pSeriesCount = m_pMapBook.ContentCount
+220:     pSeriesCount = m_pMapBook.ContentCount
     
-239:     Set MapSeriesColl = New Collection
+222:     Set MapSeriesColl = New Collection
     
-241:     For i = 0 To pSeriesCount - 1
-242:         MapSeriesColl.Add m_pMapBook.ContentItem(i)
-243:     Next i
+224:     For i = 0 To pSeriesCount - 1
+225:         MapSeriesColl.Add m_pMapBook.ContentItem(i)
+226:     Next i
 
     If MapSeriesColl.count = 0 Then Exit Sub
     
-247:     For i = 1 To MapSeriesColl.count
-248:       Set PagesToPrint = New Collection
-249:       Set pMapSeries = MapSeriesColl.Item(i)
-250:       Set pSeriesOpts = pMapSeries
-251:       Set pSeriesOpts2 = pSeriesOpts
+230:     For i = 1 To MapSeriesColl.count
+231:       Set PagesToPrint = New Collection
+232:       Set pMapSeries = MapSeriesColl.Item(i)
+233:       Set pSeriesOpts = pMapSeries
+234:       Set pSeriesOpts2 = pSeriesOpts
       
-253:       If pSeriesOpts2.ClipData > 0 Then
-254:         g_bClipFlag = True
-255:       End If
-256:       If pSeriesOpts.RotateFrame Then
-257:         g_bRotateFlag = True
-258:       End If
-259:       If pSeriesOpts.LabelNeighbors Then
-260:         g_bLabelNeighbors = True
-261:       End If
+236:       If pSeriesOpts2.ClipData > 0 Then
+237:         g_bClipFlag = True
+238:       End If
+239:       If pSeriesOpts.RotateFrame Then
+240:         g_bRotateFlag = True
+241:       End If
+242:       If pSeriesOpts.LabelNeighbors Then
+243:         g_bLabelNeighbors = True
+244:       End If
         
-263:       For count = 0 To pMapSeries.PageCount - 1
-264:         If chkDisabled.Value = 1 Then
-265:           If pMapSeries.Page(count).EnablePage Then
-266:             PagesToPrint.Add pMapSeries.Page(count)
-267:           End If
-268:         Else
-269:           PagesToPrint.Add pMapSeries.Page(count)
-270:         End If
-271:       Next count
+246:       For count = 0 To pMapSeries.PageCount - 1
+247:         If chkDisabled.value = 1 Then
+248:           If pMapSeries.Page(count).EnablePage Then
+249:             PagesToPrint.Add pMapSeries.Page(count)
+250:           End If
+251:         Else
+252:           PagesToPrint.Add pMapSeries.Page(count)
+253:         End If
+254:       Next count
       
-273:       For count = 1 To PagesToPrint.count
+256:       For count = 1 To PagesToPrint.count
       'now do printing
-275:         Set pMapPage = PagesToPrint.Item(count)
-276:         pMapPage.DrawPage pMxDoc, pMapSeries, False
+258:         Set pMapPage = PagesToPrint.Item(count)
+259:         pMapPage.DrawPage pMxDoc, pMapSeries, False
         
-278:         CheckNumberOfPages pPage, pPrinter, iNumPages
-279:         lblPrintStatus.Caption = "Printing page " & pMapPage.PageName & " ..."
+261:         CheckNumberOfPages pPage, pPrinter, iNumPages
+262:         lblPrintStatus.Caption = "Printing page " & pMapPage.PageName & " ..."
             
-281:         For iCurrentPage = 1 To iNumPages
-282:           SetupToPrint pPrinter, pPage, iCurrentPage, lDPI, rectDeviceBounds, pVisBounds, devFrameEnvelope
-283:           If Me.chkPrintToFile.Value = 1 Then
-284:             If pPage.PageToPrinterMapping = esriPageMappingTile Then
-285:               pPrinter.PrintToFile = sPrefix & "_" & pMapPage.PageName & "_" & iCurrentPage & "." & sExt
-286:             Else
-287:               pPrinter.PrintToFile = sPrefix & "_" & pMapPage.PageName & "." & sExt
-288:             End If
-289:           End If
-290:           For a = 1 To numPages
-291:             hdc = pPrinter.StartPrinting(devFrameEnvelope, 0)
-292:               pMxDoc.ActiveView.Output hdc, lDPI, rectDeviceBounds, pVisBounds, Nothing
-293:               pMapPage.LastOutputted = Format(Date, "mm/dd/yyyy")
-294:             pPrinter.FinishPrinting
-295:           Next a
-296:         Next iCurrentPage
+264:         For iCurrentPage = 1 To iNumPages
+265:           SetupToPrint pPrinter, pPage, iCurrentPage, lDPI, rectDeviceBounds, pVisBounds, devFrameEnvelope
+266:           If Me.chkPrintToFile.value = 1 Then
+267:             If pPage.PageToPrinterMapping = esriPageMappingTile Then
+268:               pPrinter.PrintToFile = sPrefix & "_" & pMapPage.PageName & "_" & iCurrentPage & "." & sExt
+269:             Else
+270:               pPrinter.PrintToFile = sPrefix & "_" & pMapPage.PageName & "." & sExt
+271:             End If
+272:           End If
+273:           For a = 1 To numPages
+274:             hdc = pPrinter.StartPrinting(devFrameEnvelope, 0)
+275:               pMxDoc.ActiveView.Output hdc, lDPI, rectDeviceBounds, pVisBounds, Nothing
+276:               pMapPage.LastOutputted = Format(Date, "mm/dd/yyyy")
+277:             pPrinter.FinishPrinting
+278:           Next a
+279:         Next iCurrentPage
       
-298:       Next count
+281:       Next count
             
-300:     Next i
-301:   End If
+283:     Next i
+284:   End If
                                    
-303:   lblPrintStatus.Caption = ""
-304:   Set m_pMapBook = Nothing
-305:   Set m_pMapPage = Nothing
-306:   Set m_pMapSeries = Nothing
-307:   m_pExportFrame.Visible = False
-308:   Unload Me
+286:   lblPrintStatus.Caption = ""
+287:   Set m_pMapBook = Nothing
+288:   Set m_pMapPage = Nothing
+289:   Set m_pMapSeries = Nothing
+290:   m_pExportFrame.Visible = False
+291:   Unload Me
 
   Exit Sub
 ErrorHandler:
-312:   lblPrintStatus.Caption = ""
-313:   MsgBox "cmdOK_Click - " & Err.Description
+295:   lblPrintStatus.Caption = ""
+296:   MsgBox "cmdOK_Click - " & Err.Description
 End Sub
 
 Public Property Get Application() As IApplication
-317:     Set Application = m_pApp
+300:     Set Application = m_pApp
 End Property
 
 Public Property Let Application(ByVal pApp As IApplication)
-321:     Set m_pApp = pApp
+304:     Set m_pApp = pApp
 End Property
 
 Private Sub cmdSetup_Click()
-325:   If (Not m_pApp.IsDialogVisible(esriMxDlgPageSetup)) Then
+308:   If (Not m_pApp.IsDialogVisible(esriMxDlgPageSetup)) Then
     Dim bDialog As Boolean
     Dim pPrinter As IPrinter
     Dim pMxApp As IMxApplication
-329:     m_pApp.ShowDialog esriMxDlgPageSetup, True
+312:     m_pApp.ShowDialog esriMxDlgPageSetup, True
     
-331:     m_pExportFrame.Visible = False
+314:     m_pExportFrame.Visible = False
 '    Me.Hide
-333:     bDialog = True
+316:     bDialog = True
     
-335:     While bDialog = True
-336:         bDialog = m_pApp.IsDialogVisible(esriMxDlgPageSetup)
-337:         DoEvents
+318:     While bDialog = True
+319:         bDialog = m_pApp.IsDialogVisible(esriMxDlgPageSetup)
+320:         DoEvents
         
 '            Sleep 1
     
-341:     Wend
+324:     Wend
     
-343:     Set pMxApp = m_pApp
-344:     Set pPrinter = pMxApp.Printer
-345:     Me.lblName.Caption = pPrinter.Paper.PrinterName
-346:     Me.lblType.Caption = pPrinter.DriverName
-347:     If TypeOf pPrinter Is IPsPrinter Then
-348:       Me.chkPrintToFile.Enabled = True
-349:     Else
-350:       Me.chkPrintToFile.Value = 0
-351:       Me.chkPrintToFile.Enabled = False
-352:     End If
+326:     Set pMxApp = m_pApp
+327:     Set pPrinter = pMxApp.Printer
+328:     Me.lblName.Caption = pPrinter.Paper.PrinterName
+329:     Me.lblType.Caption = pPrinter.DriverName
+330:     If TypeOf pPrinter Is IPsPrinter Then
+331:       Me.chkPrintToFile.Enabled = True
+332:     Else
+333:       Me.chkPrintToFile.value = 0
+334:       Me.chkPrintToFile.Enabled = False
+335:     End If
 '    Me.Show
-354:     m_pExportFrame.Visible = True
-355:   End If
+337:     m_pExportFrame.Visible = True
+338:   End If
 End Sub
 
 Private Sub Form_Load()
-359:   chkDisabled.Value = 1
+342:   chkDisabled.value = 1
 End Sub
 
 Private Sub Form_Unload(Cancel As Integer)
-363:     Set m_pApp = Nothing
-364:     Set m_pMapPage = Nothing
-365:     Set m_pMapSeries = Nothing
-366:     Set m_pMapBook = Nothing
-367:     Set m_pExportFrame = Nothing
+346:     Set m_pApp = Nothing
+347:     Set m_pMapPage = Nothing
+348:     Set m_pMapSeries = Nothing
+349:     Set m_pMapBook = Nothing
+350:     Set m_pExportFrame = Nothing
 End Sub
 
 Private Sub optProceed_Click()
-371:     If optProceed.Value = True Then
-372:         Me.fraTileOptions.Enabled = False
-373:     End If
+354:     If optProceed.value = True Then
+355:         Me.fraTileOptions.Enabled = False
+356:     End If
 End Sub
 
 Private Sub optScale_Click()
-377:     If optScale.Value = True Then
-378:         Me.fraTileOptions.Enabled = False
-379:     End If
+360:     If optScale.value = True Then
+361:         Me.fraTileOptions.Enabled = False
+362:     End If
 End Sub
 
 Private Sub optTile_Click()
-383:     If optTile.Value = True Then
-384:         Me.fraTileOptions.Enabled = True
-385:         Me.optTileAll.Value = True
-386:     Else
-387:         Me.fraTileOptions.Enabled = False
-388:     End If
+366:     If optTile.value = True Then
+367:         Me.fraTileOptions.Enabled = True
+368:         Me.optTileAll.value = True
+369:     Else
+370:         Me.fraTileOptions.Enabled = False
+371:     End If
 End Sub
 
 Public Sub SetupToPrint(pPrinter As IPrinter, pPage As IPage, iCurrentPage As Integer, ByRef lDPI As Long, ByRef rectDeviceBounds As tagRECT, _
@@ -720,64 +720,64 @@ On Error GoTo ErrorHandler
   Dim paperWidthInch As Double
   Dim paperHeightInch As Double
 
-399:   idpi = pPrinter.Resolution  'dots per inch
+382:   idpi = pPrinter.Resolution  'dots per inch
           
-401:   Set pDeviceBounds = New Envelope
+384:   Set pDeviceBounds = New Envelope
               
-403:   pPage.GetDeviceBounds pPrinter, iCurrentPage, 0, idpi, pDeviceBounds
+386:   pPage.GetDeviceBounds pPrinter, iCurrentPage, 0, idpi, pDeviceBounds
                
-405:   rectDeviceBounds.Left = pDeviceBounds.XMin
-406:   rectDeviceBounds.Top = pDeviceBounds.YMin
-407:   rectDeviceBounds.Right = pDeviceBounds.XMax
-408:   rectDeviceBounds.bottom = pDeviceBounds.YMax
+388:   rectDeviceBounds.Left = pDeviceBounds.XMin
+389:   rectDeviceBounds.Top = pDeviceBounds.YMin
+390:   rectDeviceBounds.Right = pDeviceBounds.XMax
+391:   rectDeviceBounds.bottom = pDeviceBounds.YMax
   
   'Following block added 6/19/03 to fix problem with plots being cutoff
-411:   If TypeOf pPrinter Is IEmfPrinter Then
+394:   If TypeOf pPrinter Is IEmfPrinter Then
     ' For emf printers we have to remove the top and left unprintable area
     ' from device coordinates so its origin is 0,0.
     '
-415:     rectDeviceBounds.Right = rectDeviceBounds.Right - rectDeviceBounds.Left
-416:     rectDeviceBounds.bottom = rectDeviceBounds.bottom - rectDeviceBounds.Top
-417:     rectDeviceBounds.Left = 0
-418:     rectDeviceBounds.Top = 0
-419:   End If
+398:     rectDeviceBounds.Right = rectDeviceBounds.Right - rectDeviceBounds.Left
+399:     rectDeviceBounds.bottom = rectDeviceBounds.bottom - rectDeviceBounds.Top
+400:     rectDeviceBounds.Left = 0
+401:     rectDeviceBounds.Top = 0
+402:   End If
   
-421:   Set pVisBounds = New Envelope
-422:   pPage.GetPageBounds pPrinter, iCurrentPage, 0, pVisBounds
-423:   pPrinter.QueryPaperSize paperWidthInch, paperHeightInch
-424:   Set devFrameEnvelope = New Envelope
-425:   devFrameEnvelope.PutCoords 0, 0, paperWidthInch * idpi, paperHeightInch * idpi
+404:   Set pVisBounds = New Envelope
+405:   pPage.GetPageBounds pPrinter, iCurrentPage, 0, pVisBounds
+406:   pPrinter.QueryPaperSize paperWidthInch, paperHeightInch
+407:   Set devFrameEnvelope = New Envelope
+408:   devFrameEnvelope.PutCoords 0, 0, paperWidthInch * idpi, paperHeightInch * idpi
   
-427:   lDPI = CLng(idpi)
+410:   lDPI = CLng(idpi)
 
   Exit Sub
 ErrorHandler:
-431:   MsgBox "SetupToPrint - " & Err.Description
+414:   MsgBox "SetupToPrint - " & Err.Description
 End Sub
 
 Public Sub CheckNumberOfPages(pPage As IPage, pPrinter As IPrinter, ByRef iNumPages As Integer)
 On Error GoTo ErrorHandler
-436:   pPage.PrinterPageCount pPrinter, 0, iNumPages
+419:   pPage.PrinterPageCount pPrinter, 0, iNumPages
       
-438:   If Me.optTile.Value = True Then
-439:     If Me.optPages.Value = True Then
+421:   If Me.optTile.value = True Then
+422:     If Me.optPages.value = True Then
       Dim iPageNo As Integer
       Dim sPageNo As String
-442:       sPageNo = Me.txtTo.Text
+425:       sPageNo = Me.txtTo.Text
       
-444:       If sPageNo <> "" Then
-445:           iPageNo = CInt(sPageNo)
-446:       Else
+427:       If sPageNo <> "" Then
+428:           iPageNo = CInt(sPageNo)
+429:       Else
           Exit Sub
-448:       End If
+431:       End If
       
-450:       If iPageNo < iNumPages Then
-451:           iNumPages = iPageNo
-452:       End If
-453:     End If
-454:   End If
+433:       If iPageNo < iNumPages Then
+434:           iNumPages = iPageNo
+435:       End If
+436:     End If
+437:   End If
   
   Exit Sub
 ErrorHandler:
-458:   MsgBox "CheckNumberOfPages - " & Err.Description
+441:   MsgBox "CheckNumberOfPages - " & Err.Description
 End Sub

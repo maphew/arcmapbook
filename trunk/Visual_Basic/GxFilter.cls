@@ -13,14 +13,14 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 
 ' Copyright 2006 ESRI
-' 							  
+'
 ' All rights reserved under the copyright laws of the United States
 ' and applicable international laws, treaties, and conventions.
-' 
+'
 ' You may freely redistribute and use this sample code, with or
 ' without modification, provided you include the original copyright
 ' notice and use restrictions.
-' 
+'
 ' See use restrictions at /arcgis/developerkit/userestrictions.
 
 Option Explicit
@@ -34,10 +34,10 @@ End Function
 Private Function IGxObjectFilter_CanDisplayObject(ByVal Object As IGxObject) As Boolean
   Select Case UCase(Object.Category)
   Case "COVERAGE"
-12:     IGxObjectFilter_CanDisplayObject = False
+24:     IGxObjectFilter_CanDisplayObject = False
   Case Else
-14:     IGxObjectFilter_CanDisplayObject = True
-15:   End Select
+26:     IGxObjectFilter_CanDisplayObject = True
+27:   End Select
 
 End Function
 
@@ -45,70 +45,70 @@ Private Function IGxObjectFilter_CanSaveObject(ByVal location As IGxObject, ByVa
 On Error GoTo ErrHand:
   Select Case UCase(location.Category)
   Case "PERSONAL GEODATABASE FEATURE DATASET"   ', "SDE FEATURE DATASET"
-23:     objectAlreadyExists = DoesFeatureClassExist(location, newObjectName)
-24:     IGxObjectFilter_CanSaveObject = Not objectAlreadyExists
+35:     objectAlreadyExists = DoesFeatureClassExist(location, newObjectName)
+36:     IGxObjectFilter_CanSaveObject = Not objectAlreadyExists
   Case "FOLDER"
-26:     objectAlreadyExists = DoesShapeFileExist(location.FullName & "\" & newObjectName)
-27:     IGxObjectFilter_CanSaveObject = Not objectAlreadyExists
+38:     objectAlreadyExists = DoesShapeFileExist(location.FullName & "\" & newObjectName)
+39:     IGxObjectFilter_CanSaveObject = Not objectAlreadyExists
   Case Else
-29:     IGxObjectFilter_CanSaveObject = False
-30:   End Select
+41:     IGxObjectFilter_CanSaveObject = False
+42:   End Select
   
   Exit Function
 ErrHand:
-34:   MsgBox Err.Description & " -" & newObjectName & "-"
+46:   MsgBox Err.Description & " -" & newObjectName & "-"
 End Function
 
 Private Property Get IGxObjectFilter_Description() As String
-38:   IGxObjectFilter_Description = "Shapefile / Feature Class"
+50:   IGxObjectFilter_Description = "Shapefile / Feature Class"
 End Property
 
 Private Property Get IGxObjectFilter_Name() As String
-42:   IGxObjectFilter_Name = "Overlay filter"
+54:   IGxObjectFilter_Name = "Overlay filter"
 End Property
 
 Private Function DoesShapeFileExist(pPath As String) As Boolean
   Dim pTruncPath As String
-47:   If InStr(1, pPath, ".shp") > 0 Then
-48:     pTruncPath = Left(pPath, InStr(1, pPath, ".shp") - 1)
-49:   Else
-50:     pTruncPath = pPath
-51:   End If
+59:   If InStr(1, pPath, ".shp") > 0 Then
+60:     pTruncPath = Left(pPath, InStr(1, pPath, ".shp") - 1)
+61:   Else
+62:     pTruncPath = pPath
+63:   End If
       
   'Make sure the specified file does not exist
   Dim fs As Object
-55:   Set fs = CreateObject("Scripting.FileSystemObject")
-56:   If fs.fileexists(pTruncPath & ".shp") Or fs.fileexists(pTruncPath & ".dbf") Or _
+67:   Set fs = CreateObject("Scripting.FileSystemObject")
+68:   If fs.fileexists(pTruncPath & ".shp") Or fs.fileexists(pTruncPath & ".dbf") Or _
    fs.fileexists(pTruncPath & ".shx") Then
-58:     DoesShapeFileExist = True
-59:   Else
-60:     DoesShapeFileExist = False
-61:   End If
+70:     DoesShapeFileExist = True
+71:   Else
+72:     DoesShapeFileExist = False
+73:   End If
 End Function
 
 Private Function DoesFeatureClassExist(location As IGxObject, newObjectName As String) As Boolean
 On Error GoTo ErrHand:
   Dim pFeatClass As IFeatureClass
   Dim pFeatDataset As IGxDataset
-68:   Set pFeatDataset = location
+80:   Set pFeatDataset = location
   Dim pFeatClassCont As IFeatureClassContainer, pData As IFeatureDataset
-70:   Set pData = pFeatDataset.Dataset
-71:   Set pFeatClassCont = pData
+82:   Set pData = pFeatDataset.Dataset
+83:   Set pFeatClassCont = pData
   Dim pEnumClass As IEnumFeatureClass, pDataset As IDataset
-73:   Set pEnumClass = pFeatClassCont.Classes
-74:   Set pFeatClass = pEnumClass.Next
-75:   While Not pFeatClass Is Nothing
-76:     Set pDataset = pFeatClass
-77:     If UCase(pDataset.Name) = UCase(newObjectName) Then
-78:       DoesFeatureClassExist = True
+85:   Set pEnumClass = pFeatClassCont.Classes
+86:   Set pFeatClass = pEnumClass.Next
+87:   While Not pFeatClass Is Nothing
+88:     Set pDataset = pFeatClass
+89:     If UCase(pDataset.Name) = UCase(newObjectName) Then
+90:       DoesFeatureClassExist = True
       Exit Function
-80:     End If
+92:     End If
       
-82:     Set pFeatClass = pEnumClass.Next
-83:   Wend
-84:   DoesFeatureClassExist = False
+94:     Set pFeatClass = pEnumClass.Next
+95:   Wend
+96:   DoesFeatureClassExist = False
   
   Exit Function
 ErrHand:
-88:   MsgBox Err.Description
+100:   MsgBox Err.Description
 End Function

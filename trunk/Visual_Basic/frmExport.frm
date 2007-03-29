@@ -10,7 +10,7 @@ Begin VB.Form frmExport
    ScaleHeight     =   4020
    ScaleWidth      =   5595
    StartUpPosition =   3  'Windows Default
-   Begin VB.TextBox txtPath 
+   Begin VB.TextBox txtFilename 
       Height          =   315
       Left            =   840
       TabIndex        =   12
@@ -25,7 +25,7 @@ Begin VB.Form frmExport
       Top             =   0
       Width           =   855
    End
-   Begin VB.ComboBox cmbExportType 
+   Begin VB.ComboBox cboSaveAsType 
       Height          =   315
       Left            =   1200
       TabIndex        =   10
@@ -159,14 +159,14 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 
 ' Copyright 2006 ESRI
-' 							  
+'
 ' All rights reserved under the copyright laws of the United States
 ' and applicable international laws, treaties, and conventions.
-' 
+'
 ' You may freely redistribute and use this sample code, with or
 ' without modification, provided you include the original copyright
 ' notice and use restrictions.
-' 
+'
 ' See use restrictions at /arcgis/developerkit/userestrictions.
 
 Private m_pMapPage As IDSMapPage
@@ -176,127 +176,329 @@ Private m_pApp As IApplication
 Private m_pExport As IExport
 Private m_pExportFrame As IModelessFrame
 
+Private m_ExportersCol As New Collection
+Private m_sFileExtension As String
+Private m_sFileNameRoot As String
+Private m_sPath As String
+
+
+Private Declare Function RegQueryValueEx Lib "advapi32.dll" Alias "RegQueryValueExA" _
+    (ByVal hKey As Long, ByVal lpValueName As String, ByVal lpReserved As Long, lpType As Long, _
+    lpData As Any, lpcbData As Long) As Long
+Private Declare Function RegOpenKeyEx Lib "advapi32.dll" Alias "RegOpenKeyExA" (ByVal hKey As Long, _
+    ByVal lpSubKey As String, ByVal ulOptions As Long, ByVal samDesired As Long, phkResult As Long) As Long
+Private Declare Function RegCloseKey Lib "advapi32.dll" (ByVal hKey As Long) As Long
+Private Declare Function RegSetValueEx Lib "advapi32.dll" Alias "RegSetValueExA" (ByVal hKey As Long, _
+    ByVal lpValueName As String, ByVal Reserved As Long, ByVal dwType As Long, lpData As Any, ByVal _
+    cbData As Long) As Long
+
+Private Const HKEY_CURRENT_USER = &H80000001
+Private Const REG_SZ = 1
+Private Const REG_BINARY = 3
+Private Const REG_DWORD = 4
+Private Const REG_MULTI_SZ = 7
+Private Const SYNCHRONIZE = &H100000
+Private Const READ_CONTROL = &H20000
+Private Const STANDARD_RIGHTS_READ = (READ_CONTROL)
+Private Const STANDARD_RIGHTS_WRITE = (READ_CONTROL)
+Private Const KEY_QUERY_VALUE = &H1
+Private Const KEY_ENUMERATE_SUB_KEYS = &H8
+Private Const KEY_NOTIFY = &H10
+Private Const KEY_SET_VALUE = &H2
+Private Const KEY_CREATE_SUB_KEY = &H4
+Private Const KEY_READ = ((READ_CONTROL Or KEY_QUERY_VALUE Or KEY_ENUMERATE_SUB_KEYS Or KEY_NOTIFY) And (Not SYNCHRONIZE))
+Private Const KEY_WRITE = ((STANDARD_RIGHTS_WRITE Or KEY_SET_VALUE Or KEY_CREATE_SUB_KEY) And (Not SYNCHRONIZE))
+Private Const ERROR_SUCCESS = 0&
+
+
 Public Property Get aDSMapPage() As IDSMapPage
-9:     Set aDSMapPage = m_pMapPage
+56:     Set aDSMapPage = m_pMapPage
 End Property
 
 Public Property Let aDSMapPage(ByVal pMapPage As IDSMapPage)
-13:     Set m_pMapPage = pMapPage
+60:     Set m_pMapPage = pMapPage
 End Property
 
 Public Property Let ExportFrame(ByVal pExportFrame As IModelessFrame)
-17:     Set m_pExportFrame = pExportFrame
+64:     Set m_pExportFrame = pExportFrame
 End Property
 
 Public Property Get aDSMapSeries() As IDSMapSeries
-21:     Set aDSMapSeries = m_pMapSeries
+68:     Set aDSMapSeries = m_pMapSeries
 End Property
 
 Public Property Let aDSMapSeries(ByVal pMapSeries As IDSMapSeries)
-25:     Set m_pMapSeries = pMapSeries
+72:     Set m_pMapSeries = pMapSeries
 End Property
 
 Public Property Get aDSMapBook() As IDSMapBook
-29:     Set aDSMapBook = m_pMapBook
+76:     Set aDSMapBook = m_pMapBook
 End Property
 
 Public Property Let aDSMapBook(ByVal pMapBook As IDSMapBook)
-33:     Set m_pMapBook = pMapBook
+80:     Set m_pMapBook = pMapBook
 End Property
 
 Public Property Get Application() As IApplication
-37:     Set Application = m_pApp
+84:     Set Application = m_pApp
 End Property
 
 Public Property Let Application(ByVal pApp As IApplication)
-41:     Set m_pApp = pApp
+88:     Set m_pApp = pApp
 End Property
 
 Public Sub SetupDialog()
-  On Error GoTo ErrorHandler
+  On Error GoTo ErrorHand
   
   Exit Sub
-ErrorHandler:
-49:   MsgBox "SetupDialog - " & Err.Description
-End Sub
-
-
-Private Sub cmbExportType_Click()
-
-55: Set m_pExport = Nothing
-
-If Me.txtPath.Text = "" Then Exit Sub
-
-Dim sExt As String
-60:     sExt = Me.cmbExportType.Text
-
-62:     ChangeFileExtension sExt
-
+ErrorHand:
+96:   MsgBox "SetupDialog - " & Erl & " - " & Err.Description
 End Sub
 
 Private Sub cmdBrowse_Click()
-Dim sFileExt As String
-Dim sFileName As String
-
-'    Me.dlgExport.Filter = "EMF (*.emf)|*.emf|CGM (*.cgm)|*.cgm|EPS (*.eps)|*.eps|AI (*.ai)|*.ai|PDF (*.pdf)|*.pdf|BMP (*.bmp)|*.bmp|TIFF (*.tif)|*.tif|JPEG (*.jpg)|*.jpg"
-    
-72:     Me.dlgExport.Filter = "BMP (*.bmp)|*.bmp|EPS (*.eps)|*.eps|JPEG (*.jpg)|*.jpg|PDF (*.pdf)|*.pdf|TIFF (*.tif)|*.tif"
-   
-74:     If Me.cmbExportType.ListIndex <> -1 Then
-75:         Me.dlgExport.FilterIndex = Me.cmbExportType.ListIndex + 1
-76:     Else
-77:         Me.dlgExport.FilterIndex = 4
-78:     End If
-    
-80:     Me.dlgExport.DialogTitle = "Export"
-    
-'    Me.Hide
-83:     m_pExportFrame.Visible = False
-    
-85:     Me.dlgExport.ShowSave
-    
-87:     If Me.dlgExport.FileName = "" Then
-88:         Me.Show
-        Exit Sub
-90:     Else
-91:         sFileName = Me.dlgExport.FileName
-92:     End If
-    
-94:      sFileExt = Right(sFileName, 3)
-     
-    Select Case sFileExt
-        Case "emf"
-98:             Me.cmbExportType.Text = "EMF (*.emf)"
-'        Case "cgm"
-'            Me.cmbExportType.Text = "CGM (*.cgm)"
-        Case "eps"
-102:             Me.cmbExportType.Text = "EPS (*.eps)"
-        Case ".ai"
-104:             Me.cmbExportType.Text = "AI (*.ai)"
-        Case "pdf"
-106:             Me.cmbExportType.Text = "PDF (*.pdf)"
-        Case "bmp"
-108:             Me.cmbExportType.Text = "BMP (*.bmp)"
-        Case "tif"
-110:             Me.cmbExportType.Text = "TIFF (*.tif)"
-        Case "jpg"
-112:             Me.cmbExportType.Text = "JPEG (*.jpg)"
-113:     End Select
-    
-115:     Me.txtPath.Text = sFileName
-    
-'   Me.Show
-118:   m_pExportFrame.Visible = True
+On Error GoTo ErrorHand
+  Dim sFileName As String
+  Dim pTempExport As IExport
+  Dim sFileFilter As String
+  Dim i As Integer
   
+106:   For i = 1 To m_ExportersCol.count
+107:     Set pTempExport = m_ExportersCol.Item(i)
+108:     Debug.Print pTempExport.Name & ": " & pTempExport.Priority
+109:     If pTempExport.Filter <> "" Then
+110:       If sFileFilter <> "" Then sFileFilter = sFileFilter & "|"
+111:       sFileFilter = sFileFilter & pTempExport.Filter
+112:     End If
+113:   Next
+114:   Set pTempExport = Nothing
+  
+116:   Me.dlgExport.Filter = sFileFilter
+    
+118:   If Me.cboSaveAsType.ListIndex <> -1 Then
+119:     Me.dlgExport.FilterIndex = Me.cboSaveAsType.ListIndex + 1
+120:   Else
+121:     Me.dlgExport.FilterIndex = 1
+122:   End If
+  
+124:   Me.dlgExport.DialogTitle = "Export"
+125:   Me.dlgExport.FileName = m_sFileNameRoot & m_sFileExtension
+  
+' Me.Hide
+128:   m_pExportFrame.Visible = False
+
+  
+131:   Me.dlgExport.ShowSave
+  
+133:   If Me.dlgExport.FileName = "" Then
+134:       Me.Show
+      Exit Sub
+136:   Else
+137:       sFileName = Me.dlgExport.FileName
+138:   End If
+  
+140:   Me.txtFilename.Text = sFileName
+  
+142:   m_pExportFrame.Visible = True
+  
+  Exit Sub
+ErrorHand:
+146:   MsgBox "cmdBrowse_Click - " & Erl & " - " & Err.Description
 End Sub
 
 Private Sub cmdCancel_Click()
-123:     m_pExportFrame.Visible = False
-124:     Unload Me
+150:     m_pExportFrame.Visible = False
+151:     Unload Me
 End Sub
 
+Public Sub InitializeTheForm()
+  On Error GoTo ErrorHand
+    
+  Dim pTempExport As IExport
+  Dim i As Integer
+  Dim esriExportsCat As New UID
+  Dim pCategoryFactory As ICategoryFactory
+  Dim TempExportersCol As New Collection
+  Dim pSettingsInRegistry As ISettingsInRegistry
+  Dim iHighest As Double
+  Dim sLastUsedExporterName As String
+  Dim lLastUsedExporterPriority As Long
+  
+  
+  
+  'Use a Category Factory object to create one instance of every class registered
+  ' in the "ESRI Exports" category.
+   'Component Category: "ESRI Exports" = {66A7ECF7-9BE1-4E77-A8C7-42D3C62A2590}
+172:   esriExportsCat.value = "{66A7ECF7-9BE1-4E77-A8C7-42D3C62A2590}"
+173:   Set pCategoryFactory = New CategoryFactory
+174:   pCategoryFactory.CategoryID = esriExportsCat
+  
+  'As each exporter object is created, add it to a vb collection object for later use.
+  ' Use each exporter object's Priority property as a unique static key for later
+  ' access to each object in the collection.  Because some exporters change their file
+  ' extension based on settings (eg. SVG), we should read and sync the registry values
+  ' for each exporter after it is created.
+181:   Set pTempExport = pCategoryFactory.CreateNext
+182:   Do While Not pTempExport Is Nothing
+    On Error Resume Next
+184:     Set pSettingsInRegistry = pTempExport
+    On Error GoTo 0
+186:     If Not pSettingsInRegistry Is Nothing Then
+187:       pSettingsInRegistry.RestoreForCurrentUser "Software\ESRI\Export\ExportObjectsParams"
+188:       m_ExportersCol.Add pTempExport, CStr(pTempExport.Priority)
+189:     End If
+190:     Set pTempExport = pCategoryFactory.CreateNext
+191:   Loop
+192:   Set pTempExport = Nothing
+
+  'Run a simple sort operation on the exporters collection, sorting by the exporter
+  ' Priority property.  This property is primarily used only for determining the order in
+  ' which the exporters are listed in the dialog listbox control.
+197:   iHighest = -4294967296#
+  Dim j As Integer
+199:   Do While m_ExportersCol.count > 0
+200:     For i = 1 To m_ExportersCol.count
+201:       Set pTempExport = m_ExportersCol(i)
+202:       If pTempExport.Priority > iHighest Then
+203:         iHighest = pTempExport.Priority
+204:       End If
+205:     Next
+206:     Set pTempExport = m_ExportersCol(CStr(iHighest))
+207:     TempExportersCol.Add pTempExport, CStr(pTempExport.Priority)
+208:     m_ExportersCol.Remove CStr(iHighest)
+209:     iHighest = -4294967296#
+210:   Loop
+211:   Set m_ExportersCol = TempExportersCol
+212:   Set TempExportersCol = Nothing
+  
+  'Populate the SaveAsType combo box.  VB combo box controls provide the ItemData property, in
+  ' which the user to store a data value of type long.  Each value will be associated with each
+  ' string entry in the list.  Assign the value of the Priority property to ItemData, so we
+  ' can grab it at a later point to tie an exporter object to the selected string entry.
+218:   For i = 1 To m_ExportersCol.count
+219:     Set pTempExport = m_ExportersCol.Item(i)
+220:     Debug.Print pTempExport.Name & ": " & pTempExport.Priority
+221:     If pTempExport.Filter <> "" Then
+222:       Me.cboSaveAsType.AddItem Split(pTempExport.Filter, "|")(0)
+223:       cboSaveAsType.ItemData(cboSaveAsType.NewIndex) = pTempExport.Priority
+224:     End If
+225:   Next
+  
+  
+  ' get the last used export type from the registry.
+229:   If GetRegistryValue(HKEY_CURRENT_USER, "Software\ESRI\Export\ExportDlg", "LastExporter", REG_SZ) <> "" Then _
+    sLastUsedExporterName = GetRegistryValue(HKEY_CURRENT_USER, "Software\ESRI\Export\ExportDlg", "LastExporter", REG_SZ)
+  
+232:   For i = 1 To m_ExportersCol.count
+233:     Set pTempExport = m_ExportersCol.Item(i)
+234:     If pTempExport.Name = sLastUsedExporterName Then
+235:       Debug.Print pTempExport.Name & ": " & pTempExport.Priority
+236:       lLastUsedExporterPriority = pTempExport.Priority
+237:     End If
+238:   Next
+  
+240:   For i = 0 To Me.cboSaveAsType.ListCount - 1
+241:     If Me.cboSaveAsType.ItemData(i) = lLastUsedExporterPriority Then
+242:         Me.cboSaveAsType.ListIndex = i
+243:     End If
+244:   Next
+  
+246:   If Me.cboSaveAsType.ListIndex = -1 Then
+247:     Me.cboSaveAsType.ListIndex = 0
+248:   End If
+  
+250:   Set pTempExport = Nothing
+
+  'assign the last used export path to m_sPath.  Get the value from the registry.
+253:   If GetRegistryValue(HKEY_CURRENT_USER, "Software\ESRI\Export\ExportDlg", "WorkingDirectory", REG_SZ) <> "" Then _
+    m_sPath = GetRegistryValue(HKEY_CURRENT_USER, "Software\ESRI\Export\ExportDlg", "WorkingDirectory", REG_SZ)
+255:   If Right(m_sPath, 1) <> "\" Then _
+    m_sPath = m_sPath & "\"
+    
+
+259:   m_sFileNameRoot = Left(GetMxdName(), Len(GetMxdName()) - 4)
+  
+  ' Call the InitExporter procedure to QI the m_pExport onto the currently selected exporter class
+262:   InitExporter
+  
+  Exit Sub
+ErrorHand:
+266:   MsgBox "InitializeTheForm - " & Erl & " - " & Err.Description
+  
+End Sub
+
+
+Private Sub InitExporter()
+On Error GoTo ErrorHand
+  'Set the interface pointer for the global IExport variable.  The SaveAsType combo box's
+  ' ItemData property will return the Priority value that we assigned in the Form_Load event.
+  ' Use it as a key to return an exporter object from m_ExportersCol.
+276:   Set m_pExport = m_ExportersCol(CStr(cboSaveAsType.ItemData(cboSaveAsType.ListIndex)))
+  
+  ' Build the file extension string and change the textbox string accordingly.  Resist
+  '  temptation to set the exporter object's ExportFileName property here... better to
+  '  do that step at the time of the export operation so it will accurately reflect any
+  '  changes the user may make to the textbox contents.
+282:   m_sFileExtension = Split(Split(cboSaveAsType.Text, "(")(1), ")")(0)
+283:   m_sFileExtension = Right(m_sFileExtension, Len(m_sFileExtension) - 1)
+  
+285:   txtFilename.Text = m_sPath & m_sFileNameRoot & m_sFileExtension
+  
+  Exit Sub
+ErrorHand:
+289:   MsgBox "InitExporter - " & Erl & " - " & Err.Description
+End Sub
+
+
+Private Sub cboSaveAsType_Click()
+  
+295:   InitExporter
+  
+End Sub
+
+
+Private Sub cmdOptions_Click()
+  On Error GoTo ErrorHand
+
+  'Set the Export property of the ExportPropDlg form, and then show the form modally.  You cannot
+  ' show the ExportPropDlg form without first setting this property.
+  'As users interact with the form, the properties of the assigned exporter object will change
+  ' in real-time. When the form ExportPropDlg is dismissed, the exporter object will reflect any
+  ' changes the user may have made.
+308:   Set frmExportPropDlg.Export = m_pExport
+309:   frmExportPropDlg.Show vbModal, Me
+  
+311:   Set frmExportPropDlg.Export = Nothing
+312:   Unload frmExportPropDlg
+  
+  'The ExportSVG class has a Compression property that changes the value of the Filter property,
+  ' and we must syncronize our file extension to account for the possible change.
+316:   If TypeOf m_pExport Is IExportSVG Then
+317:     cboSaveAsType.List(cboSaveAsType.ListIndex) = Split(m_pExport.Filter, "|")(0)
+318:     m_sPath = GetPathFromPathAndFilename(txtFilename)
+319:     m_sFileExtension = Split(Split(cboSaveAsType.Text, "(")(1), ")")(0)
+320:     m_sFileExtension = Right(m_sFileExtension, Len(m_sFileExtension) - 1)
+321:     txtFilename.Text = m_sPath & m_sFileNameRoot & m_sFileExtension
+322:   End If
+        
+  Exit Sub
+ErrorHand:
+326:   MsgBox "cmdOptions_Click - " & Erl & " - " & Err.Description
+End Sub
+
+
+Private Sub txtFilename_Change()
+331:   m_sFileNameRoot = GetRootNameFromPath(txtFilename)
+332:   m_sPath = GetPathFromPathAndFilename(txtFilename)
+End Sub
+
+Private Sub txtFileName_GotFocus()
+336:   txtFilename.SelStart = 0
+337:   txtFilename.SelLength = Len(txtFilename.Text)
+End Sub
+
+
 Private Sub cmdExport_Click()
-On Error GoTo ErrHand:
+On Error GoTo ErrorHand:
   Dim sFileExt As String
   Dim pExport As IExport
   Dim pJpegExport As IExportJPEG
@@ -304,67 +506,52 @@ On Error GoTo ErrHand:
   Dim pActiveView As IActiveView
   Dim pMxDoc As IMxDocument
   Dim pMouse As IMouseCursor
+  Dim pOutputRasterSettings As IOutputRasterSettings
+  Dim iPrevOutputImageQuality As Long
   
-137:   If Me.txtPath.Text = "" Then
-138:     MsgBox "You have not typed in a valid path!!!"
+353:   If Me.txtFilename.Text = "" Then
+354:     MsgBox "You have not typed in a valid path!!!"
     Exit Sub
-140:   End If
+356:   End If
   
   Dim bValid As Boolean
-143:   bValid = CheckForValidPath(Me.txtPath.Text)
+359:   bValid = CheckForValidPath(Me.txtFilename.Text)
     
-145:   If bValid = False Then
-146:     MsgBox "You have not typed in a valid path!!!"
+361:   If bValid = False Then
+362:     MsgBox "You have not typed in a valid path!!!"
     Exit Sub
-148:   End If
+364:   End If
 
   '***Need to make sure it's a valid path
   
-152:   Set pMouse = New MouseCursor
-153:   pMouse.SetCursor 2
+368:   Set pMouse = New MouseCursor
+369:   pMouse.SetCursor 2
 
-155:   Set pMxDoc = m_pApp.Document
-156:   sFileName = Left(Me.txtPath.Text, Len(Me.txtPath.Text) - 4)
-157:   sFileExt = Right(Me.txtPath.Text, 3)
+371:   Set pMxDoc = m_pApp.Document
+372:   sFileName = m_sPath & m_sFileNameRoot
+373:   sFileExt = m_sFileExtension
     
-159:   If m_pExport Is Nothing Then
-    Select Case sFileExt
-    Case "emf"
-162:       Set pExport = New ExportEMF
-'    Case "cgm"
-'      MsgBox "CGMExporter not supported at 9.0, need to change this code to the replacement."
-'      Exit Sub
-'      Set pExport = New CGMExporter
-    Case "eps"
-168:       Set pExport = New ExportPS
-    Case ".ai"
-170:       Set pExport = New ExportAI
-    Case "pdf"
-172:       Set pExport = New ExportPDF
-      'Map the basic fonts
-'174:       MapFonts pExport
-    Case "bmp"
-176:       Set pExport = New ExportBMP
-    Case "tif"
-178:       Set pExport = New ExportTIFF
-    Case "jpg"
-180:       Set pExport = New ExportJPEG
-181:     End Select
-182:   Else
-183:     Set pExport = m_pExport
-184:   End If
+375:   Set pExport = m_pExport
         
-186:   If pExport Is Nothing Then
-187:     MsgBox "No export object!!!"
+377:   If pExport Is Nothing Then
+378:     MsgBox "No export object!!!"
     Exit Sub
-189:   End If
+380:   End If
    
+382:   If GetRegistryValue(HKEY_CURRENT_USER, "Software\ESRI\Export\ExportDlg", "WorkingDirectory", REG_SZ) <> "" Then
+383:     SetRegistryValue HKEY_CURRENT_USER, "Software\ESRI\Export\ExportDlg", "WorkingDirectory", REG_SZ, m_sPath
+384:   End If
+   
+386:   If GetRegistryValue(HKEY_CURRENT_USER, "Software\ESRI\Export\ExportDlg", "LastExporter", REG_SZ) <> "" Then
+387:     SetRegistryValue HKEY_CURRENT_USER, "Software\ESRI\Export\ExportDlg", "LastExporter", REG_SZ, pExport.Name
+388:   End If
+  
   'Switch to the Layout view if we are not already there
-192:   If Not TypeOf pMxDoc.ActiveView Is IPageLayout Then
-193:     Set pMxDoc.ActiveView = pMxDoc.PageLayout
-194:   End If
+391:   If Not TypeOf pMxDoc.ActiveView Is IPageLayout Then
+392:     Set pMxDoc.ActiveView = pMxDoc.PageLayout
+393:   End If
 
-196:   Set pActiveView = pMxDoc.ActiveView
+395:   Set pActiveView = pMxDoc.ActiveView
 '  pActiveView.ScreenDisplay.DisplayTransformation.ZoomResolution = False
   'Need to include code here to create a collection of all of the map pages that you can
   'then loop through and print.
@@ -375,582 +562,445 @@ On Error GoTo ErrHand:
   Dim hdc As Long
   Dim dpi As Integer
   Dim sExportFile As String
-207:   Set PagesToExport = New Collection
-208:   Set pSeriesOpts = m_pMapSeries
-209:   Set pSeriesOpts2 = pSeriesOpts
+406:   Set PagesToExport = New Collection
+407:   Set pSeriesOpts = m_pMapSeries
+408:   Set pSeriesOpts2 = pSeriesOpts
   
-211:   If Not m_pMapPage Is Nothing Then
-212:       PagesToExport.Add m_pMapPage
-213:   End If
+410:   If Not m_pMapPage Is Nothing Then
+411:       PagesToExport.Add m_pMapPage
+412:   End If
   
-215:   If Not m_pMapSeries Is Nothing And m_pMapPage Is Nothing And m_pMapBook Is Nothing Then
-216:     If Me.optAll.Value = True Then
-217:       For i = 0 To m_pMapSeries.PageCount - 1
-218:         If Me.chkDisabled.Value = 1 Then
-219:           If m_pMapSeries.Page(i).EnablePage Then
-220:             PagesToExport.Add m_pMapSeries.Page(i)
-221:           End If
-222:          Else
-223:             PagesToExport.Add m_pMapSeries.Page(i)
-224:         End If
-225:       Next i
-226:     ElseIf Me.optPages.Value = True Then
+414:   Set pOutputRasterSettings = pActiveView.ScreenDisplay.DisplayTransformation
+415:   iPrevOutputImageQuality = pOutputRasterSettings.ResampleRatio
+  
+417:   If Not m_pMapSeries Is Nothing And m_pMapPage Is Nothing And m_pMapBook Is Nothing Then
+418:     If Me.optAll.value = True Then
+419:       For i = 0 To m_pMapSeries.PageCount - 1
+420:         If Me.chkDisabled.value = 1 Then
+421:           If m_pMapSeries.Page(i).EnablePage Then
+422:             PagesToExport.Add m_pMapSeries.Page(i)
+423:           End If
+424:          Else
+425:             PagesToExport.Add m_pMapSeries.Page(i)
+426:         End If
+427:       Next i
+428:     ElseIf Me.optPages.value = True Then
       'parse out the pages to export
-228:       If chkDisabled.Value = 1 Then
-229:         Set PagesToExport = ParseOutPages(Me.txtPages.Text, m_pMapSeries, True)
-230:       Else
-231:         Set PagesToExport = ParseOutPages(Me.txtPages.Text, m_pMapSeries, False)
-232:       End If
+430:       If chkDisabled.value = 1 Then
+431:         Set PagesToExport = ParseOutPages(Me.txtPages.Text, m_pMapSeries, True)
+432:       Else
+433:         Set PagesToExport = ParseOutPages(Me.txtPages.Text, m_pMapSeries, False)
+434:       End If
       If PagesToExport.count = 0 Then Exit Sub
-234:     End If
-235:   End If
+436:     End If
+437:   End If
   
-237:   If PagesToExport.count > 0 Then
-238:     If pSeriesOpts2.ClipData > 0 Then
-239:       g_bClipFlag = True
-240:     End If
-241:     If pSeriesOpts.RotateFrame Then
-242:       g_bRotateFlag = True
-243:     End If
-244:     If pSeriesOpts.LabelNeighbors Then
-245:       g_bLabelNeighbors = True
-246:     End If
-247:     For i = 1 To PagesToExport.count
-248:       Set pMapPage = PagesToExport.Item(i)
-249:       pMapPage.DrawPage pMxDoc, m_pMapSeries, False
+439:   If PagesToExport.count > 0 Then
+440:     If pSeriesOpts2.ClipData > 0 Then
+441:       g_bClipFlag = True
+442:     End If
+443:     If pSeriesOpts.RotateFrame Then
+444:       g_bRotateFlag = True
+445:     End If
+446:     If pSeriesOpts.LabelNeighbors Then
+447:       g_bLabelNeighbors = True
+448:     End If
+449:     For i = 1 To PagesToExport.count
+450:       Set pMapPage = PagesToExport.Item(i)
+451:       pMapPage.DrawPage pMxDoc, m_pMapSeries, False
           
-251:       If sFileExt = ".ai" Then
-252:         sExportFile = sFileName & "_" & pMapPage.PageName & sFileExt
-253:       Else
-254:         sExportFile = sFileName & "_" & pMapPage.PageName & "." & sFileExt
-255:       End If
-256:       lblStatus.Caption = "Exporting to " & sExportFile & " ..."
-257:       SetupToExport pExport, dpi, ExportFrame, pActiveView, sExportFile
+453:       sExportFile = sFileName & "_" & pMapPage.PageName & sFileExt
+454:       lblStatus.Caption = "Exporting to " & m_sFileNameRoot & "_" & pMapPage.PageName & sFileExt & " ..."
+455:       SetupToExport pExport, dpi, ExportFrame, pActiveView, sExportFile
       
       'Do the export
-260:       hdc = pExport.StartExporting
-261:         pActiveView.Output hdc, pExport.Resolution, ExportFrame, Nothing, Nothing
-262:         pMapPage.LastOutputted = Format(Date, "mm/dd/yyyy")
-263:       pExport.FinishExporting
-264:     Next i
-265:   End If
+458:       hdc = pExport.StartExporting
+459:         pActiveView.Output hdc, pExport.Resolution, ExportFrame, Nothing, Nothing
+460:         pMapPage.LastOutputted = Format(Date, "mm/dd/yyyy")
+461:       pExport.FinishExporting
+462:       pExport.Cleanup
+463:     Next i
+464:   End If
             
-267:   If Not m_pMapBook Is Nothing Then
+466:   If Not m_pMapBook Is Nothing Then
     Dim pMapSeries As IDSMapSeries
     Dim count As Long
-270:     For i = 0 To m_pMapBook.ContentCount - 1
-271:       Set PagesToExport = New Collection
-272:       Set pMapSeries = m_pMapBook.ContentItem(i)
-273:       Set pSeriesOpts = pMapSeries
+469:     For i = 0 To m_pMapBook.ContentCount - 1
+470:       Set PagesToExport = New Collection
+471:       Set pMapSeries = m_pMapBook.ContentItem(i)
+472:       Set pSeriesOpts = pMapSeries
     
-275:       For count = 0 To pMapSeries.PageCount - 1
-276:         If Me.chkDisabled.Value = 1 Then
-277:           If pMapSeries.Page(count).EnablePage Then
-278:             PagesToExport.Add pMapSeries.Page(count)
-279:           End If
-280:         Else
-281:             PagesToExport.Add pMapSeries.Page(count)
-282:         End If
-283:       Next count
+474:       For count = 0 To pMapSeries.PageCount - 1
+475:         If Me.chkDisabled.value = 1 Then
+476:           If pMapSeries.Page(count).EnablePage Then
+477:             PagesToExport.Add pMapSeries.Page(count)
+478:           End If
+479:         Else
+480:             PagesToExport.Add pMapSeries.Page(count)
+481:         End If
+482:       Next count
         
-285:       If pSeriesOpts2.ClipData > 0 Then
-286:         g_bClipFlag = True
-287:       End If
-288:       If pSeriesOpts.RotateFrame Then
-289:         g_bRotateFlag = True
-290:       End If
-291:       If pSeriesOpts.LabelNeighbors Then
-292:         g_bLabelNeighbors = True
-293:       End If
-294:       For count = 1 To PagesToExport.count
+484:       If pSeriesOpts2.ClipData > 0 Then
+485:         g_bClipFlag = True
+486:       End If
+487:       If pSeriesOpts.RotateFrame Then
+488:         g_bRotateFlag = True
+489:       End If
+490:       If pSeriesOpts.LabelNeighbors Then
+491:         g_bLabelNeighbors = True
+492:       End If
+493:       For count = 1 To PagesToExport.count
         'now do export
-296:         Set pMapPage = PagesToExport.Item(count)
-297:         pMapPage.DrawPage pMxDoc, pMapSeries, False
+495:         Set pMapPage = PagesToExport.Item(count)
+496:         pMapPage.DrawPage pMxDoc, pMapSeries, False
       
-299:         If sFileExt = ".ai" Then
-300:             sExportFile = sFileName & "_series_" & i & "_" & pMapPage.PageName & sFileExt
-301:         Else
-302:             sExportFile = sFileName & "_series_" & i & "_" & pMapPage.PageName & "." & sFileExt
-303:         End If
-304:         lblStatus.Caption = "Exporting to " & sExportFile & " ..."
-305:         SetupToExport pExport, pExport.Resolution, ExportFrame, pActiveView, sExportFile
+498:         sExportFile = sFileName & "_series_" & i & "_" & pMapPage.PageName & sFileExt
+ 
+500:         lblStatus.Caption = "Exporting to " & m_sFileNameRoot & "_series_" & i & "_" & pMapPage.PageName & sFileExt
+501:         SetupToExport pExport, pExport.Resolution, ExportFrame, pActiveView, sExportFile
           
         'Do the export
-308:         hdc = pExport.StartExporting
-309:           pActiveView.Output hdc, pExport.Resolution, ExportFrame, Nothing, Nothing
-310:           pMapPage.LastOutputted = Format(Date, "mm/dd/yyyy")
-311:         pExport.FinishExporting
-312:       Next count
-313:     Next i
-314:   End If
+504:         hdc = pExport.StartExporting
+505:           pActiveView.Output hdc, pExport.Resolution, ExportFrame, Nothing, Nothing
+506:           pMapPage.LastOutputted = Format(Date, "mm/dd/yyyy")
+507:         pExport.FinishExporting
+508:         pExport.Cleanup
+509:       Next count
+510:     Next i
+511:   End If
 
 '  pActiveView.ScreenDisplay.DisplayTransformation.ZoomResolution = True
-317:   If TypeOf pExport Is IOutputCleanup Then
+514:   If TypeOf pExport Is IOutputCleanup Then
     Dim pCleanup As IOutputCleanup
-319:     Set pCleanup = pExport
-320:     pCleanup.Cleanup
-321:   End If
+516:     Set pCleanup = pExport
+517:     pCleanup.Cleanup
+518:   End If
   
-323:   lblStatus.Caption = ""
-324:   Set m_pMapBook = Nothing
-325:   Set m_pMapPage = Nothing
-326:   Set m_pMapSeries = Nothing
-327:   m_pExportFrame.Visible = False
-328:   Unload Me
-  
-  Exit Sub
-ErrHand:
-332:   lblStatus.Caption = ""
-333:   MsgBox "cmdExport_Click - " & Err.Description
-End Sub
+520:   SetOutputQuality pActiveView, iPrevOutputImageQuality
 
-Private Sub MapFonts(pExport As IExport)
-On Error GoTo ErrHand:
-  If Not TypeOf pExport Is IFontMapEnvironment Then Exit Sub
-  
-  Dim pFontMapEnv As IFontMapEnvironment, pFontMapColl As IFontMapCollection
-  Dim pFontMap As IFontMap2
-342:   Set pFontMapEnv = pExport
-343:   Set pFontMapColl = pFontMapEnv.FontMapCollection
-344:   Set pFontMap = New FontMap
-345:   pFontMap.SetMapping "Arial", "Helvetica"
-346:   pFontMapColl.Add pFontMap
-347:   Set pFontMap = New FontMap
-348:   pFontMap.SetMapping "Arial Bold", "Helvetica-Bold"
-349:   pFontMapColl.Add pFontMap
-350:   Set pFontMap = New FontMap
-351:   pFontMap.SetMapping "Arial Bold Italic", "Helvetica-BoldOblique"
-352:   pFontMapColl.Add pFontMap
-353:   Set pFontMap = New FontMap
-354:   pFontMap.SetMapping "Arial Italic", "Helvetica-Oblique"
-355:   pFontMapColl.Add pFontMap
-356:   Set pFontMap = New FontMap
-357:   pFontMap.SetMapping "Courier New", "Courier"
-358:   pFontMapColl.Add pFontMap
-359:   Set pFontMap = New FontMap
-360:   pFontMap.SetMapping "Courier New Bold", "Courier-Bold"
-361:   pFontMapColl.Add pFontMap
-362:   Set pFontMap = New FontMap
-363:   pFontMap.SetMapping "Courier New Bold Italic", "Courier-BoldOblique"
-364:   pFontMapColl.Add pFontMap
-365:   Set pFontMap = New FontMap
-366:   pFontMap.SetMapping "Courier New Italic", "Courier-Oblique"
-367:   pFontMapColl.Add pFontMap
-368:   Set pFontMap = New FontMap
-369:   pFontMap.SetMapping "Symbol", "Symbol"
-370:   pFontMapColl.Add pFontMap
-371:   Set pFontMap = New FontMap
-372:   pFontMap.SetMapping "Times New Roman", "Times-Roman"
-373:   pFontMapColl.Add pFontMap
-374:   Set pFontMap = New FontMap
-375:   pFontMap.SetMapping "Times New Roman Bold", "Times-Bold"
-376:   pFontMapColl.Add pFontMap
-377:   Set pFontMap = New FontMap
-378:   pFontMap.SetMapping "Times New Roman Bold Italic", "Times-BoldItalic"
-379:   pFontMapColl.Add pFontMap
-380:   Set pFontMap = New FontMap
-381:   pFontMap.SetMapping "Times New Roman Italic", "Times-Italic"
-382:   pFontMapColl.Add pFontMap
+522:   lblStatus.Caption = ""
+523:   Set m_pMapBook = Nothing
+524:   Set m_pMapPage = Nothing
+525:   Set m_pMapSeries = Nothing
+526:   m_pExportFrame.Visible = False
+527:   Unload Me
   
   Exit Sub
-ErrHand:
-386:   MsgBox "MapFonts - " & Err.Description
+ErrorHand:
+531:   lblStatus.Caption = ""
+532:   MsgBox "cmdExport_Click - " & Erl & " - " & Err.Description
 End Sub
 
-Public Sub InitializeTheForm()
-    
-391:     Me.cmbExportType.Clear
-'    Me.cmbExportType.AddItem "EMF (*.emf)"
-'    Me.cmbExportType.AddItem "CGM (*.cgm)"
-'    Me.cmbExportType.AddItem "EPS (*.eps)"
-'    Me.cmbExportType.AddItem "AI (*.ai)"
-396:     Me.cmbExportType.AddItem "BMP (*.bmp)"
-397:     Me.cmbExportType.AddItem "EPS (*.eps)"
-398:     Me.cmbExportType.AddItem "JPEG (*.jpg)"
-399:     Me.cmbExportType.AddItem "PDF (*.pdf)"
-400:     Me.cmbExportType.AddItem "TIFF (*.tif)"
-    
-'    Me.cmbExportType.Text = "JPEG (*.jpg)"
-    
-404:     Me.cmbExportType.ListIndex = 2
-    
-End Sub
 
-Private Sub ChangeFileExtension(sFileType As String)
-
-Dim sExt As String
-411:     sExt = Right(sFileType, 4)
-412:     sExt = Left(sExt, 3)
-    
-Dim sFileName As String
-Dim sFileNameExt As String
-
-417:     sFileName = Me.txtPath.Text
-418:     sFileNameExt = Right(sFileName, 3)
-    
-420:     If sExt <> sFileNameExt Then
-        Dim aFileName() As String
-        
-423:         aFileName = Split(sFileName, ".")
-        
-425:         If sExt <> ".ai" Then
-426:             Me.txtPath.Text = aFileName(0) & "." & sExt
-427:         Else
-428:             Me.txtPath.Text = aFileName(0) & sExt
-429:         End If
-    
-431:     End If
-    
-End Sub
-
-'Private Sub cmdOptions_Click()
-'  On Error GoTo ErrorHandler
-'
-'  Dim sFileExt As String
-'  sFileExt = Me.cmbExportType.Text
-'
-'  Dim pExportSet As ISet
-'  Dim sTitle As String
-'  Dim pMyPage As IComPropertyPage   'build the property page
-'  Dim pMyPage2 As IComPropertyPage
-'
-'  'Set m_pExport = Nothing
-'
-'  Set pExportSet = New esriSystem.Set
-'
-'  Select Case sFileExt
-'  Case "EMF (*.emf)"
-'    If m_pExport Is Nothing Then
-'      Set m_pExport = New ExportEMF
-'    Else
-'      If Not TypeOf m_pExport Is IExportEMF Then
-'        Set m_pExport = New ExportEMF
-'      End If
-'    End If
-'    sTitle = "EMF Options"
-'    Set pMyPage = New EmfExporterPropertyPage
-''CGM is no longer supported at 9.0
-''  Case "CGM (*.cgm)"
-''    If m_pExporter Is Nothing Then
-''      Set m_pExporter = New CGMExporter
-''    Else
-''      If Not TypeOf m_pExport Is ICGMExporter Then
-''        Set m_pExport = New CGMExporter
-''      End If
-''    End If
-''    sTitle = "CGM Options"
-''    Set pMyPage = New CGMExporterPropertyPage
-''  Case "AI (*.ai)"
-''    If m_pExport Is Nothing Then
-''      Set m_pExport = New exportai
-''    Else
-''      If Not TypeOf m_pExport Is IExportAI Then
-''        Set m_pExport = New Exportai
-''      End If
-''    End If
-''    sTitle = "AI Options"
-''    Set pMyPage = New AIExporterPropertyPage
-'  Case "EPS (*.eps)"
-'    If m_pExport Is Nothing Then
-'      Set m_pExport = New ExportPS
-'    Else
-'      If Not TypeOf m_pExport Is IExportPS Then
-'        Set m_pExport = New ExportPS
-'      End If
-'    End If
-'    sTitle = "EPS Options"
-'    Set pMyPage = New PDFExporterPropertyPage
-'  Case "PDF (*.pdf)"
-'    If m_pExport Is Nothing Then
-'      Set m_pExport = New ExportPDF
-'    Else
-'      If Not TypeOf m_pExport Is IExportPDF Then
-'        Set m_pExport = New ExportPDF
-'      End If
-'    End If
-'    sTitle = "PDF Options"
-'    Set pMyPage = New PDFExporterPropertyPage
-'    Set pMyPage2 = New FontMappingPropertyPage
-'  Case "BMP (*.bmp)"
-'    If m_pExport Is Nothing Then
-'      Set m_pExport = New ExportBMP
-'    Else
-'      If Not TypeOf m_pExport Is IExportBMP Then
-'        Set m_pExport = New ExportBMP
-'      End If
-'    End If
-'    sTitle = "BMP Options"
-'    Set pMyPage = New DibExporterPropertyPage
-'  Case "TIFF (*.tif)"
-'    If m_pExport Is Nothing Then
-'      Set m_pExport = New ExportTIFF
-'    Else
-'      If Not TypeOf m_pExport Is IExportTIFF Then
-'        Set m_pExport = New ExportTIFF
-'      End If
-'    End If
-'    sTitle = "TIFF Options"
-'    Set pMyPage = New TiffExporterPropertyPage
-'  Case "JPEG (*.jpg)"
-'    If m_pExport Is Nothing Then
-'      Set m_pExport = New ExportJPEG
-'    Else
-'      If Not TypeOf m_pExport Is IExportJPEG Then
-'        Set m_pExport = New ExportJPEG
-'      End If
-'    End If
-'    sTitle = "JPEG Options"
-'    Set pMyPage = New JpegExporterPropertyPage
-'  End Select
-'
-'  If m_pExport Is Nothing Then Exit Sub
-'
-'  pExportSet.Add m_pExport
-'
-'  Dim pPS As IComPropertySheet
-'
-'  Set pPS = New ComPropertySheet
-'
-'  If Not pMyPage Is Nothing Then
-'    pPS.AddPage pMyPage
-'  End If
-'
-'  If Not pMyPage2 Is Nothing Then
-'    pPS.AddPage pMyPage2
-'  End If
-'
-''  Me.Hide
-'  m_pExportFrame.Visible = False
-'
-'  If pPS.CanEdit(pExportSet) = True Then
-'    pPS.Title = sTitle
-'    pPS.EditProperties pExportSet, m_pApp.hwnd 'show the property sheet
-'  End If
-'
-''  Me.Show
-'  m_pExportFrame.Visible = True
-'
-'
-''  If pMyPage.IsPageDirty = True Then
-'    pMyPage.Apply
-''  End If
-'
-'  Exit Sub
-'ErrorHandler:
-'  MsgBox "cmdOptions_Click - " & Err.Description
-'End Sub
-
-Private Sub cmdOptions_Click()
-  On Error GoTo ErrorHandler
-
-  Dim sFileExt As String
-576:   sFileExt = Me.cmbExportType.Text
-      
-  Dim sTitle As String
-
-  Select Case sFileExt
-  Case "EMF (*.emf)"
-582:     If m_pExport Is Nothing Then
-583:       Set m_pExport = New ExportEMF
-584:     Else
-585:       If Not TypeOf m_pExport Is IExportEMF Then
-586:         Set m_pExport = New ExportEMF
-587:       End If
-588:     End If
-589:     sTitle = "EMF Options"
-'  Case "AI (*.ai)"
-'    If m_pExport Is Nothing Then
-'      Set m_pExport = New exportai
-'    Else
-'      If Not TypeOf m_pExport Is IExportAI Then
-'        Set m_pExport = New Exportai
-'      End If
-'    End If
-'    sTitle = "AI Options"
-'    Set pMyPage = New AIExporterPropertyPage
-  Case "EPS (*.eps)"
-601:     If m_pExport Is Nothing Then
-602:       Set m_pExport = New ExportPS
-603:     Else
-604:       If Not TypeOf m_pExport Is IExportPS Then
-605:         Set m_pExport = New ExportPS
-606:       End If
-607:     End If
-608:     sTitle = "EPS Options"
-  Case "PDF (*.pdf)"
-610:     If m_pExport Is Nothing Then
-611:       Set m_pExport = New ExportPDF
-612:     Else
-613:       If Not TypeOf m_pExport Is IExportPDF Then
-614:         Set m_pExport = New ExportPDF
-615:       End If
-616:     End If
-617:     sTitle = "PDF Options"
-  Case "BMP (*.bmp)"
-619:     If m_pExport Is Nothing Then
-620:       Set m_pExport = New ExportBMP
-621:     Else
-622:       If Not TypeOf m_pExport Is IExportBMP Then
-623:         Set m_pExport = New ExportBMP
-624:       End If
-625:     End If
-626:     sTitle = "BMP Options"
-  Case "TIFF (*.tif)"
-628:     If m_pExport Is Nothing Then
-629:       Set m_pExport = New ExportTIFF
-630:     Else
-631:       If Not TypeOf m_pExport Is IExportTIFF Then
-632:         Set m_pExport = New ExportTIFF
-633:       End If
-634:     End If
-635:     sTitle = "TIFF Options"
-  Case "JPEG (*.jpg)"
-637:     If m_pExport Is Nothing Then
-638:       Set m_pExport = New ExportJPEG
-639:     Else
-640:       If Not TypeOf m_pExport Is IExportJPEG Then
-641:         Set m_pExport = New ExportJPEG
-642:       End If
-643:     End If
-644:     sTitle = "JPEG Options"
-645:   End Select
-
-  If m_pExport Is Nothing Then Exit Sub
-  
-'  Me.Hide
-650:   m_pExportFrame.Visible = False
-              
-652:   Set frmExportPropDlg.Export = m_pExport
-653:   frmExportPropDlg.Caption = sTitle
-654:   frmExportPropDlg.Show vbModal, Me
-  
-  'The ExportSVG class has a Compression property that changes the value of the Filter property,
-  ' and we must syncronize our file extension to account for the possible change.
-658:   If TypeOf m_pExport Is IExportSVG Then
-659:     cboSaveAsType.List(cboSaveAsType.ListIndex) = Split(m_pExport.Filter, "|")(0)
-660:     m_sFileExtension = Split(Split(cboSaveAsType.Text, "(")(1), ")")(0)
-661:     m_sFileExtension = Right(m_sFileExtension, Len(m_sFileExtension) - 1)
-662:     txtFileName.Text = "Unititled" & m_sFileExtension
-663:   End If
-              
-'  Me.Show
-666:   m_pExportFrame.Visible = True
-        
-  Exit Sub
-ErrorHandler:
-670:   MsgBox "cmdOptions_Click - " & Err.Description
-End Sub
 
 Public Sub SetupToExport(ByRef pExport As IExport, ByRef dpi As Integer, ByRef ExportFrame As tagRECT, pActiveView As IActiveView, sExportFileName As String)
-  On Error GoTo ErrorHandler
+  On Error GoTo ErrorHand
   
   Dim pEnv As IEnvelope, pPageLayout As IPageLayout, pPage As IPage
   Dim dXmax As Double, dYmax As Double
-  
-679:    Set pEnv = New Envelope
+  Dim pOutputRasterSettings As IOutputRasterSettings
+
+544:    Set pEnv = New Envelope
 '   pActiveView.ScreenDisplay.DisplayTransformation.Resolution = pExport.Resolution
   'Setup the Export
-682:   ExportFrame = pActiveView.ExportFrame
+547:   ExportFrame = pActiveView.ExportFrame
 
-684:   Set pPageLayout = pActiveView
-685:   Set pPage = pPageLayout.Page
+549:   Set pPageLayout = pActiveView
+550:   Set pPage = pPageLayout.Page
   
-687:   If pPage.Units <> esriInches Then
-688:     pPage.Units = esriInches
-689:   End If
+552:   If pPage.Units <> esriInches Then
+553:     pPage.Units = esriInches
+554:   End If
   
-691:   pPage.QuerySize dXmax, dYmax
-692:   pEnv.PutCoords 0, 0, dXmax * pExport.Resolution, dYmax * pExport.Resolution
+556:   pPage.QuerySize dXmax, dYmax
+557:   pEnv.PutCoords 0, 0, dXmax * pExport.Resolution, dYmax * pExport.Resolution
 
 'Commented out code removes a quarter of a unit, most likely an inch, from the extent to make it
 'fit better on the page
 '  ExportFrame.Top = pExport.Resolution * 0.25
 '  ExportFrame.Right = (dXmax - 0.25) * pExport.Resolution
-698:   ExportFrame.Right = dXmax * pExport.Resolution
-699:   ExportFrame.bottom = dYmax * pExport.Resolution
+563:   ExportFrame.Right = dXmax * pExport.Resolution
+564:   ExportFrame.bottom = dYmax * pExport.Resolution
   
-701:   ExportFrame.Left = 0
-702:   ExportFrame.Top = 0
+566:   ExportFrame.Left = 0
+567:   ExportFrame.Top = 0
             
-704:   With pExport
-705:     .PixelBounds = pEnv
-706:     .ExportFileName = sExportFileName
-707:   End With
+569:   With pExport
+570:     .PixelBounds = pEnv
+571:     .ExportFileName = sExportFileName
+572:   End With
 
   
+  ' Output Image Quality of the export.  The value here will only be used if the export
+  '  object is a format that allows setting of Output Image Quality, i.e. a vector exporter.
+  '  The value assigned to ResampleRatio should be in the range 1 to 5.
+  '  1 (esriRasterOutputBest) corresponds to "Best", 5 corresponds to "Fast"
+579:   If TypeOf pExport Is IOutputRasterSettings Then
+    ' for vector formats, get the ResampleRatio from the export object and call SetOutputQuality
+    '   to control drawing of raster layers at export time
+582:     Set pOutputRasterSettings = pExport
+583:     SetOutputQuality pActiveView, pOutputRasterSettings.ResampleRatio
+584:     Set pOutputRasterSettings = Nothing
+585:   Else
+    'always set the output quality of the display to 1 (esriRasterOutputBest) for image export formats
+587:     SetOutputQuality pActiveView, esriRasterOutputBest
+588:   End If
+  
+  
+  
   Exit Sub
-ErrorHandler:
-712:   MsgBox "SetupToExport - " & Err.Description
+ErrorHand:
+594:   MsgBox "SetupToExport - " & Erl & " - " & Err.Description
 End Sub
 
 
 Public Function ConvertToPixels(sOrient As String, pExport As IExport) As Double
-On Error GoTo ErrHand:
+On Error GoTo ErrorHand:
   Dim pixelExtent As Long
   Dim pDT As IDisplayTransformation
   Dim deviceRECT As tagRECT
   Dim pMxDoc As IMxDocument
   
-723:   Set pMxDoc = m_pApp.Document
-724:   Set pDT = pMxDoc.ActiveView.ScreenDisplay.DisplayTransformation
-725:   deviceRECT = pDT.DeviceFrame
+605:   Set pMxDoc = m_pApp.Document
+606:   Set pDT = pMxDoc.ActiveView.ScreenDisplay.DisplayTransformation
+607:   deviceRECT = pDT.DeviceFrame
   
-727:   If sOrient = "Height" Then
-728:     pixelExtent = Abs(deviceRECT.Top - deviceRECT.bottom)
-729:   ElseIf sOrient = "Width" Then
-730:     pixelExtent = Abs(deviceRECT.Top - deviceRECT.bottom)
-731:   End If
+609:   If sOrient = "Height" Then
+610:     pixelExtent = Abs(deviceRECT.Top - deviceRECT.bottom)
+611:   ElseIf sOrient = "Width" Then
+612:     pixelExtent = Abs(deviceRECT.Top - deviceRECT.bottom)
+613:   End If
   
-733:   ConvertToPixels = (pExport.Resolution * (pixelExtent / pDT.Resolution))
+615:   ConvertToPixels = (pExport.Resolution * (pixelExtent / pDT.Resolution))
   
   Exit Function
-ErrHand:
-737:   MsgBox "ConvertToPixels - " & Err.Description
+ErrorHand:
+619:   MsgBox "ConvertToPixels - " & Erl & " - " & Err.Description
 End Function
 
 Private Sub Form_Load()
-741:   chkDisabled.Value = 1
+623:   chkDisabled.value = 1
 End Sub
 
 Private Function CheckForValidPath(sPathName As String) As Boolean
-  On Error GoTo ErrorHandler
+  On Error GoTo ErrorHand
 
-747:   CheckForValidPath = False
+629:   CheckForValidPath = False
   
   Dim aPath() As String
-750:       aPath = Split(sPathName, ".")
+632:       aPath = Split(sPathName, ".")
 
-752:   If UBound(aPath) = 0 Then
+634:   If UBound(aPath) = 0 Then
     Exit Function
-754:   ElseIf UBound(aPath) = 1 Then
+636:   ElseIf UBound(aPath) = 1 Then
     
     Dim sPath As String
     Dim lPos As Long
     
-759:       lPos = InStrRev(sPathName, "\")
-760:       sPath = Left$(sPathName, (Len(sPathName) - (Len(sPathName) - lPos + 1)))
+641:       lPos = InStrRev(sPathName, "\")
+642:       sPath = Left$(sPathName, (Len(sPathName) - (Len(sPathName) - lPos + 1)))
       
-762:       If Dir(sPath, vbDirectory) <> "" Then
-763:         CheckForValidPath = True
+644:       If Dir(sPath, vbDirectory) <> "" Then
+645:         CheckForValidPath = True
         Exit Function
-765:       Else
+647:       Else
         Exit Function
-767:       End If
+649:       End If
       
-769:   ElseIf UBound(aPath) > 1 Then
+651:   ElseIf UBound(aPath) > 1 Then
     Exit Function
-771:   End If
+653:   End If
   
   Exit Function
-ErrorHandler:
-775:   MsgBox "CheckForValidPath - " & Err.Description
+ErrorHand:
+657:   MsgBox "CheckForValidPath - " & Erl & " - " & Err.Description
 End Function
 
-Private Sub Form_Unload(Cancel As Integer)
-779:   Set m_pMapPage = Nothing
-780:   Set m_pMapSeries = Nothing
-781:   Set m_pMapBook = Nothing
-782:   Set m_pApp = Nothing
-783:   Set m_pExport = Nothing
-784:   Set m_pExportFrame = Nothing
+Public Sub SetOutputQuality(pActiveView As IActiveView, ByVal lOutputQuality As Long)
+On Error GoTo ErrorHand
+  Dim pMap As IMap
+  Dim pGraphicsContainer As IGraphicsContainer
+  Dim pElement As IElement
+  Dim pOutputRasterSettings As IOutputRasterSettings
+  Dim pMapFrame As IMapFrame
+  Dim pTmpActiveView As IActiveView
+  
+  
+670:   If TypeOf pActiveView Is IMap Then
+671:     Set pOutputRasterSettings = pActiveView.ScreenDisplay.DisplayTransformation
+672:     pOutputRasterSettings.ResampleRatio = lOutputQuality
+673:   ElseIf TypeOf pActiveView Is IPageLayout Then
+    
+    'assign ResampleRatio for PageLayout
+676:     Set pOutputRasterSettings = pActiveView.ScreenDisplay.DisplayTransformation
+677:     pOutputRasterSettings.ResampleRatio = lOutputQuality
+    
+    'and assign ResampleRatio to the Maps in the PageLayout
+680:     Set pGraphicsContainer = pActiveView
+681:     pGraphicsContainer.Reset
+682:     Set pElement = pGraphicsContainer.Next
+683:     Do While Not pElement Is Nothing
+684:       If TypeOf pElement Is IMapFrame Then
+685:         Set pMapFrame = pElement
+686:         Set pTmpActiveView = pMapFrame.Map
+687:         Set pOutputRasterSettings = pTmpActiveView.ScreenDisplay.DisplayTransformation
+688:         pOutputRasterSettings.ResampleRatio = lOutputQuality
+689:       End If
+690:       DoEvents
+691:       Set pElement = pGraphicsContainer.Next
+692:     Loop
+693:     Set pMap = Nothing
+694:     Set pMapFrame = Nothing
+695:     Set pGraphicsContainer = Nothing
+696:     Set pTmpActiveView = Nothing
+697:   End If
+698:   Set pOutputRasterSettings = Nothing
+  
+  Exit Sub
+ErrorHand:
+702:   MsgBox "SetOutputQuality - " & Erl & " - " & Err.Description
 End Sub
+
+
+Private Sub Form_Unload(Cancel As Integer)
+707:   Set m_pMapPage = Nothing
+708:   Set m_pMapSeries = Nothing
+709:   Set m_pMapBook = Nothing
+710:   Set m_pApp = Nothing
+711:   Set m_pExport = Nothing
+712:   Set m_pExportFrame = Nothing
+713:   Set m_ExportersCol = Nothing
+End Sub
+
+Public Function GetMxdName() As String
+On Error GoTo ErrorHand
+  Dim pTemplates As ITemplates
+  Dim lTempCount As Long
+  Dim strDocPath As String
+  
+722:   Set pTemplates = Application.Templates
+723:   lTempCount = pTemplates.count
+  
+  ' The document is always the last item
+726:   strDocPath = pTemplates.Item(lTempCount - 1)
+727:   GetMxdName = Split(strDocPath, "\")(UBound(Split(strDocPath, "\")))
+  Exit Function
+ErrorHand:
+730:   MsgBox "GetMxdName - " & Erl & " - " & Err.Description
+End Function
+
+Public Function GetRootNameFromPath(sPathAndFilename As String) As String
+On Error GoTo ErrorHand
+
+  Dim sRootName As String
+737:   sRootName = Split(sPathAndFilename, "\")(UBound(Split(sPathAndFilename, "\")))
+738:   sRootName = Split(sRootName, ".")(0)
+739:   GetRootNameFromPath = sRootName
+  Exit Function
+ErrorHand:
+742:   MsgBox "GetRootNameFromPath - " & Erl & " - " & Err.Description
+End Function
+
+Public Function GetPathFromPathAndFilename(sPathAndFilename As String) As String
+On Error GoTo ErrorHand
+
+  Dim sPathName As String
+  Dim sRootName As String
+750:   sRootName = Split(sPathAndFilename, "\")(UBound(Split(sPathAndFilename, "\")))
+751:   sPathName = Left(sPathAndFilename, Len(sPathAndFilename) - Len(sRootName))
+
+753:   GetPathFromPathAndFilename = sPathName
+  Exit Function
+ErrorHand:
+756:   MsgBox "GetPathFromPathAndFilename - " & Erl & " - " & Err.Description
+End Function
+
+
+' Read a Registry value.
+' Use KeyName = "" for the default value.
+' Supports only DWORD, SZ, and BINARY value types.
+
+Function GetRegistryValue(ByVal hKey As Long, ByVal KeyName As String, _
+    ByVal ValueName As String, ByVal KeyType As Integer, _
+    Optional DefaultValue As Variant = Empty) As Variant
+On Error GoTo ErrorHand
+
+    Dim handle As Long, resLong As Long
+    Dim resString As String, length As Long
+    Dim resBinary() As Byte
+    
+    ' Prepare the default result.
+774:     GetRegistryValue = DefaultValue
+    ' Open the key, exit if not found.
+    If RegOpenKeyEx(hKey, KeyName, 0, KEY_READ, handle) Then Exit Function
+    
+    Select Case KeyType
+        Case REG_DWORD
+            ' Read the value, use the default if not found.
+781:             If RegQueryValueEx(handle, ValueName, 0, REG_DWORD, _
+                resLong, 4) = 0 Then
+783:                 GetRegistryValue = resLong
+784:             End If
+        Case REG_SZ
+786:             length = 1024: resString = Space$(length)
+787:             If RegQueryValueEx(handle, ValueName, 0, REG_SZ, _
+                ByVal resString, length) = 0 Then
+                ' If value is found, trim characters in excess.
+790:                 GetRegistryValue = Left$(resString, length - 1)
+791:             End If
+        Case REG_BINARY
+793:             length = 4096
+            ReDim resBinary(length - 1) As Byte
+795:             If RegQueryValueEx(handle, ValueName, 0, REG_BINARY, _
+                resBinary(0), length) = 0 Then
+797:                 GetRegistryValue = resBinary()
+798:             End If
+        Case Else
+800:             Err.Raise 1001, , "Unsupported value type"
+801:     End Select
+    
+803:     RegCloseKey handle
+    
+    Exit Function
+ErrorHand:
+807:   MsgBox "GetRegistryvalue - " & Erl & " - " & Err.Description
+End Function
+
+' Write / Create a Registry value.
+' Use KeyName = "" for the default value.
+' Supports only DWORD, SZ, REG_MULTI_SZ, and BINARY value types.
+
+Sub SetRegistryValue(ByVal hKey As Long, ByVal KeyName As String, ByVal ValueName As String, ByVal KeyType As Integer, value As Variant)
+On Error GoTo ErrorHand
+    Dim handle As Long, lngValue As Long
+    Dim strValue As String
+    Dim binValue() As Byte, length As Long
+    
+    ' Open the key, exit if not found.
+    If RegOpenKeyEx(hKey, KeyName, 0, KEY_WRITE, handle) Then Exit Sub
+    
+    Select Case KeyType
+        Case REG_DWORD
+825:             lngValue = value
+826:             RegSetValueEx handle, ValueName, 0, KeyType, lngValue, 4
+        Case REG_SZ
+828:             strValue = value
+829:             RegSetValueEx handle, ValueName, 0, KeyType, ByVal strValue, Len(strValue)
+        Case REG_MULTI_SZ
+831:             strValue = value
+832:             RegSetValueEx handle, ValueName, 0, KeyType, ByVal strValue, Len(strValue)
+        Case REG_BINARY
+834:             binValue = value
+835:             length = UBound(binValue) - LBound(binValue) + 1
+836:             RegSetValueEx handle, ValueName, 0, KeyType, binValue(LBound(binValue)), length
+837:     End Select
+    
+    ' Close the key.
+840:     RegCloseKey handle
+    
+    Exit Sub
+ErrorHand:
+844:   MsgBox "SetRegistryValue - " & Erl & " - " & Err.Description
+End Sub
+
+

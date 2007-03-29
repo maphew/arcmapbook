@@ -135,14 +135,14 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 
 ' Copyright 2006 ESRI
-' 							  
+'
 ' All rights reserved under the copyright laws of the United States
 ' and applicable international laws, treaties, and conventions.
-' 
+'
 ' You may freely redistribute and use this sample code, with or
 ' without modification, provided you include the original copyright
 ' notice and use restrictions.
-' 
+'
 ' See use restrictions at /arcgis/developerkit/userestrictions.
 
 Option Explicit
@@ -151,7 +151,7 @@ Public m_pApp As IApplication
 Private m_pMapSeries As IDSMapSeries
 
 Private Sub cmdCancel_Click()
-7:   Unload Me
+19:   Unload Me
 End Sub
 
 Private Sub cmdOK_Click()
@@ -159,21 +159,21 @@ On Error GoTo ErrHand:
   Dim lLoop As Long, pMapPage As IDSMapPage
   'Check to see if a MapSeries already exists
   
-15:   If optSelection(0).Value Then      'Select all
-16:     SelectAllPages True
-17:   ElseIf optSelection(1).Value Then  'Unselect all
-18:     SelectAllPages False
-19:   ElseIf optSelection(2).Value Then  'Select by date last printed/exported
-20:     SelectByDate
-21:   ElseIf optSelection(3).Value Then  'Select by scale value
-22:     SelectByScale
-23:   End If
+27:   If optSelection(0).value Then      'Select all
+28:     SelectAllPages True
+29:   ElseIf optSelection(1).value Then  'Unselect all
+30:     SelectAllPages False
+31:   ElseIf optSelection(2).value Then  'Select by date last printed/exported
+32:     SelectByDate
+33:   ElseIf optSelection(3).value Then  'Select by scale value
+34:     SelectByScale
+35:   End If
 
-25:   Unload Me
+37:   Unload Me
   
   Exit Sub
 ErrHand:
-29:   MsgBox "frmSelectPages_Click - " & Err.Description
+41:   MsgBox "frmSelectPages_Click - " & Err.Description
 End Sub
 
 Private Sub SelectByDate()
@@ -182,41 +182,41 @@ On Error GoTo ErrHand:
   Dim pPage As IDSMapPage
   
   'Select pages by date last printed/exported
-38:   For lLoop = 0 To m_pMapSeries.PageCount - 1
-39:     Set pPage = m_pMapSeries.Page(lLoop)
-40:     Set pNode = g_pFrmMapSeries.tvwMapBook.Nodes.Item(lLoop + 3)
-41:     dDate = m_pMapSeries.Page(lLoop).LastOutputted
-42:     If IsDate(txtBefore.Text) And txtAfter.Text = "" Then
-43:       If dDate < txtBefore.Text Or dDate = #1/1/1900# Then
-44:         pPage.EnablePage = True
-45:         pNode.Image = 5
-46:       Else
-47:         pPage.EnablePage = False
-48:         pNode.Image = 6
-49:       End If
-50:     ElseIf IsDate(txtBefore.Text) And IsDate(txtAfter.Text) Then
-51:       If dDate >= txtBefore.Text And dDate <= txtAfter.Text Then
-52:         pPage.EnablePage = True
-53:         pNode.Image = 5
-54:       Else
-55:         pPage.EnablePage = False
-56:         pNode.Image = 6
-57:       End If
-58:     Else
-59:       If dDate > txtAfter.Text Then
-60:         pPage.EnablePage = True
-61:         pNode.Image = 5
-62:       Else
-63:         pPage.EnablePage = False
-64:         pNode.Image = 6
-65:       End If
-66:     End If
-67:   Next lLoop
+50:   For lLoop = 0 To m_pMapSeries.PageCount - 1
+51:     Set pPage = m_pMapSeries.Page(lLoop)
+52:     Set pNode = g_pFrmMapSeries.tvwMapBook.Nodes.Item(lLoop + 3)
+53:     dDate = m_pMapSeries.Page(lLoop).LastOutputted
+54:     If IsDate(txtBefore.Text) And txtAfter.Text = "" Then
+55:       If dDate < txtBefore.Text Or dDate = #1/1/1900# Then
+56:         pPage.EnablePage = True
+57:         pNode.Image = 5
+58:       Else
+59:         pPage.EnablePage = False
+60:         pNode.Image = 6
+61:       End If
+62:     ElseIf IsDate(txtBefore.Text) And IsDate(txtAfter.Text) Then
+63:       If dDate >= txtBefore.Text And dDate <= txtAfter.Text Then
+64:         pPage.EnablePage = True
+65:         pNode.Image = 5
+66:       Else
+67:         pPage.EnablePage = False
+68:         pNode.Image = 6
+69:       End If
+70:     Else
+71:       If dDate > txtAfter.Text Then
+72:         pPage.EnablePage = True
+73:         pNode.Image = 5
+74:       Else
+75:         pPage.EnablePage = False
+76:         pNode.Image = 6
+77:       End If
+78:     End If
+79:   Next lLoop
 
   Exit Sub
 
 ErrHand:
-72:   MsgBox "SelectByDate - " & Err.Description
+84:   MsgBox "SelectByDate - " & Err.Description
 End Sub
 
 Private Sub SelectByScale()
@@ -225,54 +225,54 @@ On Error GoTo ErrHand:
   Dim pPage As IDSMapPage, sExp As String
   
   'Select pages by Scale
-81:   For lLoop = 0 To m_pMapSeries.PageCount - 1
-82:     Set pPage = m_pMapSeries.Page(lLoop)
-83:     Set pNode = g_pFrmMapSeries.tvwMapBook.Nodes.Item(lLoop + 3)
-84:     dScale = m_pMapSeries.Page(lLoop).PageScale
-85:     sExp = CStr(dScale) & " " & cmbScale.Text & " " & txtScale.Text
-86:     If sExp Then
-87:       pPage.EnablePage = True
-88:       pNode.Image = 5
-89:     Else
-90:       pPage.EnablePage = False
-91:       pNode.Image = 6
-92:     End If
-93:   Next lLoop
+93:   For lLoop = 0 To m_pMapSeries.PageCount - 1
+94:     Set pPage = m_pMapSeries.Page(lLoop)
+95:     Set pNode = g_pFrmMapSeries.tvwMapBook.Nodes.Item(lLoop + 3)
+96:     dScale = m_pMapSeries.Page(lLoop).PageScale
+97:     sExp = CStr(dScale) & " " & cmbScale.Text & " " & txtScale.Text
+98:     If sExp Then
+99:       pPage.EnablePage = True
+100:       pNode.Image = 5
+101:     Else
+102:       pPage.EnablePage = False
+103:       pNode.Image = 6
+104:     End If
+105:   Next lLoop
 
   Exit Sub
 
 ErrHand:
-98:   MsgBox "SelectByScale - " & Err.Description
+110:   MsgBox "SelectByScale - " & Err.Description
 End Sub
 
 Private Sub Form_Load()
 On Error GoTo ErrHand:
   Dim pMapBook As IDSMapBook, pOpts As IDSMapSeriesOptions
-104:   Set pMapBook = GetMapBookExtension(m_pApp)
+116:   Set pMapBook = GetMapBookExtension(m_pApp)
   If pMapBook Is Nothing Then Exit Sub
   
-107:   Set m_pMapSeries = pMapBook.ContentItem(0)
-108:   Set pOpts = m_pMapSeries
-109:   If pOpts.ExtentType = 2 Then
-110:     optSelection(3).Enabled = True
-111:   Else
-112:     optSelection(3).Enabled = False
-113:   End If
+119:   Set m_pMapSeries = pMapBook.ContentItem(0)
+120:   Set pOpts = m_pMapSeries
+121:   If pOpts.ExtentType = 2 Then
+122:     optSelection(3).Enabled = True
+123:   Else
+124:     optSelection(3).Enabled = False
+125:   End If
 
-115:   optSelection(0).Value = True
+127:   optSelection(0).value = True
   
-117:   cmbScale.Clear
-118:   cmbScale.AddItem "="
-119:   cmbScale.AddItem "<>"
-120:   cmbScale.AddItem ">"
-121:   cmbScale.AddItem ">="
-122:   cmbScale.AddItem "<"
-123:   cmbScale.AddItem "<="
-124:   cmbScale.Text = "="
+129:   cmbScale.Clear
+130:   cmbScale.AddItem "="
+131:   cmbScale.AddItem "<>"
+132:   cmbScale.AddItem ">"
+133:   cmbScale.AddItem ">="
+134:   cmbScale.AddItem "<"
+135:   cmbScale.AddItem "<="
+136:   cmbScale.Text = "="
   
   Exit Sub
 ErrHand:
-128:   MsgBox "frmSelectPages_Load - " & Err.Description
+140:   MsgBox "frmSelectPages_Load - " & Err.Description
 End Sub
 
 Private Sub SelectAllPages(bValue As Boolean)
@@ -280,86 +280,86 @@ On Error GoTo ErrHand:
   Dim lLoop As Long, pNode As Node
   
   'Loop through the pages turning them on or off
-136:   For lLoop = 0 To m_pMapSeries.PageCount - 1
-137:     Set pNode = g_pFrmMapSeries.tvwMapBook.Nodes.Item(lLoop + 3)
-138:     m_pMapSeries.Page(lLoop).EnablePage = bValue
-139:     If bValue Then
-140:       pNode.Image = 5
-141:     Else
-142:       pNode.Image = 6
-143:     End If
-144:   Next lLoop
+148:   For lLoop = 0 To m_pMapSeries.PageCount - 1
+149:     Set pNode = g_pFrmMapSeries.tvwMapBook.Nodes.Item(lLoop + 3)
+150:     m_pMapSeries.Page(lLoop).EnablePage = bValue
+151:     If bValue Then
+152:       pNode.Image = 5
+153:     Else
+154:       pNode.Image = 6
+155:     End If
+156:   Next lLoop
   
   Exit Sub
 ErrHand:
-148:   MsgBox "SelectAllPages - " & Err.Description
+160:   MsgBox "SelectAllPages - " & Err.Description
 End Sub
 
 Private Sub optSelection_Click(Index As Integer)
   Select Case Index
   Case 0    'Select all
-154:     cmdOK.Enabled = True
+166:     cmdOK.Enabled = True
   Case 1    'Unselect all
-156:     cmdOK.Enabled = True
+168:     cmdOK.Enabled = True
   Case 2    'Select by date last printed/exported
-158:     If DateCheck Then
-159:       cmdOK.Enabled = True
-160:     Else
-161:       cmdOK.Enabled = False
-162:     End If
+170:     If DateCheck Then
+171:       cmdOK.Enabled = True
+172:     Else
+173:       cmdOK.Enabled = False
+174:     End If
   Case 3    'Select by scale
-164:     If ScaleCheck Then
-165:       cmdOK.Enabled = True
-166:     Else
-167:       cmdOK.Enabled = False
-168:     End If
-169:   End Select
+176:     If ScaleCheck Then
+177:       cmdOK.Enabled = True
+178:     Else
+179:       cmdOK.Enabled = False
+180:     End If
+181:   End Select
 End Sub
 
 Private Sub txtAfter_KeyUp(KeyCode As Integer, Shift As Integer)
-173:   If DateCheck Then
-174:     cmdOK.Enabled = True
-175:   Else
-176:     cmdOK.Enabled = False
-177:   End If
+185:   If DateCheck Then
+186:     cmdOK.Enabled = True
+187:   Else
+188:     cmdOK.Enabled = False
+189:   End If
 End Sub
 
 Private Sub txtBefore_KeyUp(KeyCode As Integer, Shift As Integer)
-181:   If DateCheck Then
-182:     cmdOK.Enabled = True
-183:   Else
-184:     cmdOK.Enabled = False
-185:   End If
+193:   If DateCheck Then
+194:     cmdOK.Enabled = True
+195:   Else
+196:     cmdOK.Enabled = False
+197:   End If
 End Sub
 
 Private Sub txtScale_KeyUp(KeyCode As Integer, Shift As Integer)
-189:   If Not IsNumeric(txtScale.Text) Then
-190:     txtScale.Text = ""
-191:   End If
-192:   If ScaleCheck Then
-193:     cmdOK.Enabled = True
-194:   Else
-195:     cmdOK.Enabled = False
-196:   End If
+201:   If Not IsNumeric(txtScale.Text) Then
+202:     txtScale.Text = ""
+203:   End If
+204:   If ScaleCheck Then
+205:     cmdOK.Enabled = True
+206:   Else
+207:     cmdOK.Enabled = False
+208:   End If
 End Sub
 
 Private Function ScaleCheck() As Boolean
-200:   ScaleCheck = False
-201:   If txtScale.Text <> "" Then
-202:     If CDbl(txtScale.Text) >= 0 Then
-203:       ScaleCheck = True
-204:     End If
-205:   End If
+212:   ScaleCheck = False
+213:   If txtScale.Text <> "" Then
+214:     If CDbl(txtScale.Text) >= 0 Then
+215:       ScaleCheck = True
+216:     End If
+217:   End If
 End Function
 
 Private Function DateCheck() As Boolean
-209:   If IsDate(txtBefore.Text) And txtAfter.Text = "" Then
-210:     DateCheck = True
-211:   ElseIf IsDate(txtBefore.Text) And IsDate(txtAfter.Text) Then
-212:     DateCheck = True
-213:   ElseIf txtBefore.Text = "" And IsDate(txtAfter.Text) Then
-214:     DateCheck = True
-215:   Else
-216:     DateCheck = False
-217:   End If
+221:   If IsDate(txtBefore.Text) And txtAfter.Text = "" Then
+222:     DateCheck = True
+223:   ElseIf IsDate(txtBefore.Text) And IsDate(txtAfter.Text) Then
+224:     DateCheck = True
+225:   ElseIf txtBefore.Text = "" And IsDate(txtAfter.Text) Then
+226:     DateCheck = True
+227:   Else
+228:     DateCheck = False
+229:   End If
 End Function

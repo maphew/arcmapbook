@@ -74,14 +74,14 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 
 ' Copyright 2006 ESRI
-' 							  
+'
 ' All rights reserved under the copyright laws of the United States
 ' and applicable international laws, treaties, and conventions.
-' 
+'
 ' You may freely redistribute and use this sample code, with or
 ' without modification, provided you include the original copyright
 ' notice and use restrictions.
-' 
+'
 ' See use restrictions at /arcgis/developerkit/userestrictions.
 
 Option Explicit
@@ -90,91 +90,91 @@ Public m_pApp As IApplication
 Private bLoadFlag As Boolean
 
 Private Sub cmdOK_Click()
-7:   Unload Me
+19:   Unload Me
 End Sub
 
 Private Sub cmdUpdate_Click()
 On Error GoTo ErrHand:
   Dim pMapBook As IDSMapBook, dLastOutput As Date
   Dim pSeries As IDSMapSeries, lLoop As Long, pPage As IDSMapPage
-14:   Set pMapBook = GetMapBookExtension(m_pApp)
+26:   Set pMapBook = GetMapBookExtension(m_pApp)
   If pMapBook Is Nothing Then Exit Sub
   
-17:   Set pSeries = pMapBook.ContentItem(0)
-18:   Set pPage = pSeries.Page(grdPages.Row - 1)
+29:   Set pSeries = pMapBook.ContentItem(0)
+30:   Set pPage = pSeries.Page(grdPages.Row - 1)
   
   Select Case grdPages.Col
   Case 1   'Name
-22:     grdPages.Text = txtUpdate.Text
-23:     pPage.PageName = txtUpdate.Text
+34:     grdPages.Text = txtUpdate.Text
+35:     pPage.PageName = txtUpdate.Text
   Case 2   'Scale
-25:     grdPages.Text = txtUpdate.Text
-26:     pPage.PageScale = CDbl(txtUpdate.Text)
+37:     grdPages.Text = txtUpdate.Text
+38:     pPage.PageScale = CDbl(txtUpdate.Text)
   Case 3   'Rotation
-28:     grdPages.Text = txtUpdate.Text
-29:     pPage.PageRotation = CDbl(txtUpdate.Text)
+40:     grdPages.Text = txtUpdate.Text
+41:     pPage.PageRotation = CDbl(txtUpdate.Text)
   Case 4   'Last Output
-31:     dLastOutput = Format(txtUpdate.Text, "mm/dd/yyyy")
-32:     grdPages.Text = dLastOutput
-33:     pPage.LastOutputted = dLastOutput
-34:   End Select
+43:     dLastOutput = Format(txtUpdate.Text, "mm/dd/yyyy")
+44:     grdPages.Text = dLastOutput
+45:     pPage.LastOutputted = dLastOutput
+46:   End Select
 
   Exit Sub
   
 ErrHand:
-39:   MsgBox "cmdUpdate_Click - " & Err.Description
+51:   MsgBox "cmdUpdate_Click - " & Err.Description
 End Sub
 
 Private Sub Form_Load()
 On Error GoTo ErrHand:
   Dim pMapBook As IDSMapBook
   Dim pSeries As IDSMapSeries, lLoop As Long, pPage As IDSMapPage
-46:   Set pMapBook = GetMapBookExtension(m_pApp)
+58:   Set pMapBook = GetMapBookExtension(m_pApp)
   If pMapBook Is Nothing Then Exit Sub
   
-49:   Set pSeries = pMapBook.ContentItem(0)
+61:   Set pSeries = pMapBook.ContentItem(0)
   
   'Load up the Grid
-52:   bLoadFlag = True
-53:   grdPages.Clear
-54:   grdPages.Rows = 1
-55:   grdPages.ColWidth(0) = 750
-56:   grdPages.ColWidth(1) = 2500
-57:   grdPages.ColWidth(2) = 1000
-58:   grdPages.ColWidth(3) = 1000
-59:   grdPages.ColWidth(4) = 1400
-60:   grdPages.Row = 0
-61:   grdPages.Col = 0
-62:   grdPages.Text = "Number"
-63:   grdPages.Col = 1
-64:   grdPages.Text = "Tile Name"
-65:   grdPages.Col = 2
-66:   grdPages.Text = "Scale"
-67:   grdPages.Col = 3
-68:   grdPages.Text = "Rotation"
-69:   grdPages.Col = 4
-70:   grdPages.Text = "Last Output"
-71:   grdPages.CellAlignment = 1
-72:   For lLoop = 0 To pSeries.PageCount - 1
-73:     Set pPage = pSeries.Page(lLoop)
-74:     grdPages.AddItem lLoop + 1 & Chr(9) & pPage.PageName & Chr(9) & pPage.PageScale & _
+64:   bLoadFlag = True
+65:   grdPages.Clear
+66:   grdPages.Rows = 1
+67:   grdPages.ColWidth(0) = 750
+68:   grdPages.ColWidth(1) = 2500
+69:   grdPages.ColWidth(2) = 1000
+70:   grdPages.ColWidth(3) = 1000
+71:   grdPages.ColWidth(4) = 1400
+72:   grdPages.Row = 0
+73:   grdPages.Col = 0
+74:   grdPages.Text = "Number"
+75:   grdPages.Col = 1
+76:   grdPages.Text = "Tile Name"
+77:   grdPages.Col = 2
+78:   grdPages.Text = "Scale"
+79:   grdPages.Col = 3
+80:   grdPages.Text = "Rotation"
+81:   grdPages.Col = 4
+82:   grdPages.Text = "Last Output"
+83:   grdPages.CellAlignment = 1
+84:   For lLoop = 0 To pSeries.PageCount - 1
+85:     Set pPage = pSeries.Page(lLoop)
+86:     grdPages.AddItem lLoop + 1 & Chr(9) & pPage.PageName & Chr(9) & pPage.PageScale & _
      Chr(9) & pPage.PageRotation & Chr(9) & pPage.LastOutputted
-76:   Next lLoop
-77:   bLoadFlag = False
+88:   Next lLoop
+89:   bLoadFlag = False
   
   'Set the Update properties
-80:   lblType.Caption = ""
-81:   txtUpdate.Text = ""
-82:   lblTile.Caption = "Page:"
-83:   cmdUpdate.Enabled = False
+92:   lblType.Caption = ""
+93:   txtUpdate.Text = ""
+94:   lblTile.Caption = "Page:"
+95:   cmdUpdate.Enabled = False
   
   'Make sure the wizard stays on top
-86:   TopMost Me
+98:   TopMost Me
   
   Exit Sub
   
 ErrHand:
-91:   MsgBox "frmPageProperties_Load - " & Err.Description
+103:   MsgBox "frmPageProperties_Load - " & Err.Description
 End Sub
 
 Private Sub grdPages_EnterCell()
@@ -185,69 +185,69 @@ On Error GoTo ErrHand:
   'Exit the sub if we are loading up the grid
   If bLoadFlag Then Exit Sub
   
-102:   Set pMapBook = GetMapBookExtension(m_pApp)
+114:   Set pMapBook = GetMapBookExtension(m_pApp)
   If pMapBook Is Nothing Then Exit Sub
   
-105:   Set pSeries = pMapBook.ContentItem(0)
+117:   Set pSeries = pMapBook.ContentItem(0)
   
-107:   lCol = grdPages.Col
-108:   lRow = grdPages.Row
+119:   lCol = grdPages.Col
+120:   lRow = grdPages.Row
   
-110:   If lCol > 0 Then
-111:     Set pPage = pSeries.Page(lRow - 1)
-112:     lblTile.Caption = "Page: " & pPage.PageName
+122:   If lCol > 0 Then
+123:     Set pPage = pSeries.Page(lRow - 1)
+124:     lblTile.Caption = "Page: " & pPage.PageName
     Select Case lCol
     Case 1   'Page Name
-115:       lblType.Caption = "Name:"
-116:       txtUpdate.Text = pPage.PageName
+127:       lblType.Caption = "Name:"
+128:       txtUpdate.Text = pPage.PageName
     Case 2   'Scale
-118:       lblType.Caption = "Scale:"
-119:       txtUpdate.Text = CStr(pPage.PageScale)
+130:       lblType.Caption = "Scale:"
+131:       txtUpdate.Text = CStr(pPage.PageScale)
     Case 3   'Rotation
-121:       lblType.Caption = "Rotation:"
-122:       txtUpdate.Text = CStr(pPage.PageRotation)
+133:       lblType.Caption = "Rotation:"
+134:       txtUpdate.Text = CStr(pPage.PageRotation)
     Case 4   'Last Output
-124:       lblType.Caption = "Last Output:"
-125:       txtUpdate.Text = CStr(pPage.LastOutputted)
-126:     End Select
-127:     cmdUpdate.Enabled = True
-128:   Else
-129:     lblType.Caption = ""
-130:     txtUpdate.Text = ""
-131:     lblTile.Caption = "Page:"
-132:     cmdUpdate.Enabled = False
-133:   End If
+136:       lblType.Caption = "Last Output:"
+137:       txtUpdate.Text = CStr(pPage.LastOutputted)
+138:     End Select
+139:     cmdUpdate.Enabled = True
+140:   Else
+141:     lblType.Caption = ""
+142:     txtUpdate.Text = ""
+143:     lblTile.Caption = "Page:"
+144:     cmdUpdate.Enabled = False
+145:   End If
 
   Exit Sub
 ErrHand:
-137:   MsgBox "grdPages_EnterCell - " & Err.Description
+149:   MsgBox "grdPages_EnterCell - " & Err.Description
 End Sub
 
 Private Sub txtUpdate_KeyUp(KeyCode As Integer, Shift As Integer)
 On Error GoTo ErrHand:
 
-143:   cmdUpdate.Enabled = False
+155:   cmdUpdate.Enabled = False
   
   Select Case grdPages.Col
   Case 1   'Name
-147:     If txtUpdate.Text <> "" Then
-148:       cmdUpdate.Enabled = True
-149:     End If
-  Case 2, 3  'Scale and Rotation
-151:     If txtUpdate.Text <> "" Then
-152:       If IsNumeric(txtUpdate.Text) Then
-153:         cmdUpdate.Enabled = True
-154:       End If
-155:     End If
-  Case 4    'Last output
-157:     If txtUpdate.Text <> "" Then
-158:       If IsDate(txtUpdate.Text) Then
-159:         cmdUpdate.Enabled = True
-160:       End If
+159:     If txtUpdate.Text <> "" Then
+160:       cmdUpdate.Enabled = True
 161:     End If
-162:   End Select
+  Case 2, 3  'Scale and Rotation
+163:     If txtUpdate.Text <> "" Then
+164:       If IsNumeric(txtUpdate.Text) Then
+165:         cmdUpdate.Enabled = True
+166:       End If
+167:     End If
+  Case 4    'Last output
+169:     If txtUpdate.Text <> "" Then
+170:       If IsDate(txtUpdate.Text) Then
+171:         cmdUpdate.Enabled = True
+172:       End If
+173:     End If
+174:   End Select
 
   Exit Sub
 ErrHand:
-166:   MsgBox "txtUpdate_KeyUp - " & Err.Description
+178:   MsgBox "txtUpdate_KeyUp - " & Err.Description
 End Sub
