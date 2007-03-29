@@ -13,14 +13,14 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
 
 ' Copyright 2006 ESRI
-' 							  
+'
 ' All rights reserved under the copyright laws of the United States
 ' and applicable international laws, treaties, and conventions.
-' 
+'
 ' You may freely redistribute and use this sample code, with or
 ' without modification, provided you include the original copyright
 ' notice and use restrictions.
-' 
+'
 ' See use restrictions at /arcgis/developerkit/userestrictions.
 
 Option Explicit
@@ -35,19 +35,19 @@ Private Declare Function SetWindowLong Lib "user32" Alias "SetWindowLongA" _
   (ByVal hwnd As Long, ByVal nIndex As Long, ByVal dwNewLong As Long) As Long
 
 Private Sub Class_Terminate()
-13:     Set m_pApp = Nothing
+25:     Set m_pApp = Nothing
 End Sub
 
 Private Property Get ICommand_Bitmap() As esriSystem.OLE_HANDLE
-17:     ICommand_Bitmap = frmResources.picCreateStripMap.Picture.Handle
+29:     ICommand_Bitmap = frmResources.picCreateStripMap.Picture.handle
 End Property
 
 Private Property Get ICommand_Caption() As String
-21:     ICommand_Caption = "Strip Map"
+33:     ICommand_Caption = "Strip Map"
 End Property
 
 Private Property Get ICommand_Category() As String
-25:     ICommand_Category = "Developer Samples"
+37:     ICommand_Category = "Developer Samples"
 End Property
 
 Private Property Get ICommand_Checked() As Boolean
@@ -55,7 +55,7 @@ Private Property Get ICommand_Checked() As Boolean
 End Property
 
 Private Property Get ICommand_Enabled() As Boolean
-33:     ICommand_Enabled = True
+45:     ICommand_Enabled = True
 End Property
 
 Private Property Get ICommand_HelpContextID() As Long
@@ -67,11 +67,11 @@ Private Property Get ICommand_HelpFile() As String
 End Property
 
 Private Property Get ICommand_Message() As String
-45:     ICommand_Message = "Create Strip Map Grid polygon features in ArcMap"
+57:     ICommand_Message = "Create Strip Map Grid polygon features in ArcMap"
 End Property
 
 Private Property Get ICommand_Name() As String
-49:     ICommand_Name = "DSMapBookUIPrj_clsStripMapButton"
+61:     ICommand_Name = "DSMapBookUIPrj_clsStripMapButton"
 End Property
 
 Private Sub ICommand_OnClick()
@@ -81,33 +81,33 @@ Private Sub ICommand_OnClick()
     On Error GoTo eh
     
     ' Get properties
-59:     Set frm.m_Application = m_pApp
-60:     frm.Show vbModal
-61:     Set pCreateSMap = frm.StripMapSettings
-62:     If pCreateSMap Is Nothing Then
+71:     Set frm.m_Application = m_pApp
+72:     frm.Show vbModal
+73:     Set pCreateSMap = frm.StripMapSettings
+74:     If pCreateSMap Is Nothing Then
         Exit Sub
-64:     End If
+76:     End If
     ' Create strip map
-66:     pCreateSMap.GenerateStripMap m_pApp
+78:     pCreateSMap.GenerateStripMap m_pApp
     ' Clean up
-68:     Unload frm
-69:     Set frm = Nothing
-70:     Set pCreateSMap = Nothing
+80:     Unload frm
+81:     Set frm = Nothing
+82:     Set pCreateSMap = Nothing
     
     Exit Sub
 eh:
-74:     Unload frm
-75:     Set frm = Nothing
-76:     Set pCreateSMap = Nothing
-77:     If Err.Number <> 364 Then
-78:         MsgBox "Error in clsMapGridButton_OnClick.  Error " & Err.Number & ": " & Err.Description
-79:     End If
+86:     Unload frm
+87:     Set frm = Nothing
+88:     Set pCreateSMap = Nothing
+89:     If Err.Number <> 364 Then
+90:         MsgBox "Error in clsMapGridButton_OnClick.  Error " & Err.Number & ": " & Err.Description
+91:     End If
 End Sub
 
 Private Sub ICommand_OnCreate(ByVal hook As Object)
-83:     Set m_pApp = hook
+95:     Set m_pApp = hook
 End Sub
 
 Private Property Get ICommand_Tooltip() As String
-87:     ICommand_Tooltip = "Create StripMap Grids"
+99:     ICommand_Tooltip = "Create StripMap Grids"
 End Property

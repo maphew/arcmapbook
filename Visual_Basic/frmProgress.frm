@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
 Begin VB.Form frmProgress 
    BorderStyle     =   3  'Fixed Dialog
    Caption         =   "Progress"
@@ -52,14 +52,14 @@ Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 
 ' Copyright 2006 ESRI
-' 							  
+'
 ' All rights reserved under the copyright laws of the United States
 ' and applicable international laws, treaties, and conventions.
-' 
+'
 ' You may freely redistribute and use this sample code, with or
 ' without modification, provided you include the original copyright
 ' notice and use restrictions.
-' 
+'
 ' See use restrictions at /arcgis/developerkit/userestrictions.
 
 Option Explicit
@@ -67,5 +67,5 @@ Option Explicit
 Public Cancelled As Boolean
 
 Private Sub cmdCancel_Click()
-6:     Cancelled = True
+18:     Cancelled = True
 End Sub
