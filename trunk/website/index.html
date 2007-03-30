@@ -29,6 +29,12 @@ a:hover {
 	color:  blue;
 	background-color: yellow;
 }
+.download {
+	background-color: #ceffb5;
+	margin: 0.2em;
+	padding: 0.2em;
+	color: #0001a8;
+}
 
 -->
 </style>
@@ -55,8 +61,11 @@ a:hover {
   </tr>
 </table>
 <p>The <em><strong><a href="http://sourceforge.net/projects/arcmapbook/">ArcMap
-        Mapbook Project</a></strong></em> (this site) is an open source and volunteer
-        effort to extend, enhance, and fix the bugs in the developer sample.
+        Mapbook Project</a></strong></em> shortname arcmapbook, (this site) is
+        an open source and volunteer effort to extend, enhance, and fix the bugs
+        in the
+        developer
+        sample.
         The project itself is still in it's early stages. All we've accomplished
         to this point is to put the code for the last four releases into a <a href="http://svn.sourceforge.net/viewcvs.cgi/arcmapbook/">version
         control repository</a> (svn) and collect some ideas of the first set
@@ -67,7 +76,31 @@ a:hover {
   Guide to Map Series Maker</a></em> (pdf 1.8mb) and graciously contributed it
   to the project, <a href="http://svn.sourceforge.net/viewvc/arcmapbook/trunk/docs/">now
   in svn.</a></p>
-<p>Significant milestones in svn are:</p>
+<h3>Mapbook
+for ArcMap 9.2, Release_9.2_2007.March.13</h3>
+<p><font size="-1"><a href="http://sourceforge.net/project/platformdownload.php?group_id=170350" class="download">[Download]</a></font> This
+  release is a wholesale merge of <a href="http://forums.esri.com/Thread.asp?c=93&f=989&t=211395#653249">Larry
+    Young's upstream release of 2007-March-13</a> with our local documents.
+    From Larry's comments, there are a lot 
+of fixes to the Export routines. Almost every file had dozens of changes, though &gt;90%
+are just line prefixes (e.g. 
+73:... to 86:...). so I (Matt) probably missed things.</p>
+<p>If you are currently using DS Mapbook from the 9.2 developer sample kit, you
+  should upgrade to this release. </p>
+<p>If you've already installed the March-13 version from the ESRI support forum,
+  ignore the 'Visual_Basic' folder, the only value added stuff this package is
+    the 
+  documentation.</p>
+<p>	For
+  older releases see <a href="http://sourceforge.net/project/showfiles.php?group_id=170350">Downloads</a> on
+  the Sourceforge project page.</p>
+<h3>Developers</h3>
+<p>For an overview of how the code repository works, see <a href="http://sourceforge.net/svn/?group_id=170350">About
+Subversion</a><br>
+Browse code repository at <a href="http://arcmapbook.svn.sourceforge.net/viewvc/arcmapbook/trunk/">http://arcmapbook.svn.sourceforge.net/viewvc/arcmapbook/trunk/</a><br>
+Checkout the current version with   <code>svn co https://arcmapbook.svn.sourceforge.net/svnroot/arcmapbook/trunk
+arcmapbook</code></p>
+<p>Significant milestones are:</p>
 <ul>
   <li><a href="http://arcmapbook.svn.sourceforge.net/viewvc/arcmapbook/tags/Release_8.3/">Release
       8.3</a>, as the name implies this for use with ArcMap 8.3. Please note
@@ -77,14 +110,10 @@ a:hover {
       for commercial use clause is lifted.</li>
   <li><a href="http://arcmapbook.svn.sourceforge.net/viewvc/arcmapbook/tags/Release_9.1/">Release
       9.1</a>, for use with ArcMap 9.1</li>
-  <li><em>Release 9.2 forthcoming</em>, it's in svn as <a href="http://arcmapbook.svn.sourceforge.net/viewvc/arcmapbook/trunk/">trunk</a> but
-    not yet tagged as a release. Still some testing to do to make sure it works
-    with ArcMap 9.2 and integrate the small enhancements which have been contributed.
-    There is another license change, relatively minor, asking that the original
-    copyright and restrictions always be distributed along with all changes.</li>
+  <li><a href="http://arcmapbook.svn.sourceforge.net/viewvc/arcmapbook/tags/Release_9.2_2007.March.13/">Release
+      9.2</a>, for use with ArcMap 9.2, matched to upstream 2007 March 13
+    update</li>
 </ul>
-<p>The Map Book Project is an independant endeavour and not endorsed by <a href="http://www.esri.com/">ESRI, </a>although
-  it is built on code developed by them and put out for distribution.</p>
 <h2>About</h2>
 <p><em>So who's running the project?</em></p>
 <p><em>Matt Wilkie</em> - project and website administrator. Matt is not a developer
@@ -103,5 +132,10 @@ a:hover {
     to Map Series Maker&quot;<br>
   </li>
 </ul>
+<p>&nbsp;</p>
+<p>The ArcMap Mapbook Project is an independant endeavour and not sponsored or
+  endorsed by <a href="http://www.esri.com/">ESRI, </a>although
+it is built on code developed by them and put out for distribution. Thank you
+  ESRI.</p>
 </body>
 </html>
