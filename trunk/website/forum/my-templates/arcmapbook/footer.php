@@ -12,6 +12,7 @@
 	</div>
 
 	<?php do_action('bb_foot', ''); ?>
+<a href="http://sourceforge.net"><img src="http://sflogo.sourceforge.net/sflogo.php?group_id=170350&amp;type=1" width="88" height="31" border="0" alt="SourceForge.net Logo" align="left" /></a> Web hosting and source code management services donated by Sourceforge.net
 
 </body>
 </html>
