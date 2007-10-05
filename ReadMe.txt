@@ -2,6 +2,10 @@ The ArcMap Mapbook Project (shortname 'arcmapbook') is an open source and
 volunteer effort to extend, enhance, and fix the bugs in the ESRI developer 
 sample, DS Mapbook.
 
+ArcMapbook installation & removal should be as simple as running the _INSTALL 
+and _UNINSTALL batch files. For upgrades it is a good idea to unsintall the 
+old version first; existing map series will be unaffected.
+
 Visual_Basic: 	The program
 Docs: 			How to install and use Mapbook.
 
