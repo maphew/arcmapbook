@@ -12,6 +12,18 @@ Docs: 			How to install and use Mapbook.
 Project homepage: http://arcmapbook.sourceforge.net/
 
 -------------------------------------------------------------------------------
+Mapbook for ArcMap 9.2, Release 2007 October 26
+
+The main reason for this release is to bundle the slightly improved un/install with the main code. Changes from March release are:
+
+- improved installation and removal usability (moved un/install.bat to top folder)
+
+- initial check-in of Jerry Chase's customisation of Mapbook (Customized DS Map Book Manual.doc). NOTE: actual code is not yet implemented in arcmapbook, you'll have to pull it out of the doc yourself. Jerry's doc includes instruction and code. Outline of added functionality: 1. The ability to control the extent of the locator frames: a. Scaled Indicator: scale by the percentage of area of the record in focus b. Scaled Local Indicator: scaled by the percentage of the area which includes the record in focus and all records contiguous to it c. Index 2 Indicator: the ability to control extent of indicator frame by the area of a secondary index which is tied to the index of the record in focus (State in which a county is located). 
+
+- Added to pause to (un)install batch files so any error messages can be seen. _UNINSTALL.bat now deletes Mapbook registry keys
+
+
+-------------------------------------------------------------------------------
 Mapbook for ArcMap 9.2, Release 9.2 2007 March 13
 
 This release is a wholesale merge of Larry Young's upstream release of 
@@ -33,3 +45,4 @@ documentation.
 
 --
 Matt Wilkie, 2007 March 30
+
