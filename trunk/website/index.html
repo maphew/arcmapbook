@@ -78,7 +78,7 @@ and enhancements</a> to tackle. </p>
 <p>&nbsp;</p>
 <table width="100%" border="0" cellspacing="0" cellpadding="0">
   <tr>
-    <td valign="top"><h3>Documentation</h3>
+    <td width="30%" valign="top"><h3>Documentation</h3>
       <p>Browse the <a href="http://arcmapbook.svn.sourceforge.net/viewvc/arcmapbook/trunk/docs/">Docs
           folder in svn</a>, click on the number in the &quot;<em>Rev.</em>&quot; column
           to download.</p>
@@ -93,14 +93,29 @@ and enhancements</a> to tackle. </p>
           forum</a>s, as most people will post there first -- understandably
     enough!</p>
     </td>
-    <td valign="top"><h3>Mapbook for ArcMap 9.2, Release_9.2_2007.March.13</h3>
-      <p><font size="-1"><a href="http://sourceforge.net/project/platformdownload.php?group_id=170350" class="download">[Download]</a></font> This
-        release is a wholesale merge of <a href="http://forums.esri.com/Thread.asp?c=93&f=989&t=211395#653249">Larry
-        Young's upstream release of 2007-March-13</a> with our local documents.
-        From Larry's comments, there are a lot of fixes to the Export routines.
-        Almost every file had dozens of changes, though &gt;90% are just line
-        prefixes (e.g. 73:... to 86:...). so I (Matt) probably missed things.</p>
-      <p>If you are currently using DS Mapbook from the 9.2 developer sample
+    <td width="70%" valign="top"><h3>Mapbook for ArcMap 9.2, </h3>
+      <h3>Release_9.2_2007.October.26</h3>
+      <p><font size="-1"><a href="http://downloads.sourceforge.net/arcmapbook/Mapbook_for_9.2_2007.October.26.zip" class="download">[Download]</a></font> The
+        main reason for this release is to bundle the slightly improved un/install
+      with the main code. Changes from March release are:</p>
+      <ul>
+        <li> improved installation and removal usability (moved un/install.bat
+          to top folder)</li>
+        <li> initial check-in of <a href="http://forums.esri.com/Thread.asp?c=93&f=989&t=64703&mc=373#706998">Jerry
+            Chase's customisation</a> of Mapbook <em>(<a href="http://arcmapbook.svn.sourceforge.net/viewvc/*checkout*/arcmapbook/branches/v9.2_chase/docs/Customized%20DS%20Map%20Book%20Manual.doc">Customized
+        DS Map Book Manual.doc</a>)</em>. NOTE: actual code is not yet implemented in
+        arcmapbook, you'll have to pull it out of the doc yourself. Jerry's doc
+        includes instruction and code. Outline of added functionality: 1. The
+        ability to control the extent of the locator frames: a. Scaled Indicator:
+        scale by the percentage of area of the record in focus b. Scaled Local
+        Indicator: scaled by the percentage of the area which includes the record
+        in focus and all records contiguous to it c. Index 2 Indicator: the ability
+        to control extent of indicator frame by the area of a secondary index
+        which is tied to the index of the record in focus (State in which a county
+        is located). </li>
+        <li> Added to pause to (un)install batch files so any error messages
+        can be seen. _UNINSTALL.bat now deletes Mapbook registry keys</li>
+      </ul>      <p>If you are currently using DS Mapbook from the 9.2 developer sample
         kit, you should upgrade to this release. </p>
       <p>If you've already installed the March-13 version from the ESRI support
         forum, ignore the 'Visual_Basic' folder, the only value added stuff this
