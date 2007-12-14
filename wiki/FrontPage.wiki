@@ -1,10 +1,8 @@
-someday, this will be the front page of the arcmapbook wiki
-
 = Introduction =
 
 _December 2007 - in the process of migrating from arcmapbook.sourceforge.net here to google code. Subversion code repository is complete, still to come are already filed Bugs & Enhancements._
 
-= What's Where =
+== What's Where ==
 
 Browse the [http://arcmapbook.googlecode.com/svn/trunk/docs/ Docs folder] in svn. To contribute new docs, simply create a new wiki page.
 
