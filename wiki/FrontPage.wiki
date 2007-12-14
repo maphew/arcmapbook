@@ -1,0 +1,12 @@
+#someday, this will be the front page of the arcmapbook wiki
+
+= Introduction =
+
+And there will be some fine content here
+
+= Details =
+
+Add your content here.  Format your content with:
+  * Text in *bold* or _italic_
+  * Headings, paragraphs, and lists
+  * Automatic links to other wiki pages
