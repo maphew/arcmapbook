@@ -1,4 +1,4 @@
-#someday, this will be the front page of the arcmapbook wiki
+someday, this will be the front page of the arcmapbook wiki
 
 = Introduction =
 
