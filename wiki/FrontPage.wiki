@@ -1,12 +1,11 @@
 = Introduction =
 
-_December 2007 - in the process of migrating from arcmapbook.sourceforge.net here to google code. Subversion code repository is complete, still to come are already filed Bugs & Enhancements._
+_December 2007 - Someday, this will be an introduction to the Arcmapbook project and a guide to resources. Right now  we're in the process of migrating from arcmapbook.sourceforge.net here to google code._
 
 == What's Where ==
 
-Browse the [http://arcmapbook.googlecode.com/svn/trunk/docs/ Docs folder] in svn. To contribute new docs, simply create a new wiki page.
+Browse the [http://arcmapbook.googlecode.com/svn/trunk/docs/ Docs folder].
 
-Old tracker for bugs and feature enhancement requests: http://sourceforge.net/tracker/?group_id=170350&atid=853944
-The new one is under the _[http://code.google.com/p/arcmapbook/issues/list Issues]_ tab above.
+Have a suggestion or bug report? See [http://code.google.com/p/arcmapbook/issues/list Issues]
 
-It is a good idea to look through the [http://support.esri.com/ ESRI Support Site], especially the [http://forums.esri.com/Forums.asp?c=93 desktop forums], as most people will post there first -- understandably enough!
+As the user base here is still tiny if you're looking for help it is a good idea to look through the [http://support.esri.com/ ESRI Support Site], especially the [http://forums.esri.com/Forums.asp?c=93 desktop forums], as most people will post there first -- understandably enough!
