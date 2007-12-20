@@ -1,6 +1,14 @@
+#about the Arcmapbook project
+
 = Introduction =
 
-_December 2007 - Someday, this will be an introduction to the Arcmapbook project and a guide to resources. Right now  we're in the process of migrating from arcmapbook.sourceforge.net here to google code._
+I'd been delaying announcing this project until it was "ready", but I've come to realise that day is never going to happen. So here it is, not fully baked but still serviceable, I hope!
+
+*The !ArcMap Mapbook Project* is an open source and volunteer effort to extend, enhance, and fix the bugs in the developer sample. It in no way is intended to supplant or take over the excellent work Larry Young has been doing with mapbook, both in terms of development and support. As a matter of fact, I hope the infrastructure the project provides -- version control, release packages, and wiki docs with public commenting -- actually makes Larry's load lighter. If it doesn't do that, then in my opinion the project has failed. :)
+
+I personally am not a developer, simply an end user with a little bit of hackability skills who is interested in helping to make Mapbook a better tool. I hope this project contributes to that aim.
+
+-matt wilkie
 
 == What's Where ==
 
