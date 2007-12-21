@@ -1,0 +1,5 @@
+_How does the Arcmapbook site relate to the ESRI site that has this source code? Is it Larry Young that is the main contact at ESRI? Is there a chance that the ESRI code and the Arcmapbook code can get out of sync?_
+
+To date the main changes from the mapbook available from the ESRI developer samples revolve around documentation and directory structure. Larry Young is the principle author of mapbook and the "go to guy" at ESRI. He is aware of this project and has given it his blessing and encouragement but has declined to take an active role at this time; he's too busy. Since the main mapbook development occurs "behind the wall" at ESRI there is a chance the two can get out of sync. However so far Larry has been posting all his changes on the ESRI support forums and integrating those into Arcmapbook shortly thereafter has proven relatively easy.
+
+Larry has not said as much in so many words, but I believe he is willing to absorb changes we make here outside the wall provided they are clean and easy to integrate.
