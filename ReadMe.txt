@@ -9,7 +9,7 @@ old version first; existing map series will be unaffected.
 Visual_Basic: 	The program
 Docs: 			How to install and use Mapbook.
 
-Project homepage: http://arcmapbook.sourceforge.net/
+Project homepage: http://arcmapbook.googlepages.com/
 
 -------------------------------------------------------------------------------
 Mapbook for ArcMap 9.2, Release 2007 October 26
