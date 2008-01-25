@@ -1,0 +1,8 @@
+#summary Check list for preparing a release
+
+  * add new release date and info to Readme.txt
+  * svn export trunk, ommitting externals
+  * archive and upload to google code, mark as _featured_
+  * add note http://arcmapbook.googlepages.com/
+  * upload release archive to http://arcscripts.esri.com/details.asp?dbid=15364 and update note
+  * add note to [http://forums.esri.com/Thread.asp?c=93&f=989&t=211395 DS MapBook - New Version]
