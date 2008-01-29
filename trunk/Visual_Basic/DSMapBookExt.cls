@@ -51,7 +51,9 @@ End Property
 Private Sub IExtension_Startup(initializationData As Variant)
 On Error GoTo ErrHand:
   Dim pApp As IApplication
+If g_pFrmMapSeries Is Nothing Then
 40:   Set g_pFrmMapSeries = New frmMapSeries
+End If
 41:   Set g_pFrmMapSeries.m_pApp = initializationData
 42:   Set m_pMapBook = New DSMapBook
 43:   Set pApp = initializationData

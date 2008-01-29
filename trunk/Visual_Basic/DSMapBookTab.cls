@@ -36,11 +36,11 @@ Implements IContentsView
 
 Private Sub Class_Initialize()
 25:   m_bIsVisible = True
-26:   Load g_pFrmMapSeries
+26:   'Load g_pFrmMapSeries
 End Sub
 
 Private Sub Class_Terminate()
-30:   Unload g_pFrmMapSeries
+30:   'Unload g_pFrmMapSeries
 31:   Set g_pFrmMapSeries = Nothing
 End Sub
 
