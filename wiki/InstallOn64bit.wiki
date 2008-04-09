@@ -1,7 +1,7 @@
 #labels Featured,Phase-Deploy
 #how to install on 64bit Windows XP
 
-Some (all?) people may experience troubles installing Mapbook on 64 bit Windows XP systems. The fix is to download `register_component_category.reg` from R95 and put in the arcmapbook `Visual_Basic` folder, then run *`_install.bat`*
+Some (all?) people may experience troubles installing Mapbook on 64 bit Windows XP systems. The fix is to download [http://arcmapbook.googlecode.com/svn-history/r95/trunk/Visual_Basic/register_component_category.reg  register_component_category.reg] from R95 and put in the arcmapbook `Visual_Basic` folder, then run *`_install.bat`*
 
 Note: on 32bit systems this will add 2 registry entries which will not be used. They should be harmless, but if you find differently please file an [http://code.google.com/p/arcmapbook/issues/list Issue].
 
