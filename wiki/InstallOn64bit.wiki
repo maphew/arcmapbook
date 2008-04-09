@@ -1,0 +1,19 @@
+#labels Featured,Phase-Deploy
+#how to install on 64bit Windows XP
+
+Some (all?) people may experience troubles installing Mapbook on 64 bit Windows XP systems. The fix is to download `register_component_category.reg` from R95 and put in the arcmapbook `Visual_Basic` folder, then run *`_install.bat`*
+
+Note: on 32bit systems this will add 2 registry entries which will not be used. They should be harmless, but if you find differently please file an [http://code.google.com/p/arcmapbook/issues/list Issue].
+
+If the above doesn't work, try this manual procedure:
+
+  # Run the `Categories.exe` exectutable in you ArcGIS bin directory.
+  # Scroll down to _ESRI Mx Extensions_ and select that category.
+  # Click on the _Add Object ..._ button and browse for `DSMapBookUIPrj.dll`
+  # When the Add Object dialog comes up, uncheck everything and then click on just `DSMapBookExt` and click OK.
+  # While still in the Component Category Manager, scroll up to _ESRI Contents Views_ and select that category.
+  # Click on the _Add Object ..._ button and again browse for `DSMapBookUIPrj.dll`
+  # Uncheck all the classes, then click on just `DSMapBookTab` and click OK
+
+
+_manual install procedure courtesy of Larry Young in this thread: [http://forums.esri.com/Thread.asp?c=93&f=1147&t=183751 DS Mapbook Install on 64-Bit Machine]_
