@@ -1,5 +1,5 @@
-#where to obtain upstream ESRI mapbook releases
+#summary Where to obtain upstream ESRI mapbook releases
 
-  * ArcMap 9.3 - http://resources.esri.com/help/9.3/ArcGISDesktop/com/samples/Cartography/Map_Production/DSMapBook/9d2dafa6-fcae-4e3d-bd27-1f242b216452.htm
-  * ArcMap 9.2 - http://edndoc.esri.com/arcobjects/9.2/CPP_VB6_VBA_VCPP_Doc/COM_Samples_Docs/Cartography/Map_Production/DSMapBook/9d2dafa6-fcae-4e3d-bd27-1f242b216452.htm
+  * ArcMap 9.3 - [http://resources.esri.com/help/9.3/ArcGISDesktop/com/samples/Cartography/Map_Production/DSMapBook/9d2dafa6-fcae-4e3d-bd27-1f242b216452.htm http://resources.esri.com/help/9.3/ArcGISDesktop/com/samples/...]
+  * ArcMap 9.2 - [http://edndoc.esri.com/arcobjects/9.2/CPP_VB6_VBA_VCPP_Doc/COM_Samples_Docs/Cartography/Map_Production/DSMapBook/9d2dafa6-fcae-4e3d-bd27-1f242b216452.htm http://edndoc.esri.com/arcobjects/9.2/CPP_VB6_VBA_VCPP_Doc/COM_Samples_Docs/...]
   * DS Mapbook New Version (forum thread) - http://forums.esri.com/Thread.asp?c=93&f=989&t=211395
