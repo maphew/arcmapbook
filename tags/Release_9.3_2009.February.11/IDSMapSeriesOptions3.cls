@@ -12,7 +12,7 @@ Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
 
-' Copyright 2006 ESRI
+' Copyright 2008 ESRI
 ' 
 ' All rights reserved under the copyright laws of the United States
 ' and applicable international laws, treaties, and conventions.
@@ -21,7 +21,11 @@ Attribute VB_Exposed = True
 ' without modification, provided you include the original copyright
 ' notice and use restrictions.
 ' 
-' See use restrictions at /arcgis/developerkit/userestrictions.
+' See use restrictions at <your ArcGIS install location>/developerkit/userestrictions.txt.
+' 
+
+
+
 
 'Added 11/24/2004 to support selection of the the tile
 
