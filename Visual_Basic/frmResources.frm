@@ -1,5 +1,5 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
 Begin VB.Form frmResources 
    Caption         =   "Form1"
    ClientHeight    =   3195
@@ -76,16 +76,20 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 
-' Copyright 2006 ESRI
-'
+' Copyright 2008 ESRI
+' 
 ' All rights reserved under the copyright laws of the United States
 ' and applicable international laws, treaties, and conventions.
-'
+' 
 ' You may freely redistribute and use this sample code, with or
 ' without modification, provided you include the original copyright
 ' notice and use restrictions.
-'
-' See use restrictions at /arcgis/developerkit/userestrictions.
+' 
+' See use restrictions at <your ArcGIS install location>/developerkit/userestrictions.txt.
+' 
+
+
+
 
 Option Explicit
 
