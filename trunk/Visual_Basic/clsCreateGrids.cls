@@ -12,16 +12,20 @@ Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
 
-' Copyright 2006 ESRI
-'
+' Copyright 2008 ESRI
+' 
 ' All rights reserved under the copyright laws of the United States
 ' and applicable international laws, treaties, and conventions.
-'
+' 
 ' You may freely redistribute and use this sample code, with or
 ' without modification, provided you include the original copyright
 ' notice and use restrictions.
-'
-' See use restrictions at /arcgis/developerkit/userestrictions.
+' 
+' See use restrictions at <your ArcGIS install location>/developerkit/userestrictions.txt.
+' 
+
+
+
 
 Option Explicit
 
@@ -92,178 +96,178 @@ Private Declare Function SetWindowLong Lib "user32" Alias "SetWindowLongA" _
   (ByVal hwnd As Long, ByVal nIndex As Long, ByVal dwNewLong As Long) As Long
 
 Public Property Set DestinationFeatureLayer(pFL As IFeatureLayer)
-82:     If pFL.FeatureClass.ShapeType = esriGeometryPolygon Then
-83:         Set m_DestFL = pFL
-84:         Set m_DestFC = pFL.FeatureClass
-85:     Else
-86:         Err.Raise vbObjectError, "MapGridManager_Set_DestinationFeatureLayer", _
+70:     If pFL.FeatureClass.ShapeType = esriGeometryPolygon Then
+71:         Set m_DestFL = pFL
+72:         Set m_DestFC = pFL.FeatureClass
+73:     Else
+74:         Err.Raise vbObjectError, "MapGridManager_Set_DestinationFeatureLayer", _
             "Not a polygon feature layer"
-88:     End If
+76:     End If
 End Property
 
 Public Property Get DestinationFeatureLayer() As IFeatureLayer
-92:     Set DestinationFeatureLayer = m_DestFL
+80:     Set DestinationFeatureLayer = m_DestFL
 End Property
 
 Public Property Let FrameWidthInPageUnits(dWidth As Double)
-96:     m_dFrameWidthInPageUnits = dWidth
+84:     m_dFrameWidthInPageUnits = dWidth
 End Property
 
 Public Property Get FrameWidthInPageUnits() As Double
-100:     FrameWidthInPageUnits = m_dFrameWidthInPageUnits
+88:     FrameWidthInPageUnits = m_dFrameWidthInPageUnits
 End Property
 
 Public Property Let FrameHeightInPageUnits(dHeight As Double)
-104:     m_dFrameHeightInPageUnits = dHeight
+92:     m_dFrameHeightInPageUnits = dHeight
 End Property
 
 Public Property Get FrameHeightInPageUnits() As Double
-108:     FrameHeightInPageUnits = m_dFrameHeightInPageUnits
+96:     FrameHeightInPageUnits = m_dFrameHeightInPageUnits
 End Property
 
 Public Property Let MapScale(dScale As Double)
-112:     m_dMapScale = dScale
+100:     m_dMapScale = dScale
 End Property
 
 Public Property Get MapScale() As Double
-116:     MapScale = m_dMapScale
+104:     MapScale = m_dMapScale
 End Property
 
 Public Property Let IdentifierOrder(mgType As mgGridIdentifierOrderType)
-120:     m_IDOrderType = mgType
+108:     m_IDOrderType = mgType
 End Property
 
 Public Property Get IdentifierOrder() As mgGridIdentifierOrderType
-124:     IdentifierOrder = m_IDOrderType
+112:     IdentifierOrder = m_IDOrderType
 End Property
 
 Public Property Let RowIDType(mgIDStyle As mgGridIdentifierValueType)
-128:     m_RowIDType = mgIDStyle
+116:     m_RowIDType = mgIDStyle
 End Property
 
 Public Property Get RowIDType() As mgGridIdentifierValueType
-132:     RowIDType = m_RowIDType
+120:     RowIDType = m_RowIDType
 End Property
 
 Public Property Let ColIDType(mgIDStyle As mgGridIdentifierValueType)
-136:     m_ColIDType = mgIDStyle
+124:     m_ColIDType = mgIDStyle
 End Property
 
 Public Property Get ColIDType() As mgGridIdentifierValueType
-140:     ColIDType = m_ColIDType
+128:     ColIDType = m_ColIDType
 End Property
 
 Public Property Let IDStartPositionType(mgStartPos As mgGridIdentifierStartPositionType)
-144:     m_StartIDType = mgStartPos
+132:     m_StartIDType = mgStartPos
 End Property
 
 Public Property Get IDStartPositionType() As mgGridIdentifierStartPositionType
-148:     IDStartPositionType = m_StartIDType
+136:     IDStartPositionType = m_StartIDType
 End Property
 
 Public Property Let StartingCoordinateLL_X(X As Double)
-152:     m_StartX = X
+140:     m_StartX = X
 End Property
 
 Public Property Get StartingCoordinateLL_X() As Double
-156:     StartingCoordinateLL_X = m_StartX
+144:     StartingCoordinateLL_X = m_StartX
 End Property
 
 Public Property Let StartingCoordinateLL_Y(Y As Double)
-160:     m_StartY = Y
+148:     m_StartY = Y
 End Property
 
 Public Property Get StartingCoordinateLL_Y() As Double
-164:     StartingCoordinateLL_Y = m_StartY
+152:     StartingCoordinateLL_Y = m_StartY
 End Property
 
 Public Property Let EndingCoordinateUR_X(X As Double)
-168:     m_EndX = X
+156:     m_EndX = X
 End Property
 
 Public Property Get EndingCoordinateUR_X() As Double
-172:     EndingCoordinateUR_X = m_EndX
+160:     EndingCoordinateUR_X = m_EndX
 End Property
 
 Public Property Let EndingCoordinateUR_Y(Y As Double)
-176:     m_EndY = Y
+164:     m_EndY = Y
 End Property
 
 Public Property Get EndingCoordinateUR_Y() As Double
-180:     EndingCoordinateUR_Y = m_EndY
+168:     EndingCoordinateUR_Y = m_EndY
 End Property
 
 Public Property Let FieldNameGridID(FieldName As String)
-184:     m_FldID = FieldName
+172:     m_FldID = FieldName
 End Property
 
 Public Property Let FieldNameRowNum(FieldName As String)
-188:     m_FldRowNum = FieldName
+176:     m_FldRowNum = FieldName
 End Property
 
 Public Property Let FieldNameColNum(FieldName As String)
-192:     m_FldColNum = FieldName
+180:     m_FldColNum = FieldName
 End Property
 
 Public Property Let FieldNameScale(FieldName As String)
-196:     m_FldScale = FieldName
+184:     m_FldScale = FieldName
 End Property
 
 Public Property Let UseUnderscore(UseUnderscoreInID As Boolean)
-200:     m_UseUnderscore = UseUnderscoreInID
+188:     m_UseUnderscore = UseUnderscoreInID
 End Property
 
 Public Property Get UseUnderscore() As Boolean
-204:     UseUnderscore = m_UseUnderscore
+192:     UseUnderscore = m_UseUnderscore
 End Property
 
 Public Property Let RemoveCurrentGrids(RemoveGrids As Boolean)
-208:     m_RemoveGrids = RemoveGrids
+196:     m_RemoveGrids = RemoveGrids
 End Property
 
 Public Property Get RemoveCurrentGrids() As Boolean
-212:     RemoveCurrentGrids = m_RemoveGrids
+200:     RemoveCurrentGrids = m_RemoveGrids
 End Property
 
 Public Property Let NoEmptyGrids(NoEmptyGridPolygons As Boolean)
-216:     m_NoEmptyGrids = NoEmptyGridPolygons
+204:     m_NoEmptyGrids = NoEmptyGridPolygons
 End Property
 
 Public Property Get NoEmptyGrids() As Boolean
-220:     NoEmptyGrids = m_NoEmptyGrids
+208:     NoEmptyGrids = m_NoEmptyGrids
 End Property
 
 Public Sub AddRequiredDataLayer(sLayerName As String)
-224:     m_colLayerNamesForData.Add sLayerName
+212:     m_colLayerNamesForData.Add sLayerName
 End Sub
 
 Public Property Get RequiredDataLayer(LayerNumber As Long) As String
-228:     If LayerNumber <= m_colLayerNamesForData.count Then
-229:         RequiredDataLayer = m_colLayerNamesForData.Item(LayerNumber - 1)
-230:     Else
-231:         If m_colLayerNamesForData.count = 0 Then
-232:             RequiredDataLayer = "There are no Required Data Layers."
-233:         Else
-234:             RequiredDataLayer = "Invalid layer number.  Valid range: 0 - " & (m_colLayerNamesForData.count - 1)
-235:         End If
-236:     End If
+216:     If LayerNumber <= m_colLayerNamesForData.count Then
+217:         RequiredDataLayer = m_colLayerNamesForData.Item(LayerNumber - 1)
+218:     Else
+219:         If m_colLayerNamesForData.count = 0 Then
+220:             RequiredDataLayer = "There are no Required Data Layers."
+221:         Else
+222:             RequiredDataLayer = "Invalid layer number.  Valid range: 0 - " & (m_colLayerNamesForData.count - 1)
+223:         End If
+224:     End If
 End Property
 
 Public Property Get RequiredDataLayerCount() As Long
-240:     RequiredDataLayerCount = m_colLayerNamesForData.count
+228:     RequiredDataLayerCount = m_colLayerNamesForData.count
 End Property
 
 Public Sub ClearRequiredDataLayers()
-244:     Set m_colLayerNamesForData = New Collection
+232:     Set m_colLayerNamesForData = New Collection
 End Sub
 
 Private Sub Class_Initialize()
     ' Set the default grid identifier (row-col, alpha/numeric => eg: "B02")
-249:     m_IDOrderType = Row_Column
-250:     m_RowIDType = Alphabetical
-251:     m_ColIDType = Numerical
-252:     Set m_colLayerNamesForData = New Collection
-253:     Set m_pProgress = New ModelessFrame
+237:     m_IDOrderType = Row_Column
+238:     m_RowIDType = Alphabetical
+239:     m_ColIDType = Numerical
+240:     Set m_colLayerNamesForData = New Collection
+241:     Set m_pProgress = New ModelessFrame
 End Sub
 
 Private Function CalculateID(ByVal lRow As Long, ByVal lCol As Long, _
@@ -275,59 +279,59 @@ Private Function CalculateID(ByVal lRow As Long, ByVal lCol As Long, _
     Dim lTmp As Long, lCalc As Long, lTmp2 As Long
 
     ' Row ---------------------------------------------
-265:     sNumericFormat = ""
-266:     For lLoop = 1 To iRowIDLen
-267:         sNumericFormat = sNumericFormat & "0"
-268:     Next
-269:     If m_RowIDType = Alphabetical Then
-270:         For lLoop = 1 To iRowIDLen
-271:             lTmp = 26 ^ lLoop
-272:             lTmp2 = (26 ^ (lLoop - 1))
-273:             If lRow >= lTmp2 Then
-274:                 lCalc = ((((lRow - lTmp2) / lTmp) * 26) + 1) Mod 26
-275:                 sRowID = Chr(Asc("A") + lCalc) & sRowID
-276:                 lRow = lRow - (lCalc * lTmp2)
-277:             Else
-278:                 sRowID = "A" & sRowID
-279:             End If
-280:         Next
-281:     Else
-282:         sRowID = Format(lRow + 1, sNumericFormat)
-283:     End If
+253:     sNumericFormat = ""
+254:     For lLoop = 1 To iRowIDLen
+255:         sNumericFormat = sNumericFormat & "0"
+256:     Next
+257:     If m_RowIDType = Alphabetical Then
+258:         For lLoop = 1 To iRowIDLen
+259:             lTmp = 26 ^ lLoop
+260:             lTmp2 = (26 ^ (lLoop - 1))
+261:             If lRow >= lTmp2 Then
+262:                 lCalc = ((((lRow - lTmp2) / lTmp) * 26) + 1) Mod 26
+263:                 sRowID = Chr(Asc("A") + lCalc) & sRowID
+264:                 lRow = lRow - (lCalc * lTmp2)
+265:             Else
+266:                 sRowID = "A" & sRowID
+267:             End If
+268:         Next
+269:     Else
+270:         sRowID = Format(lRow + 1, sNumericFormat)
+271:     End If
     ' Col ---------------------------------------------
-285:     sNumericFormat = ""
-286:     For lLoop = 1 To iColIDLen
-287:         sNumericFormat = sNumericFormat & "0"
-288:     Next
-289:     If m_ColIDType = Alphabetical Then
-290:         For lLoop = 1 To iColIDLen
-291:             lTmp = 26 ^ lLoop
-292:             lTmp2 = (26 ^ (lLoop - 1))
-293:             If lCol >= lTmp2 Then
-294:                 lCalc = ((((lCol - lTmp2) / lTmp) * 26) + 1) Mod 26
-295:                 sColID = Chr(Asc("A") + lCalc) & sColID
-296:                 lCol = lCol - (lCalc * lTmp2)
-297:             Else
-298:                 sColID = "A" & sColID
-299:             End If
-300:         Next
-301:     Else
-302:         sColID = Format(lCol + 1, sNumericFormat)
-303:     End If
+273:     sNumericFormat = ""
+274:     For lLoop = 1 To iColIDLen
+275:         sNumericFormat = sNumericFormat & "0"
+276:     Next
+277:     If m_ColIDType = Alphabetical Then
+278:         For lLoop = 1 To iColIDLen
+279:             lTmp = 26 ^ lLoop
+280:             lTmp2 = (26 ^ (lLoop - 1))
+281:             If lCol >= lTmp2 Then
+282:                 lCalc = ((((lCol - lTmp2) / lTmp) * 26) + 1) Mod 26
+283:                 sColID = Chr(Asc("A") + lCalc) & sColID
+284:                 lCol = lCol - (lCalc * lTmp2)
+285:             Else
+286:                 sColID = "A" & sColID
+287:             End If
+288:         Next
+289:     Else
+290:         sColID = Format(lCol + 1, sNumericFormat)
+291:     End If
     ' Join --------------------------------------------
-305:     If m_IDOrderType = Row_Column Then
-306:         If m_UseUnderscore Then
-307:             CalculateID = sRowID & "_" & sColID
-308:         Else
-309:             CalculateID = sRowID & sColID
-310:         End If
-311:     Else
-312:         If m_UseUnderscore Then
-313:             CalculateID = sColID & "_" & sRowID
-314:         Else
-315:             CalculateID = sColID & sRowID
-316:         End If
-317:     End If
+293:     If m_IDOrderType = Row_Column Then
+294:         If m_UseUnderscore Then
+295:             CalculateID = sRowID & "_" & sColID
+296:         Else
+297:             CalculateID = sRowID & sColID
+298:         End If
+299:     Else
+300:         If m_UseUnderscore Then
+301:             CalculateID = sColID & "_" & sRowID
+302:         Else
+303:             CalculateID = sColID & sRowID
+304:         End If
+305:     End If
 End Function
 
 Private Function GetMinimumStringLength(lValue As Long, lBase As Long) As Integer
@@ -335,23 +339,23 @@ Private Function GetMinimumStringLength(lValue As Long, lBase As Long) As Intege
     
     On Error GoTo eh
     ' ROW
-325:     lTmp = lBase
-326:     lIndex = 1
-327:     While lValue > (lTmp - 1)
-328:         lTmp = lTmp * lBase
-329:         lIndex = lIndex + 1
-330:     Wend
-331:     GetMinimumStringLength = lIndex
+313:     lTmp = lBase
+314:     lIndex = 1
+315:     While lValue > (lTmp - 1)
+316:         lTmp = lTmp * lBase
+317:         lIndex = lIndex + 1
+318:     Wend
+319:     GetMinimumStringLength = lIndex
     Exit Function
 eh:
-334:     Err.Raise Err.Number, "GetMinimumStringLength", "Error in GetMinimumStringLength: " & Err.Description
+322:     Err.Raise Err.Number, "GetMinimumStringLength", "Error in GetMinimumStringLength: " & Err.Description
 End Function
 
 Public Sub RunStandardGUI(pApp As IApplication)
-338:     Set frmGridSettings.m_Application = pApp
-339:     frmGridSettings.Tickle
-340:     SetWindowLong frmGridSettings.hwnd, GWL_HWNDPARENT, pApp.hwnd
-341:     frmGridSettings.Show vbModeless
+326:     Set frmGridSettings.m_Application = pApp
+327:     frmGridSettings.Tickle
+328:     SetWindowLong frmGridSettings.hwnd, GWL_HWNDPARENT, pApp.hwnd
+329:     frmGridSettings.Show vbModeless
 End Sub
 
 'Private Function CreateGridPoly(pStartPoint As IPoint, lRow As Long, lCol As Long, _
@@ -426,235 +430,235 @@ Public Sub GenerateGrids2(Application As IApplication) ', _
     On Error GoTo eh
     
     ' Set mouse pointer
-416:     Screen.MousePointer = vbArrowHourglass
+404:     Screen.MousePointer = vbArrowHourglass
     
     ' Init
-419:     Set pMx = Application.Document
-420:     For lLoop = 0 To pMx.FocusMap.LayerCount - 1
-421:         If TypeOf pMx.FocusMap.Layer(lLoop) Is IFeatureLayer Then
-422:             If UCase(pMx.FocusMap.Layer(lLoop).Name) = UCase(m_DestFL.Name) Then
-423:                 Set pFL = pMx.FocusMap.Layer(lLoop)
-424:                 Exit For
-425:             End If
-426:         End If
-427:     Next
-428:     If pFL Is Nothing Then
-429:         MsgBox "No match in the Map for layer '" & m_DestFL.Name & "'."
+407:     Set pMx = Application.Document
+408:     For lLoop = 0 To pMx.FocusMap.LayerCount - 1
+409:         If TypeOf pMx.FocusMap.Layer(lLoop) Is IFeatureLayer Then
+410:             If UCase(pMx.FocusMap.Layer(lLoop).Name) = UCase(m_DestFL.Name) Then
+411:                 Set pFL = pMx.FocusMap.Layer(lLoop)
+412:                 Exit For
+413:             End If
+414:         End If
+415:     Next
+416:     If pFL Is Nothing Then
+417:         MsgBox "No match in the Map for layer '" & m_DestFL.Name & "'."
         Exit Sub
-431:     End If
-432:     Set pFC = pFL.FeatureClass
+419:     End If
+420:     Set pFC = pFL.FeatureClass
     ' Check for required fields - that the field exists
     Dim bErrorWithFields As Boolean
-435:     bErrorWithFields = (pFC.FindField(m_FldID) < 0)
-436:     If Len(m_FldRowNum) > 0 Then bErrorWithFields = bErrorWithFields Or (pFC.FindField(m_FldRowNum) < 0)
-437:     If Len(m_FldColNum) > 0 Then bErrorWithFields = bErrorWithFields Or (pFC.FindField(m_FldColNum) < 0)
-438:     If Len(m_FldScale) > 0 Then bErrorWithFields = bErrorWithFields Or (pFC.FindField(m_FldScale) < 0)
+423:     bErrorWithFields = (pFC.FindField(m_FldID) < 0)
+424:     If Len(m_FldRowNum) > 0 Then bErrorWithFields = bErrorWithFields Or (pFC.FindField(m_FldRowNum) < 0)
+425:     If Len(m_FldColNum) > 0 Then bErrorWithFields = bErrorWithFields Or (pFC.FindField(m_FldColNum) < 0)
+426:     If Len(m_FldScale) > 0 Then bErrorWithFields = bErrorWithFields Or (pFC.FindField(m_FldScale) < 0)
     ' If error
-440:     If bErrorWithFields Then
-441:         Err.Raise vbObjectError, "GenerateGrids", "Could not find all the given field names in " & pFL.Name & "." _
+428:     If bErrorWithFields Then
+429:         Err.Raise vbObjectError, "GenerateGrids", "Could not find all the given field names in " & pFL.Name & "." _
             & vbCrLf & " - " & m_FldID & ", " & m_FldRowNum & ", " & m_FldColNum & ", " & m_FldScale
-443:     End If
+431:     End If
     ' Check the field types
-445:     bErrorWithFields = (pFC.Fields.Field(pFC.FindField(m_FldID)).Type <> esriFieldTypeString)
-446:     If Len(m_FldRowNum) > 0 Then
-447:         bErrorWithFields = bErrorWithFields Or _
+433:     bErrorWithFields = (pFC.Fields.Field(pFC.FindField(m_FldID)).Type <> esriFieldTypeString)
+434:     If Len(m_FldRowNum) > 0 Then
+435:         bErrorWithFields = bErrorWithFields Or _
            ((pFC.Fields.Field(pFC.FindField(m_FldRowNum)).Type <> esriFieldTypeDouble) And _
             (pFC.Fields.Field(pFC.FindField(m_FldRowNum)).Type <> esriFieldTypeInteger) And _
             (pFC.Fields.Field(pFC.FindField(m_FldRowNum)).Type <> esriFieldTypeSingle) And _
             (pFC.Fields.Field(pFC.FindField(m_FldRowNum)).Type <> esriFieldTypeSmallInteger))
-452:     End If
-453:     If Len(m_FldColNum) > 0 Then
-454:         bErrorWithFields = bErrorWithFields Or _
+440:     End If
+441:     If Len(m_FldColNum) > 0 Then
+442:         bErrorWithFields = bErrorWithFields Or _
            ((pFC.Fields.Field(pFC.FindField(m_FldColNum)).Type <> esriFieldTypeDouble) And _
             (pFC.Fields.Field(pFC.FindField(m_FldColNum)).Type <> esriFieldTypeInteger) And _
             (pFC.Fields.Field(pFC.FindField(m_FldColNum)).Type <> esriFieldTypeSingle) And _
             (pFC.Fields.Field(pFC.FindField(m_FldColNum)).Type <> esriFieldTypeSmallInteger))
-459:     End If
-460:     If Len(m_FldScale) > 0 Then
-461:         bErrorWithFields = bErrorWithFields Or _
+447:     End If
+448:     If Len(m_FldScale) > 0 Then
+449:         bErrorWithFields = bErrorWithFields Or _
            ((pFC.Fields.Field(pFC.FindField(m_FldScale)).Type <> esriFieldTypeDouble) And _
             (pFC.Fields.Field(pFC.FindField(m_FldScale)).Type <> esriFieldTypeInteger) And _
             (pFC.Fields.Field(pFC.FindField(m_FldScale)).Type <> esriFieldTypeSingle) And _
             (pFC.Fields.Field(pFC.FindField(m_FldScale)).Type <> esriFieldTypeSmallInteger))
-466:     End If
+454:     End If
     ' if error
-468:     If bErrorWithFields Then
-469:         Err.Raise vbObjectError, "GenerateGrids", "Given field names are not of the correct type." _
+456:     If bErrorWithFields Then
+457:         Err.Raise vbObjectError, "GenerateGrids", "Given field names are not of the correct type." _
             & vbCrLf & "Grid ID field must be a Text field, all others must be numeric fields."
-471:     End If
+459:     End If
     ' Get the dataset and workspace (to start editing upon)
-473:     Set pFeatDataset = pFC.FeatureDataset
-474:     If Not pFeatDataset Is Nothing Then
-475:         Set pWorkspaceEdit = pFeatDataset.Workspace
-476:     Else
+461:     Set pFeatDataset = pFC.FeatureDataset
+462:     If Not pFeatDataset Is Nothing Then
+463:         Set pWorkspaceEdit = pFeatDataset.Workspace
+464:     Else
         ' Is a shapefile, go via just IDataset
-478:         Set pDataset = pFC
-479:         Set pWorkspaceEdit = pDataset.Workspace
-480:     End If
-481:     dDataFrameWidth = m_dFrameWidthInPageUnits
-482:     dDataFrameHeight = m_dFrameHeightInPageUnits
+466:         Set pDataset = pFC
+467:         Set pWorkspaceEdit = pDataset.Workspace
+468:     End If
+469:     dDataFrameWidth = m_dFrameWidthInPageUnits
+470:     dDataFrameHeight = m_dFrameHeightInPageUnits
     ' Start Editing
-484:     pWorkspaceEdit.StartEditing False
-485:     pWorkspaceEdit.StartEditOperation
+472:     pWorkspaceEdit.StartEditing False
+473:     pWorkspaceEdit.StartEditOperation
     
     ' If replacing, delete all existing polygons
-488:     Set pProgress = New frmProgress
-489:     m_pProgress.Create pProgress
-490:     If m_RemoveGrids Then
+476:     Set pProgress = New frmProgress
+477:     m_pProgress.Create pProgress
+478:     If m_RemoveGrids Then
         Dim pFCu As IFeatureCursor
         Dim pT As ITable
-493:         Set pFCu = m_DestFL.Search(Nothing, False)
-494:         Set pT = m_DestFL.FeatureClass
-495:         pProgress.ProgressBar1.Min = 0
-496:         pProgress.ProgressBar1.Max = 100
-497:         If pT.RowCount(Nothing) = 0 Then
-498:             dIncrement = 99
-499:         Else
-500:             dIncrement = 100 / pT.RowCount(Nothing)
-501:         End If
-502:         pProgress.ProgressBar1.value = 0
-503:         pProgress.lblInformation.Caption = "Deleting previous grids..."
-504:         pProgress.cmdCancel.Visible = False        ' User cannot cancel this step
+481:         Set pFCu = m_DestFL.Search(Nothing, False)
+482:         Set pT = m_DestFL.FeatureClass
+483:         pProgress.ProgressBar1.Min = 0
+484:         pProgress.ProgressBar1.Max = 100
+485:         If pT.RowCount(Nothing) = 0 Then
+486:             dIncrement = 99
+487:         Else
+488:             dIncrement = 100 / pT.RowCount(Nothing)
+489:         End If
+490:         pProgress.ProgressBar1.Value = 0
+491:         pProgress.lblInformation.Caption = "Deleting previous grids..."
+492:         pProgress.cmdCancel.Visible = False        ' User cannot cancel this step
         
-506:         m_pProgress.Visible = True
-507:         Set pFeature = pFCu.NextFeature
-508:         While Not pFeature Is Nothing
-509:             pFeature.Delete
-510:             If (pProgress.ProgressBar1.value + dIncrement) <= pProgress.ProgressBar1.Max Then
-511:                 pProgress.ProgressBar1.value = pProgress.ProgressBar1.value + dIncrement
-512:             Else
-513:                 pProgress.lblInformation.Caption = "Warning: Val > Max (" & pProgress.ProgressBar1.Max & ")"
-514:             End If
-515:             Set pFeature = pFCu.NextFeature
-516:         Wend
-517:         m_pProgress.Visible = False
-518:     End If
+494:         m_pProgress.Visible = True
+495:         Set pFeature = pFCu.NextFeature
+496:         While Not pFeature Is Nothing
+497:             pFeature.Delete
+498:             If (pProgress.ProgressBar1.Value + dIncrement) <= pProgress.ProgressBar1.Max Then
+499:                 pProgress.ProgressBar1.Value = pProgress.ProgressBar1.Value + dIncrement
+500:             Else
+501:                 pProgress.lblInformation.Caption = "Warning: Val > Max (" & pProgress.ProgressBar1.Max & ")"
+502:             End If
+503:             Set pFeature = pFCu.NextFeature
+504:         Wend
+505:         m_pProgress.Visible = False
+506:     End If
     
     ' Calc the row/column extents, grid size (map units), ID lengths and starting coordinate
-521:     Set pStartingCoord = New esrigeometry.Point
-522:     pStartingCoord.PutCoords m_StartX, m_StartY
-523:     dConvertPageToMapUnits = CalculatePageToMapRatio(Application)
-524:     dGridSizeW = ((m_dMapScale * dDataFrameWidth) / dConvertPageToMapUnits)
-525:     dGridSizeH = ((m_dMapScale * dDataFrameHeight) / dConvertPageToMapUnits)
-526:     If Not (pFL.FeatureClass.FeatureDataset Is Nothing) Then
-527:         CalculateRowColCounts m_StartX, m_StartY, m_EndX, m_EndY, _
+509:     Set pStartingCoord = New esrigeometry.Point
+510:     pStartingCoord.PutCoords m_StartX, m_StartY
+511:     dConvertPageToMapUnits = CalculatePageToMapRatio(Application)
+512:     dGridSizeW = ((m_dMapScale * dDataFrameWidth) / dConvertPageToMapUnits)
+513:     dGridSizeH = ((m_dMapScale * dDataFrameHeight) / dConvertPageToMapUnits)
+514:     If Not (pFL.FeatureClass.FeatureDataset Is Nothing) Then
+515:         CalculateRowColCounts m_StartX, m_StartY, m_EndX, m_EndY, _
             dGridSizeW, dGridSizeH, GetValidExtentForLayer(m_DestFL), lColCount, lRowCount
-529:     Else
-530:         CalculateRowColCounts m_StartX, m_StartY, m_EndX, m_EndY, _
+517:     Else
+518:         CalculateRowColCounts m_StartX, m_StartY, m_EndX, m_EndY, _
             dGridSizeW, dGridSizeH, Nothing, lColCount, lRowCount
-532:     End If
-533:     If lColCount = 0 Or lRowCount = 0 Then
-534:         Err.Raise vbObjectError, "GenerateGrids", "CalculateRowColCounts returned zero row/columns"
-535:     End If
-536:     If m_ColIDType = Alphabetical Then
-537:         lBase = 26
-538:     Else
-539:         lBase = 10
-540:     End If
-541:     iStringLengthCol = GetMinimumStringLength(lColCount, lBase)
-542:     If m_RowIDType = Alphabetical Then
-543:         lBase = 26
-544:     Else
-545:         lBase = 10
-546:     End If
-547:     iStringLengthRow = GetMinimumStringLength(lRowCount, lBase)
+520:     End If
+521:     If lColCount = 0 Or lRowCount = 0 Then
+522:         Err.Raise vbObjectError, "GenerateGrids", "CalculateRowColCounts returned zero row/columns"
+523:     End If
+524:     If m_ColIDType = Alphabetical Then
+525:         lBase = 26
+526:     Else
+527:         lBase = 10
+528:     End If
+529:     iStringLengthCol = GetMinimumStringLength(lColCount, lBase)
+530:     If m_RowIDType = Alphabetical Then
+531:         lBase = 26
+532:     Else
+533:         lBase = 10
+534:     End If
+535:     iStringLengthRow = GetMinimumStringLength(lRowCount, lBase)
     
     ' Create and add the new Grid polygon features
-550:     bOKToAdd = True
-551:     pProgress.ProgressBar1.Min = 0
-552:     pProgress.ProgressBar1.Max = 100
-553:     pProgress.ProgressBar1.value = 0
-554:     pProgress.lblInformation.Caption = "Creating new Grid features..."
-555:     pProgress.cmdCancel.Visible = True
-556:     m_pProgress.Visible = True
-557:     dIncrement = 99.9 / (lRowCount * lColCount)
-558:     Set pInsertFeatureCursor = pFC.Insert(True)
-559:     Set pInsertFeatureBuffer = pFC.CreateFeatureBuffer
-560:     For lRow = 0 To lRowCount - 1
-561:         For lCol = 0 To lColCount - 1
+538:     bOKToAdd = True
+539:     pProgress.ProgressBar1.Min = 0
+540:     pProgress.ProgressBar1.Max = 100
+541:     pProgress.ProgressBar1.Value = 0
+542:     pProgress.lblInformation.Caption = "Creating new Grid features..."
+543:     pProgress.cmdCancel.Visible = True
+544:     m_pProgress.Visible = True
+545:     dIncrement = 99.9 / (lRowCount * lColCount)
+546:     Set pInsertFeatureCursor = pFC.Insert(True)
+547:     Set pInsertFeatureBuffer = pFC.CreateFeatureBuffer
+548:     For lRow = 0 To lRowCount - 1
+549:         For lCol = 0 To lColCount - 1
             ' Create the source polygon
-563:             Set pGridPolygon = CreateGridPoly2(pStartingCoord, lRow, lCol, dGridSizeW, dGridSizeH)
+551:             Set pGridPolygon = CreateGridPoly2(pStartingCoord, lRow, lCol, dGridSizeW, dGridSizeH)
             ' If required, check for containing features
-565:             If m_NoEmptyGrids Then
-566:                 bOKToAdd = HasFeatures(pGridPolygon, pMx.FocusMap)
-567:             End If
-568:             If bOKToAdd Then
+553:             If m_NoEmptyGrids Then
+554:                 bOKToAdd = HasFeatures(pGridPolygon, pMx.FocusMap)
+555:             End If
+556:             If bOKToAdd Then
                 ' Create new grid cell feature
-570:                 Set pInsertFeatureBuffer.Shape = pGridPolygon
-571:                 If m_StartIDType = TopLeft Then
-572:                     pInsertFeatureBuffer.value(pFC.Fields.FindField(m_FldID)) = _
+558:                 Set pInsertFeatureBuffer.Shape = pGridPolygon
+559:                 If m_StartIDType = TopLeft Then
+560:                     pInsertFeatureBuffer.Value(pFC.Fields.FindField(m_FldID)) = _
                             CalculateID((lRowCount - 1) - lRow, lCol, iStringLengthRow, iStringLengthCol)
-574:                     If Len(m_FldRowNum) > 0 Then pInsertFeatureBuffer.value(pFC.Fields.FindField(m_FldRowNum)) = (lRowCount - lRow)
-575:                 Else
-576:                     pInsertFeatureBuffer.value(pFC.Fields.FindField(m_FldID)) = _
+562:                     If Len(m_FldRowNum) > 0 Then pInsertFeatureBuffer.Value(pFC.Fields.FindField(m_FldRowNum)) = (lRowCount - lRow)
+563:                 Else
+564:                     pInsertFeatureBuffer.Value(pFC.Fields.FindField(m_FldID)) = _
                             CalculateID(lRow, lCol, iStringLengthRow, iStringLengthCol)
-578:                     If Len(m_FldRowNum) > 0 Then pInsertFeatureBuffer.value(pFC.Fields.FindField(m_FldRowNum)) = (lRow + 1)
-579:                 End If
-580:                 If Len(m_FldColNum) > 0 Then pInsertFeatureBuffer.value(pFC.Fields.FindField(m_FldColNum)) = (lCol + 1)
-581:                 If Len(m_FldScale) > 0 Then pInsertFeatureBuffer.value(pFC.Fields.FindField(m_FldScale)) = m_dMapScale
-582:                 pInsertFeatureCursor.InsertFeature pInsertFeatureBuffer
-583:             End If
-584:             If pProgress.ProgressBar1.value < pProgress.ProgressBar1.Max Then
-585:                 pProgress.ProgressBar1.value = pProgress.ProgressBar1.value + dIncrement
-586:             Else
-587:                 pProgress.lblInformation.Caption = "Warning: Val > Max (" & pProgress.ProgressBar1.Max & ")"
-588:             End If
-589:             If ((lRow * lColCount) + lCol) Mod 20 = 0 Then
-590:                 DoEvents
-591:                 pInsertFeatureCursor.Flush
-592:             End If
-593:             pProgress.Refresh
-594:             If pProgress.Cancelled Then
+566:                     If Len(m_FldRowNum) > 0 Then pInsertFeatureBuffer.Value(pFC.Fields.FindField(m_FldRowNum)) = (lRow + 1)
+567:                 End If
+568:                 If Len(m_FldColNum) > 0 Then pInsertFeatureBuffer.Value(pFC.Fields.FindField(m_FldColNum)) = (lCol + 1)
+569:                 If Len(m_FldScale) > 0 Then pInsertFeatureBuffer.Value(pFC.Fields.FindField(m_FldScale)) = m_dMapScale
+570:                 pInsertFeatureCursor.InsertFeature pInsertFeatureBuffer
+571:             End If
+572:             If pProgress.ProgressBar1.Value < pProgress.ProgressBar1.Max Then
+573:                 pProgress.ProgressBar1.Value = pProgress.ProgressBar1.Value + dIncrement
+574:             Else
+575:                 pProgress.lblInformation.Caption = "Warning: Val > Max (" & pProgress.ProgressBar1.Max & ")"
+576:             End If
+577:             If ((lRow * lColCount) + lCol) Mod 20 = 0 Then
+578:                 DoEvents
+579:                 pInsertFeatureCursor.Flush
+580:             End If
+581:             pProgress.Refresh
+582:             If pProgress.Cancelled Then
                 Dim vUserChoice
-596:                 pProgress.Cancelled = False       ' Reset the form
-597:                 vUserChoice = MsgBox("Operation cancelled." _
+584:                 pProgress.Cancelled = False       ' Reset the form
+585:                 vUserChoice = MsgBox("Operation cancelled." _
                     & "  Save the edits made thus far?" & vbCrLf & vbCrLf _
                     & "(Click Cancel to continue processing)", _
                                 vbYesNoCancel, "Generate Grids")
-601:                 If vUserChoice <> vbCancel Then
-602:                     GoTo CancelledGenerateGrids     'Sorry for GoTo usage - in a hurry
-603:                 End If
-604:             End If
-605:         Next
-606:     Next
-607:     pInsertFeatureCursor.Flush
-608:     m_pProgress.Visible = False
+589:                 If vUserChoice <> vbCancel Then
+590:                     GoTo CancelledGenerateGrids     'Sorry for GoTo usage - in a hurry
+591:                 End If
+592:             End If
+593:         Next
+594:     Next
+595:     pInsertFeatureCursor.Flush
+596:     m_pProgress.Visible = False
     
     ' Stop editing
-611:     pWorkspaceEdit.StopEditOperation
-612:     pWorkspaceEdit.StopEditing True
+599:     pWorkspaceEdit.StopEditOperation
+600:     pWorkspaceEdit.StopEditing True
     ' ----------------------------------------------------
     
-615:     Screen.MousePointer = vbDefault
-616:     pMx.ActiveView.Refresh
+603:     Screen.MousePointer = vbDefault
+604:     pMx.ActiveView.Refresh
     
     Exit Sub
     
 CancelledGenerateGrids:
-621:     m_pProgress.Visible = False
-622:     If vUserChoice = vbYes Then
-623:         pInsertFeatureCursor.Flush
-624:         pWorkspaceEdit.StopEditOperation
-625:         pWorkspaceEdit.StopEditing True
-626:     Else
-627:         pWorkspaceEdit.StopEditOperation
-628:         pWorkspaceEdit.StopEditing False
-629:     End If
-630:     Screen.MousePointer = vbDefault
-631:     pMx.ActiveView.Refresh
+609:     m_pProgress.Visible = False
+610:     If vUserChoice = vbYes Then
+611:         pInsertFeatureCursor.Flush
+612:         pWorkspaceEdit.StopEditOperation
+613:         pWorkspaceEdit.StopEditing True
+614:     Else
+615:         pWorkspaceEdit.StopEditOperation
+616:         pWorkspaceEdit.StopEditing False
+617:     End If
+618:     Screen.MousePointer = vbDefault
+619:     pMx.ActiveView.Refresh
     Exit Sub
     
-634:     Resume
+622:     Resume
 eh:
-636:     m_pProgress.Visible = False
-637:     Screen.MousePointer = vbDefault
-638:     If Not pWorkspaceEdit Is Nothing Then
-639:         If pWorkspaceEdit.IsBeingEdited Then
-640:             pWorkspaceEdit.StopEditOperation
-641:             pWorkspaceEdit.StopEditing False
-642:         End If
-643:     End If
-644:     MsgBox "GenerateGrids - " & Erl & " - " & Err.Description
+624:     m_pProgress.Visible = False
+625:     Screen.MousePointer = vbDefault
+626:     If Not pWorkspaceEdit Is Nothing Then
+627:         If pWorkspaceEdit.IsBeingEdited Then
+628:             pWorkspaceEdit.StopEditOperation
+629:             pWorkspaceEdit.StopEditing False
+630:         End If
+631:     End If
+632:     MsgBox "GenerateGrids - " & Erl & " - " & Err.Description
 End Sub
 
 
@@ -664,23 +668,23 @@ Private Function CreateGridPoly2(pStartPoint As IPoint, lRow As Long, lCol As Lo
     Dim pPoint As IPoint
     Dim dX As Double, dY As Double
     
-654:     Set CreateGridPoly2 = New Polygon
-655:     Set pPntColl = CreateGridPoly2
+642:     Set CreateGridPoly2 = New Polygon
+643:     Set pPntColl = CreateGridPoly2
+644:     Set pPoint = New esrigeometry.Point
+645:     pPoint.PutCoords pStartPoint.X + (lCol * dGridWidth), pStartPoint.Y + (lRow * dGridHeight)
+646:     pPntColl.AddPoint pPoint
+647:     Set pPoint = New esrigeometry.Point
+648:     pPoint.PutCoords pStartPoint.X + (lCol * dGridWidth), pStartPoint.Y + ((lRow + 1) * dGridHeight)
+649:     pPntColl.AddPoint pPoint
+650:     Set pPoint = New esrigeometry.Point
+651:     pPoint.PutCoords pStartPoint.X + ((lCol + 1) * dGridWidth), pStartPoint.Y + ((lRow + 1) * dGridHeight)
+652:     pPntColl.AddPoint pPoint
+653:     Set pPoint = New esrigeometry.Point
+654:     pPoint.PutCoords pStartPoint.X + ((lCol + 1) * dGridWidth), pStartPoint.Y + (lRow * dGridHeight)
+655:     pPntColl.AddPoint pPoint
 656:     Set pPoint = New esrigeometry.Point
 657:     pPoint.PutCoords pStartPoint.X + (lCol * dGridWidth), pStartPoint.Y + (lRow * dGridHeight)
 658:     pPntColl.AddPoint pPoint
-659:     Set pPoint = New esrigeometry.Point
-660:     pPoint.PutCoords pStartPoint.X + (lCol * dGridWidth), pStartPoint.Y + ((lRow + 1) * dGridHeight)
-661:     pPntColl.AddPoint pPoint
-662:     Set pPoint = New esrigeometry.Point
-663:     pPoint.PutCoords pStartPoint.X + ((lCol + 1) * dGridWidth), pStartPoint.Y + ((lRow + 1) * dGridHeight)
-664:     pPntColl.AddPoint pPoint
-665:     Set pPoint = New esrigeometry.Point
-666:     pPoint.PutCoords pStartPoint.X + ((lCol + 1) * dGridWidth), pStartPoint.Y + (lRow * dGridHeight)
-667:     pPntColl.AddPoint pPoint
-668:     Set pPoint = New esrigeometry.Point
-669:     pPoint.PutCoords pStartPoint.X + (lCol * dGridWidth), pStartPoint.Y + (lRow * dGridHeight)
-670:     pPntColl.AddPoint pPoint
     
 End Function
 
@@ -698,69 +702,69 @@ Private Sub CalculateRowColCounts(ByVal XStart As Double, ByVal YStart As Double
     On Error GoTo eh
     
     ' Protect against div by zero (where the grid width/height is less than 0.5 => ie: with Geographic Data)
-688:     lMultiplierX = 1
-689:     dTemp = XGridWidth
-690:     While dTemp < 10
-691:         dTemp = dTemp * 10
-692:         lMultiplierX = lMultiplierX * 10
-693:     Wend
-694:     lMultiplierY = 1
-695:     dTemp = YGridHeight
-696:     While dTemp < 10
-697:         dTemp = dTemp * 10
-698:         lMultiplierY = lMultiplierY * 10
-699:     Wend
+676:     lMultiplierX = 1
+677:     dTemp = XGridWidth
+678:     While dTemp < 10
+679:         dTemp = dTemp * 10
+680:         lMultiplierX = lMultiplierX * 10
+681:     Wend
+682:     lMultiplierY = 1
+683:     dTemp = YGridHeight
+684:     While dTemp < 10
+685:         dTemp = dTemp * 10
+686:         lMultiplierY = lMultiplierY * 10
+687:     Wend
     
     ' Init
-702:     XRange = XEnd - XStart
-703:     YRange = YEnd - YStart
+690:     XRange = XEnd - XStart
+691:     YRange = YEnd - YStart
     'X ------------------------------------------
-705:     If Not (LayerExtent Is Nothing) Then
-706:         If XStart < LayerExtent.XMin Then
-707:             Err.Raise vbObjectError, "CalculateRowColCounts", _
+693:     If Not (LayerExtent Is Nothing) Then
+694:         If XStart < LayerExtent.XMin Then
+695:             Err.Raise vbObjectError, "CalculateRowColCounts", _
                 "Starting X (" & XStart & ") is outside the valid layer extent (" & LayerExtent.XMin & ")"
-709:         ElseIf XEnd > LayerExtent.XMax Then
-710:             Err.Raise vbObjectError, "CalculateRowColCounts", _
+697:         ElseIf XEnd > LayerExtent.XMax Then
+698:             Err.Raise vbObjectError, "CalculateRowColCounts", _
                 "Ending X (" & XStart & ") is outside the valid layer extent (" & LayerExtent.XMax & ")"
-712:         ElseIf (XStart + XGridWidth) > LayerExtent.XMax Then
-713:             Err.Raise vbObjectError, "CalculateRowColCounts", _
+700:         ElseIf (XStart + XGridWidth) > LayerExtent.XMax Then
+701:             Err.Raise vbObjectError, "CalculateRowColCounts", _
                 "Adding a single Grid (width " & XGridWidth & ") would exceed valid X range for layer (" & LayerExtent.XMax & ")"
-715:         End If
-716:     End If
-717:     If XRange < XGridWidth Then
-718:         Err.Raise vbObjectError, "CalculateRowColCounts", _
+703:         End If
+704:     End If
+705:     If XRange < XGridWidth Then
+706:         Err.Raise vbObjectError, "CalculateRowColCounts", _
             "Grid width " & XGridWidth & " exceeds range specified (" & XStart & " - " & XEnd & ")"
-720:     ElseIf (XStart + XGridWidth) > XEnd Then
-721:         Err.Raise vbObjectError, "CalculateRowColCounts", _
+708:     ElseIf (XStart + XGridWidth) > XEnd Then
+709:         Err.Raise vbObjectError, "CalculateRowColCounts", _
             "Adding a single Grid (width " & XGridWidth & ") would exceed specified X range (" & XEnd & ")"
-723:     End If
-724:     ReturnColCount = (XRange * lMultiplierX) \ (XGridWidth * lMultiplierX)
+711:     End If
+712:     ReturnColCount = (XRange * lMultiplierX) \ (XGridWidth * lMultiplierX)
     'Y ------------------------------------------
-726:     If Not (LayerExtent Is Nothing) Then
-727:         If YStart < LayerExtent.YMin Then
-728:             Err.Raise vbObjectError, "CalculateRowColCounts", _
+714:     If Not (LayerExtent Is Nothing) Then
+715:         If YStart < LayerExtent.YMin Then
+716:             Err.Raise vbObjectError, "CalculateRowColCounts", _
                 "Starting Y (" & YStart & ") is outside the valid layer extent (" & LayerExtent.YMin & ")"
-730:         ElseIf YEnd > LayerExtent.YMax Then
-731:             Err.Raise vbObjectError, "CalculateRowColCounts", _
+718:         ElseIf YEnd > LayerExtent.YMax Then
+719:             Err.Raise vbObjectError, "CalculateRowColCounts", _
                 "Ending Y (" & YStart & ") is outside the valid layer extent (" & LayerExtent.YMax & ")"
-733:         ElseIf (YStart + YGridHeight) > LayerExtent.YMax Then
-734:             Err.Raise vbObjectError, "CalculateRowColCounts", _
+721:         ElseIf (YStart + YGridHeight) > LayerExtent.YMax Then
+722:             Err.Raise vbObjectError, "CalculateRowColCounts", _
                 "Adding a single Grid (height " & YGridHeight & ") would exceed valid Y range for layer (" & LayerExtent.YMax & ")"
-736:         End If
-737:     End If
-738:     If YRange < YGridHeight Then
-739:         Err.Raise vbObjectError, "CalculateRowColCounts", _
+724:         End If
+725:     End If
+726:     If YRange < YGridHeight Then
+727:         Err.Raise vbObjectError, "CalculateRowColCounts", _
             "Grid height " & YGridHeight & " exceeds range specified (" & YStart & " - " & YEnd & ")"
-741:     ElseIf (XStart + XGridWidth) > XEnd Then
-742:         Err.Raise vbObjectError, "CalculateRowColCounts", _
+729:     ElseIf (XStart + XGridWidth) > XEnd Then
+730:         Err.Raise vbObjectError, "CalculateRowColCounts", _
             "Adding a single Grid (height " & YGridHeight & ") would exceed specified Y range (" & YEnd & ")"
-744:     End If
-745:     ReturnRowCount = (YRange * lMultiplierY) \ (YGridHeight * lMultiplierY)
+732:     End If
+733:     ReturnRowCount = (YRange * lMultiplierY) \ (YGridHeight * lMultiplierY)
     '--------------------------------------------
     
     Exit Sub
 eh:
-750:     Err.Raise Err.Number, Err.source, "Error in CalculateRowColCounts: " & Err.Description
+738:     Err.Raise Err.Number, Err.Source, "Error in CalculateRowColCounts: " & Err.Description
 End Sub
 
 Private Function CalculatePageToMapRatio(pApp As IApplication) As Double
@@ -777,47 +781,47 @@ Private Function CalculatePageToMapRatio(pApp As IApplication) As Double
     On Error GoTo eh
     
     ' Init
-767:     Set pMx = pApp.Document
-768:     Set pSR = pMx.FocusMap.SpatialReference
+755:     Set pMx = pApp.Document
+756:     Set pSR = pMx.FocusMap.SpatialReference
     ' If a Projected coord system
-770:     If TypeOf pSR Is IProjectedCoordinateSystem Then
+758:     If TypeOf pSR Is IProjectedCoordinateSystem Then
         ' Use meters per unit as the conversion
-772:         Set pPCS = pSR
-773:         dMetersPerUnit = pPCS.CoordinateUnit.MetersPerUnit
+760:         Set pPCS = pSR
+761:         dMetersPerUnit = pPCS.CoordinateUnit.MetersPerUnit
         ' Now convert this into page (ie: paper) units
-775:         Set pPage = pMx.PageLayout.Page
-776:         pPageUnits = pPage.Units
+763:         Set pPage = pMx.PageLayout.Page
+764:         pPageUnits = pPage.Units
         Select Case pPageUnits
             Case esriInches: CalculatePageToMapRatio = dMetersPerUnit / (1 / 12 * 0.304800609601219)
             Case esriFeet: CalculatePageToMapRatio = dMetersPerUnit / (0.304800609601219)
             Case esriCentimeters: CalculatePageToMapRatio = dMetersPerUnit / (1 / 100)
             Case esriMeters: CalculatePageToMapRatio = dMetersPerUnit / (1)
             Case Else:
-783:                 MsgBox "Warning: Only the following Page (Layout) Units are supported by this tool:" _
+771:                 MsgBox "Warning: Only the following Page (Layout) Units are supported by this tool:" _
                     & vbCrLf & " - Inches, Feet, Centimeters, Meters" _
                     & vbCrLf & vbCrLf & "Calculating as though Page Units are in Inches..."
-786:                 CalculatePageToMapRatio = dMetersPerUnit / (1 / 12 * 0.304800609601219)
-787:         End Select
+774:                 CalculatePageToMapRatio = dMetersPerUnit / (1 / 12 * 0.304800609601219)
+775:         End Select
     ' Otherwise
-789:     Else
+777:     Else
         ' If not projected, we can only do a "flat" conversion -> that is, use the current scale and extent
         '  as a ratio to be applied to the map grid scale.
         ' NOTE: We MUST be in Layout mode to make this calculation, as the scale in Map View and Layout View
         '  are not the same (as the extent envelope and data frame envelope can be different shapes).  The
         '  test for being in Layout Mode is made in the clsMapGridButton.ICommand_Enabled property.
-795:         Set pExtentEnv = pMx.ActiveView.Extent
-796:         dCurrScale = pMx.FocusMap.MapScale
-797:         If ((m_EndX - m_StartX) / m_dFrameWidthInPageUnits) > ((m_EndY - m_StartY) / m_dFrameHeightInPageUnits) Then
-798:             CalculatePageToMapRatio = m_dFrameWidthInPageUnits / ((m_EndX - m_StartX) / dCurrScale)
-799:         Else
-800:             CalculatePageToMapRatio = m_dFrameHeightInPageUnits / ((m_EndY - m_StartY) / dCurrScale)
-801:         End If
-802:     End If
+783:         Set pExtentEnv = pMx.ActiveView.Extent
+784:         dCurrScale = pMx.FocusMap.MapScale
+785:         If ((m_EndX - m_StartX) / m_dFrameWidthInPageUnits) > ((m_EndY - m_StartY) / m_dFrameHeightInPageUnits) Then
+786:             CalculatePageToMapRatio = m_dFrameWidthInPageUnits / ((m_EndX - m_StartX) / dCurrScale)
+787:         Else
+788:             CalculatePageToMapRatio = m_dFrameHeightInPageUnits / ((m_EndY - m_StartY) / dCurrScale)
+789:         End If
+790:     End If
     
     Exit Function
 eh:
-806:     CalculatePageToMapRatio = 1
-807:     MsgBox "Error in CalculatePageToMapRatio" & vbCrLf & Err.Description
+794:     CalculatePageToMapRatio = 1
+795:     MsgBox "Error in CalculatePageToMapRatio" & vbCrLf & Err.Description
 End Function
 
 Private Function HasFeatures(pPolygon As IPolygon, pMap As IMap) As Boolean
@@ -827,39 +831,39 @@ Private Function HasFeatures(pPolygon As IPolygon, pMap As IMap) As Boolean
     Dim pFC As IFeatureCursor
     Dim pF As IFeature
     
-817:     HasFeatures = False
-818:     Set pSF = New SpatialFilter
-819:     Set pSF.Geometry = pPolygon
-820:     pSF.SpatialRel = esriSpatialRelIntersects
-821:     For lLoop = 0 To (pMap.LayerCount - 1)
-822:         If TypeOf pMap.Layer(lLoop) Is IFeatureLayer Then
-823:             Set pFL = pMap.Layer(lLoop)
-824:             If pFL.Name <> m_DestFL.Name And IsARequiredLayer(pFL.Name) Then
-825:                 pSF.GeometryField = pFL.FeatureClass.shapeFieldName
-826:                 Set pFC = pFL.Search(pSF, False)
-827:                 Set pF = pFC.NextFeature
-828:                 If Not pF Is Nothing Then
-829:                     HasFeatures = True
-830:                     Exit For
-831:                 End If
-832:             End If
-833:         End If
-834:     Next
+805:     HasFeatures = False
+806:     Set pSF = New SpatialFilter
+807:     Set pSF.Geometry = pPolygon
+808:     pSF.SpatialRel = esriSpatialRelIntersects
+809:     For lLoop = 0 To (pMap.LayerCount - 1)
+810:         If TypeOf pMap.Layer(lLoop) Is IFeatureLayer Then
+811:             Set pFL = pMap.Layer(lLoop)
+812:             If pFL.Name <> m_DestFL.Name And IsARequiredLayer(pFL.Name) Then
+813:                 pSF.GeometryField = pFL.FeatureClass.shapeFieldName
+814:                 Set pFC = pFL.Search(pSF, False)
+815:                 Set pF = pFC.NextFeature
+816:                 If Not pF Is Nothing Then
+817:                     HasFeatures = True
+818:                     Exit For
+819:                 End If
+820:             End If
+821:         End If
+822:     Next
 End Function
 
 Private Function IsARequiredLayer(sLayerName As String) As Boolean
     Dim lLoop As Long
-839:     For lLoop = 1 To m_colLayerNamesForData.count
-840:         If UCase(m_colLayerNamesForData.Item(lLoop)) = UCase(sLayerName) Then
-841:             IsARequiredLayer = True
-842:             Exit For
-843:         End If
-844:     Next
+827:     For lLoop = 1 To m_colLayerNamesForData.count
+828:         If UCase(m_colLayerNamesForData.Item(lLoop)) = UCase(sLayerName) Then
+829:             IsARequiredLayer = True
+830:             Exit For
+831:         End If
+832:     Next
 End Function
 
 Private Sub Class_Terminate()
-848:     Set m_DestFL = Nothing
-849:     Set m_DestFC = Nothing
-850:     Set m_pProgress = Nothing
+836:     Set m_DestFL = Nothing
+837:     Set m_DestFC = Nothing
+838:     Set m_pProgress = Nothing
 End Sub
 

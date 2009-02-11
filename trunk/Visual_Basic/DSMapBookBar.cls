@@ -11,21 +11,25 @@ Attribute VB_GlobalNameSpace = False
 Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
-Attribute VB_Ext_KEY = "SavedWithClassBuilder" ,"Yes"
-Attribute VB_Ext_KEY = "Top_Level" ,"Yes"
-Attribute VB_Ext_KEY = "SavedWithClassBuilder6" ,"Yes"
 
-' Copyright 2006 ESRI
-'
+' Copyright 2008 ESRI
+' 
 ' All rights reserved under the copyright laws of the United States
 ' and applicable international laws, treaties, and conventions.
-'
+' 
 ' You may freely redistribute and use this sample code, with or
 ' without modification, provided you include the original copyright
 ' notice and use restrictions.
-'
-' See use restrictions at /arcgis/developerkit/userestrictions.
+' 
+' See use restrictions at <your ArcGIS install location>/developerkit/userestrictions.txt.
+' 
 
+
+
+
+Attribute VB_Ext_KEY = "SavedWithClassBuilder" ,"Yes"
+Attribute VB_Ext_KEY = "Top_Level" ,"Yes"
+Attribute VB_Ext_KEY = "SavedWithClassBuilder6" ,"Yes"
 '
 ' Toolbar containing the Split and Combine commands.
 '
@@ -34,26 +38,26 @@ Option Explicit
 Implements IToolBarDef
 
 Private Property Get IToolBarDef_Caption() As String
-21:   IToolBarDef_Caption = "Map Series"
+9:   IToolBarDef_Caption = "Map Series"
 End Property
 
 Private Sub IToolBarDef_GetItemInfo(ByVal pos As Long, ByVal itemDef As IItemDef)
   Select Case pos
   Case 0
-27:     itemDef.ID = "DSMapBookUIPrj.CreateMapBook"
+15:     itemDef.ID = "DSMapBookUIPrj.CreateMapBook"
   Case 1
-29:     itemDef.ID = "DSMapBookUIPrj.PageIdentifier"
+17:     itemDef.ID = "DSMapBookUIPrj.PageIdentifier"
   Case 2
-31:     itemDef.ID = "DSMapBookUIPrj.clsMapGridButton"
+19:     itemDef.ID = "DSMapBookUIPrj.clsMapGridButton"
   Case 3
-33:     itemDef.ID = "DSMapBookUIPrj.clsStripMapButton"
-34:   End Select
+21:     itemDef.ID = "DSMapBookUIPrj.clsStripMapButton"
+22:   End Select
 End Sub
 
 Private Property Get IToolBarDef_ItemCount() As Long
-38:   IToolBarDef_ItemCount = 4
+26:   IToolBarDef_ItemCount = 4
 End Property
 
 Private Property Get IToolBarDef_name() As String
-42:   IToolBarDef_name = "DSMapBookUIPrj.MapSeriesBar"
+30:   IToolBarDef_name = "DSMapBookUIPrj.MapSeriesBar"
 End Property

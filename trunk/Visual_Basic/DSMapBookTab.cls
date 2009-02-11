@@ -12,16 +12,20 @@ Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
 
-' Copyright 2006 ESRI
-'
+' Copyright 2008 ESRI
+' 
 ' All rights reserved under the copyright laws of the United States
 ' and applicable international laws, treaties, and conventions.
-'
+' 
 ' You may freely redistribute and use this sample code, with or
 ' without modification, provided you include the original copyright
 ' notice and use restrictions.
-'
-' See use restrictions at /arcgis/developerkit/userestrictions.
+' 
+' See use restrictions at <your ArcGIS install location>/developerkit/userestrictions.txt.
+' 
+
+
+
 
 Option Explicit
 
@@ -35,19 +39,19 @@ Private m_ShowLines As Boolean
 Implements IContentsView
 
 Private Sub Class_Initialize()
-25:   m_bIsVisible = True
-26:   'Load g_pFrmMapSeries
+13:   m_bIsVisible = True
+14:   Load g_pFrmMapSeries
 End Sub
 
 Private Sub Class_Terminate()
-30:   'Unload g_pFrmMapSeries
-31:   Set g_pFrmMapSeries = Nothing
+18:   Unload g_pFrmMapSeries
+19:   Set g_pFrmMapSeries = Nothing
 End Sub
 
 Private Sub IContentsView_Activate(ByVal parentHWND As esriSystem.OLE_HANDLE, ByVal Document As IMxDocument)
 
   'From Al
-37:   RemoveContextMenu g_pFrmMapSeries.tvwMapBook.hwnd
+25:   RemoveContextMenu g_pFrmMapSeries.tvwMapBook.hwnd
 End Sub
 
 Private Sub IContentsView_AddToSelectedItems(ByVal Item As Variant)
@@ -56,32 +60,32 @@ End Sub
 
 Private Property Let IContentsView_ContextItem(ByVal RHS As Variant)
 On Error GoTo ErrHand:
-46:   m_ContextItem = RHS
+34:   m_ContextItem = RHS
   
   Exit Property
 ErrHand:
-50:   MsgBox "Let IContentsView_ContextItem - " & Err.Description
+38:   MsgBox "Let IContentsView_ContextItem - " & Err.Description
 End Property
 
 Private Property Get IContentsView_ContextItem() As Variant
 On Error GoTo ErrHand:
-55:   IContentsView_ContextItem = m_ContextItem
+43:   IContentsView_ContextItem = m_ContextItem
   
   Exit Property
 ErrHand:
-59:   MsgBox "Get IContentsView_ContextItem - " & Err.Description
+47:   MsgBox "Get IContentsView_ContextItem - " & Err.Description
 End Property
 
 Private Sub IContentsView_Deactivate()
-63:   RemoveContextMenuSink g_pFrmMapSeries.tvwMapBook.hwnd
+51:   RemoveContextMenuSink g_pFrmMapSeries.tvwMapBook.hwnd
 End Sub
 
 Private Property Get IContentsView_hWnd() As esriSystem.OLE_HANDLE
-67:   IContentsView_hWnd = g_pFrmMapSeries.tvwMapBook.hwnd
+55:   IContentsView_hWnd = g_pFrmMapSeries.tvwMapBook.hwnd
 End Property
 
 Private Property Get IContentsView_Name() As String
-71:   IContentsView_Name = "Map Book"
+59:   IContentsView_Name = "Map Book"
 End Property
 
 Private Property Let IContentsView_ProcessEvents(ByVal RHS As Boolean)
@@ -98,35 +102,35 @@ End Sub
 
 Private Property Let IContentsView_SelectedItem(ByVal RHS As Variant)
 On Error GoTo ErrHand:
-88:   m_SelectedItem = RHS
+76:   m_SelectedItem = RHS
   
   Exit Property
 ErrHand:
-92:   MsgBox "Let IContentsView_SelectedItem - " & Err.Description
+80:   MsgBox "Let IContentsView_SelectedItem - " & Err.Description
 End Property
 
 Private Property Get IContentsView_SelectedItem() As Variant
 On Error GoTo ErrHand:
-97:   IContentsView_SelectedItem = m_SelectedItem
+85:   IContentsView_SelectedItem = m_SelectedItem
   
   Exit Property
 ErrHand:
-101:   MsgBox "Get IContentsView_SelectedItem - " & Err.Description
+89:   MsgBox "Get IContentsView_SelectedItem - " & Err.Description
 End Property
 
 Private Property Let IContentsView_ShowLines(ByVal RHS As Boolean)
-105:   m_ShowLines = RHS
+93:   m_ShowLines = RHS
 End Property
 
 Private Property Get IContentsView_ShowLines() As Boolean
-109:   IContentsView_ShowLines = m_ShowLines
+97:   IContentsView_ShowLines = m_ShowLines
 End Property
 
 Private Property Let IContentsView_Visible(ByVal RHS As Boolean)
-113:   m_bIsVisible = RHS
+101:   m_bIsVisible = RHS
 End Property
 
 Private Property Get IContentsView_Visible() As Boolean
-117:   IContentsView_Visible = m_bIsVisible
+105:   IContentsView_Visible = m_bIsVisible
 End Property
 
