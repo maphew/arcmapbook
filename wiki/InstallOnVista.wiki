@@ -1,4 +1,4 @@
-#some workarounds for installing on Windows Vista
+#Summary some workarounds for installing on Windows Vista
 
 = Introduction =
 
