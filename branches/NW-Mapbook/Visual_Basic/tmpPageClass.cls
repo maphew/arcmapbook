@@ -12,20 +12,32 @@ Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
 
-' Copyright 2008 ESRI
-' 
-' All rights reserved under the copyright laws of the United States
-' and applicable international laws, treaties, and conventions.
-' 
-' You may freely redistribute and use this sample code, with or
-' without modification, provided you include the original copyright
-' notice and use restrictions.
-' 
-' See use restrictions at <your ArcGIS install location>/developerkit/userestrictions.txt.
-' 
+' Copyright 1995-2004 ESRI
 
+' All rights reserved under the copyright laws of the United States.
 
+' You may freely redistribute and use this sample code, with or without modification.
 
+' Disclaimer: THE SAMPLE CODE IS PROVIDED "AS IS" AND ANY EXPRESS OR IMPLIED
+' WARRANTIES, INCLUDING THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+' FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL ESRI OR
+' CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY,
+' OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+' SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+' INTERRUPTION) SUSTAINED BY YOU OR A THIRD PARTY, HOWEVER CAUSED AND ON ANY
+' THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT ARISING IN ANY
+' WAY OUT OF THE USE OF THIS SAMPLE CODE, EVEN IF ADVISED OF THE POSSIBILITY OF
+' SUCH DAMAGE.
+
+' For additional information contact: Environmental Systems Research Institute, Inc.
+
+' Attn: Contracts Dept.
+
+' 380 New York Street
+
+' Redlands, California, U.S.A. 92373
+
+' Email: contracts@esri.com
 
 Option Explicit
 
@@ -35,33 +47,33 @@ Dim m_dScale As Double
 Dim m_dShape As IPolygon
 
 Public Property Get PageName() As String
-9:   PageName = m_sPageName
+  PageName = m_sPageName
 End Property
 
 Public Property Let PageName(RHS As String)
-13:   m_sPageName = RHS
+  m_sPageName = RHS
 End Property
 
 Public Property Get PageRotation() As Double
-17:   PageRotation = m_dRotation
+  PageRotation = m_dRotation
 End Property
 
 Public Property Let PageRotation(RHS As Double)
-21:   m_dRotation = RHS
+  m_dRotation = RHS
 End Property
 
 Public Property Get PageScale() As Double
-25:   PageScale = m_dScale
+  PageScale = m_dScale
 End Property
 
 Public Property Let PageScale(RHS As Double)
-29:   m_dScale = RHS
+  m_dScale = RHS
 End Property
 
 Public Property Get PageShape() As IPolygon
-33:   Set PageShape = m_dShape
+  Set PageShape = m_dShape
 End Property
 
 Public Property Set PageShape(RHS As IPolygon)
-37:   Set m_dShape = RHS
+  Set m_dShape = RHS
 End Property

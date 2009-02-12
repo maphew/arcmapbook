@@ -1,0 +1,5 @@
+Line 33: Property ItemData in List1 had an invalid file reference.
+Line 35: Property List in List1 had an invalid file reference.
+Line 43: Property ItemData in cboDataFrames had an invalid file reference.
+Line 45: Property List in cboDataFrames had an invalid file reference.
+Line 69: Property Caption in Label1 must be a quoted string

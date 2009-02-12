@@ -12,20 +12,32 @@ Attribute VB_Creatable = True
 Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
 
-' Copyright 2008 ESRI
-' 
-' All rights reserved under the copyright laws of the United States
-' and applicable international laws, treaties, and conventions.
-' 
-' You may freely redistribute and use this sample code, with or
-' without modification, provided you include the original copyright
-' notice and use restrictions.
-' 
-' See use restrictions at <your ArcGIS install location>/developerkit/userestrictions.txt.
-' 
+' Copyright 1995-2004 ESRI
 
+' All rights reserved under the copyright laws of the United States.
 
+' You may freely redistribute and use this sample code, with or without modification.
 
+' Disclaimer: THE SAMPLE CODE IS PROVIDED "AS IS" AND ANY EXPRESS OR IMPLIED
+' WARRANTIES, INCLUDING THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+' FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL ESRI OR
+' CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY,
+' OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+' SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+' INTERRUPTION) SUSTAINED BY YOU OR A THIRD PARTY, HOWEVER CAUSED AND ON ANY
+' THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT ARISING IN ANY
+' WAY OUT OF THE USE OF THIS SAMPLE CODE, EVEN IF ADVISED OF THE POSSIBILITY OF
+' SUCH DAMAGE.
+
+' For additional information contact: Environmental Systems Research Institute, Inc.
+
+' Attn: Contracts Dept.
+
+' 380 New York Street
+
+' Redlands, California, U.S.A. 92373
+
+' Email: contracts@esri.com
 
 Option Explicit
 
@@ -39,19 +51,19 @@ Private Declare Function SetWindowLong Lib "user32" Alias "SetWindowLongA" _
   (ByVal hwnd As Long, ByVal nIndex As Long, ByVal dwNewLong As Long) As Long
 
 Private Sub Class_Terminate()
-13:     Set m_pApp = Nothing
+    Set m_pApp = Nothing
 End Sub
 
 Private Property Get ICommand_Bitmap() As esriSystem.OLE_HANDLE
-17:     ICommand_Bitmap = frmResources.picCreateGrid.Picture.Handle
+    ICommand_Bitmap = frmResources.picCreateGrid.Picture.Handle
 End Property
 
 Private Property Get ICommand_Caption() As String
-21:     ICommand_Caption = "Manage Map Grids"
+    ICommand_Caption = "Manage Map Grids"
 End Property
 
 Private Property Get ICommand_Category() As String
-25:     ICommand_Category = "Samples"
+    ICommand_Category = "Samples"
 End Property
 
 Private Property Get ICommand_Checked() As Boolean
@@ -64,10 +76,10 @@ Private Property Get ICommand_Enabled() As Boolean
     Dim pActiveView As IActiveView
     ' Enable, if (in Layout Mode) or (using a ProjectedCoordSystem)
     ' - Refer to clsCreateGrids.CalculatePageToMapRatio for reason why
-38:     Set pMx = m_pApp.Document
-39:     Set pSR = pMx.FocusMap.SpatialReference
-40:     Set pActiveView = pMx.ActiveView
-41:     ICommand_Enabled = (TypeOf pActiveView Is IPageLayout) Or (TypeOf pSR Is IProjectedCoordinateSystem)
+    Set pMx = m_pApp.Document
+    Set pSR = pMx.FocusMap.SpatialReference
+    Set pActiveView = pMx.ActiveView
+    ICommand_Enabled = (TypeOf pActiveView Is IPageLayout) Or (TypeOf pSR Is IProjectedCoordinateSystem)
 End Property
 
 Private Property Get ICommand_HelpContextID() As Long
@@ -79,11 +91,11 @@ Private Property Get ICommand_HelpFile() As String
 End Property
 
 Private Property Get ICommand_Message() As String
-53:     ICommand_Message = "Create/Update Map Grid polygon feature classes in ArcMap"
+    ICommand_Message = "Create/Update Map Grid polygon feature classes in ArcMap"
 End Property
 
 Private Property Get ICommand_Name() As String
-57:     ICommand_Name = "MapGridManager_clsMapGridButton"
+    ICommand_Name = "MapGridManager_clsMapGridButton"
 End Property
 
 Private Sub ICommand_OnClick()
@@ -92,32 +104,32 @@ Private Sub ICommand_OnClick()
     
     On Error GoTo eh
     
-66:     Set frm.m_Application = m_pApp
-67:     frm.Show vbModal
-68:     Set pCreateGrid = frm.GridSettings
-69:     If pCreateGrid Is Nothing Then
+    Set frm.m_Application = m_pApp
+    frm.Show vbModal
+    Set pCreateGrid = frm.GridSettings
+    If pCreateGrid Is Nothing Then
         Exit Sub
-71:     End If
-72:     pCreateGrid.GenerateGrids2 m_pApp
+    End If
+    pCreateGrid.GenerateGrids2 m_pApp
     ' Clean up
-74:     Unload frm
-75:     Set frm = Nothing
-76:     Set pCreateGrid = Nothing
+    Unload frm
+    Set frm = Nothing
+    Set pCreateGrid = Nothing
     
     Exit Sub
 eh:
-80:     Unload frm
-81:     Set frm = Nothing
-82:     Set pCreateGrid = Nothing
-83:     If Err.Number <> 364 Then
-84:         MsgBox "Error in clsMapGridButton_OnClick.  Error " & Err.Number & ": " & Erl & " - " & Err.Description
-85:     End If
+    Unload frm
+    Set frm = Nothing
+    Set pCreateGrid = Nothing
+    If Err.Number <> 364 Then
+        MsgBox "Error in clsMapGridButton_OnClick.  Error " & Err.Number & ": " & Erl & " - " & Err.Description
+    End If
 End Sub
 
 Private Sub ICommand_OnCreate(ByVal hook As Object)
-89:     Set m_pApp = hook
+    Set m_pApp = hook
 End Sub
 
 Private Property Get ICommand_Tooltip() As String
-93:     ICommand_Tooltip = "Create/Update Map Grids"
+    ICommand_Tooltip = "Create/Update Map Grids"
 End Property

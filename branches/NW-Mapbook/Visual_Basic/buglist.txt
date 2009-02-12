@@ -1,0 +1,49 @@
+
+
+Absolute Path present in c_sModuleFileName:
+===========================================
+
+Remove all usage of c_sModuleFileName since this contains an absolute path to the module contents.
+
+
+
+Permit an empty detail insets feature class
+===========================================
+
+Detail inset editing/creation tools fail when the bubble polygon layer is empty.
+Fixed on 4-18-2006.
+
+
+Layout element becomes permanently unavailable if set invisible on all map pages
+================================================================================
+
+	When making a layout element non-visible on all map pages, right click a map
+page, select visible elements, and in the dialog choose to make that element visible
+on that map page.  Result: element does not show up when you reload the map page.
+Expected result: the element should have become available.  This layout element is
+listed, but never becomes visible again.
+
+
+
+Dataframe Extent updating interferes with Data Frame Visibility Control
+=======================================================================
+
+	When setting a data frame to not appear on a given map page, and also 
+setting NW Mapbook to control the extent of that same data frame, the data frame
+extent ceases to be updated after the data frame was made non-visible.
+
+
+
+Dataframe Extent Update Settings not loaded in Series Properties Dialog.
+========================================================================
+	After setting a data frame other than the main data frame to be updated 
+when map pages are loaded, those settings are lost from the interface the next 
+time you open the series properties dialog.  As a result, if you click on the
+[OK] button without reapplying your data frame extent settings, they are lost.
+The load event of the series properties dialog needs to acquire previous data
+frame extent updating settings.
+
+
+
+
+
