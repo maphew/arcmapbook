@@ -1,0 +1,28 @@
+#some workarounds for installing on Windows Vista
+
+= Introduction =
+
+Installation on Windows Vista is not yet reliably a straightfoward procedure. Some people have no troubles, others a lot. If you encounter difficulties here are some things you can try.
+
+= Workarounds =
+
+== Turn off User Account Control ==
+Administrator rights are required for this solution.
+
+ * Start >Control Panel >User Accounts > Turn User Account Control on or off
+ * Uncheck - Use User Account Control (UAC) to help protect your computer
+ * Restart computer
+
+ * Install DS Map Book  (I verified that MapBook appeared in ArcMap.)
+ * Go back in and turn UAC back on. (I verified that MapBook appeared in ArcMap.)
+
+http://forums.esri.com/Thread.asp?c=93&f=989&t=64703#799692
+
+_See issue#16 for more details._
+
+
+== Specify absolute path to regedit, regsrvr32 ==
+Edit `_install.bat` and put the entire path for regsvr32 and regedit in the file. It 
+was happy and worked. An updated `_install.bat` is available in r101.  
+
+_See issue#40 for more details._
