@@ -1,17 +1,17 @@
 VERSION 5.00
-Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "mscomctl.ocx"
+Object = "{831FDD16-0C5C-11D2-A9FC-0000F8754DA1}#2.0#0"; "MSCOMCTL.OCX"
 Begin VB.Form frmProgress 
    BorderStyle     =   3  'Fixed Dialog
    Caption         =   "Progress"
-   ClientHeight    =   1230
-   ClientLeft      =   45
-   ClientTop       =   330
+   ClientHeight    =   1224
+   ClientLeft      =   48
+   ClientTop       =   336
    ClientWidth     =   4680
    Icon            =   "frmProgress.frx":0000
    LinkTopic       =   "Form1"
    MaxButton       =   0   'False
    MinButton       =   0   'False
-   ScaleHeight     =   1230
+   ScaleHeight     =   1224
    ScaleWidth      =   4680
    ShowInTaskbar   =   0   'False
    StartUpPosition =   1  'CenterOwner
@@ -29,8 +29,8 @@ Begin VB.Form frmProgress
       TabIndex        =   1
       Top             =   0
       Width           =   4695
-      _ExtentX        =   8281
-      _ExtentY        =   661
+      _ExtentX        =   8276
+      _ExtentY        =   656
       _Version        =   393216
       Appearance      =   1
       Scrolling       =   1
@@ -51,25 +51,37 @@ Attribute VB_Creatable = False
 Attribute VB_PredeclaredId = True
 Attribute VB_Exposed = False
 
-' Copyright 2008 ESRI
-' 
-' All rights reserved under the copyright laws of the United States
-' and applicable international laws, treaties, and conventions.
-' 
-' You may freely redistribute and use this sample code, with or
-' without modification, provided you include the original copyright
-' notice and use restrictions.
-' 
-' See use restrictions at <your ArcGIS install location>/developerkit/userestrictions.txt.
-' 
+' Copyright 1995-2004 ESRI
 
+' All rights reserved under the copyright laws of the United States.
 
+' You may freely redistribute and use this sample code, with or without modification.
 
+' Disclaimer: THE SAMPLE CODE IS PROVIDED "AS IS" AND ANY EXPRESS OR IMPLIED
+' WARRANTIES, INCLUDING THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS
+' FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL ESRI OR
+' CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY,
+' OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF
+' SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS
+' INTERRUPTION) SUSTAINED BY YOU OR A THIRD PARTY, HOWEVER CAUSED AND ON ANY
+' THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT ARISING IN ANY
+' WAY OUT OF THE USE OF THIS SAMPLE CODE, EVEN IF ADVISED OF THE POSSIBILITY OF
+' SUCH DAMAGE.
+
+' For additional information contact: Environmental Systems Research Institute, Inc.
+
+' Attn: Contracts Dept.
+
+' 380 New York Street
+
+' Redlands, California, U.S.A. 92373
+
+' Email: contracts@esri.com
 
 Option Explicit
 
 Public Cancelled As Boolean
 
 Private Sub cmdCancel_Click()
-6:     Cancelled = True
+    Cancelled = True
 End Sub

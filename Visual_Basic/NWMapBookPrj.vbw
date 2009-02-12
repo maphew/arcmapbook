@@ -1,0 +1,15 @@
+INWDSMapBook = 22, 22, 743, 505, 
+INWDSMapSeries = 18, 52, 746, 543, 
+INWDSMapSeriesProps = 36, 16, 882, 637, 
+INWDSMapSeriesOptions = 3, 109, 741, 577, 
+INWDSMapPage = 300, 284, 1179, 903, 
+NWMapBook = 0, 48, 768, 540, 
+NWMapPage = 14, 53, 973, 731, 
+NWMapSeries = 24, 31, 982, 703, Z
+INWDSMapSeriesOptions2 = 176, 176, 774, 604, 
+INWMapSeriesOptions = 154, 154, 701, 589, 
+ErrorHandling = 132, 132, 669, 500, C
+INWMapPageAttribs = 0, 0, 537, 368, 
+INWLayerVisibilityGroup = 154, 154, 714, 523, C
+NWLayerVisibilityGroup = 176, 176, 736, 545, 
+modBookGlobals = 198, 198, 704, 641, 
