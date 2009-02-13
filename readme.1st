@@ -1,0 +1,75 @@
+Author: Reed Hunter, ESRI.
+
+Note: I will only be able to update this application within the context of a 
+budgeted project.  If you see a bug in NW Mapbook that you need to have fixed, 
+and are willing to contract with ESRI services to fix that bug and/or add features
+you need, please 
+contact the ESRI Northwest regional office at (360)754-4727 and 
+ask for your sales representative.
+
+I will read emails sent to me about NW Mapbook, but my responsibility to 
+work quickly for customers who have contracted my services will limit and usually
+prevent me from spending time corresponding with folks about NW Mapbook.
+
+Having said that, I am interested in making the tool the best I can on those
+occasions when I have opportunity to make improvements.  To that end, I am eager
+to hear about bugs or usability issues you have encountered, or any improvements 
+that someone is authoring with the source code.  This lets me build a list of what
+to improve or fix.
+
+
+April 19, 2006
+
+
+The files on this FTP site will be updated through this week.  
+All file updates should be completed by the afternoon of Friday,
+April 21.
+
+
+The files that I'm updating are:
+
+readme.1st
+	This text file.
+
+AdaDSMap.zip -- Zipped user documentation for NW Mapbook.  I was directed to hand 
+	off to another person the task of revising an earlier project document, 
+	and I'm not satisfied with how it reads.  I've rewritten the first few 
+	pages of this document, and will rewrite the rest this week.
+
+code.zip 
+	Source code from the latest build of NW Mapbook.  There is a buglist.txt
+	file describing bugs I'm aware of.  I plan on fixing bugs this week as 
+	time permits.
+
+ComparisonMatrix.xls
+	A spread sheet showing a comparison of features for MPS Atlas, DS Mapbook, 
+	and NW Mapbook.  I plan on fleshing out feature descriptions in the second
+	tab of that spread sheet.
+
+20060418_GISInAction_NWMapbook.ppt
+	Powerpoint slides from April 18, 2006 GIS In Action presentation.  I do not
+	have plans to update this ppt document.
+
+PresentationHandout.doc
+	A one page document audience handout for the NW Mapbook presentation.  No 
+	plans to update this document.
+
+
+
+Other files I will be uploading:
+	- Sample MXD maps
+	- Data for those sample MXD maps.
+	- An empty polygon feature class for Detail Insets.
+
+
+April 24, 2006
+--------------
+
+Have updated AdaDSMap.zip document, and have added two sample maps along with 
+sample data demonstrating detail insets, multiple data frame updates, and 
+dynamic definition queries.
+
+Will continue to update files as time permits.  There are several bugs in the 
+source code, but the only one that should interfere with work is if you make a
+tagged layout element non-visible on all map pages, then you can't get access
+to it again.  That's the next bug to fix when time is available.
