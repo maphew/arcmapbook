@@ -1,8 +1,5 @@
 #summary Why does editing the code have no effect?
 
-> I am trying to edit the code in <form_foo>.frm.
-> I changed lines 123 and 456, and then installed
-> mapbook, but my changes are not there. Am I doing
-> something wrong? 
+  _I am trying to edit the code in `form_foo.frm`. I changed lines 123 and 456, and then installed mapbook, but my changes are not there. Am I doing something wrong?_
 
 You can not alter the Map Book coding with VBA.  You must have VB6 to make any changes. Once you make the changes, you'll then need to recompile and reinstall Map Book.
