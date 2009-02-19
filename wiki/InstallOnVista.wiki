@@ -27,3 +27,12 @@ Edit `_install.bat` and put the entire path for regsvr32 and regedit in the file
 was happy and worked. An updated `_install.bat` is available in r101.  
 
 _See issue#40 for more details._
+
+== Run CMD as Administrator _then_ `_install.bat` ==
+
+Run the *command prompt* as an administrator (ie right click - then run as administrator) and *_then_ run the updated Install.bat*.
+   
+Running the Install.bat as an administrator from Windows does _not_ work (ie right
+click Install.bat then run as administrator). This is the case even when actually logged on as an admin.
+
+_See issue#44 for background_
