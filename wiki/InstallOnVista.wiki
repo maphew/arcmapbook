@@ -36,3 +36,12 @@ Running the Install.bat as an administrator from Windows does _not_ work (ie rig
 click Install.bat then run as administrator). This is the case even when actually logged on as an admin.
 
 _See issue#44 for background_
+
+== If "Map Series" toolbar not available try: ==
+
+ * Tools > Customize > [Add from file]
+ * Browse "path\to\mapbook\Visual_Basic" and select "DSMapBookUIPrj.dll"
+
+"Map Series" should show up in the list of available toolbars. 
+
+_See issue#33_
