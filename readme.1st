@@ -1,3 +1,13 @@
+-------------------------------------------------------------------------------
+This package by Matt Wilkie, 2009-Mar-03
+
+There are minimal changes to the original NW-Mapbook made available by Reed 
+Hunter. I've organised the files into directories according to type (code, 
+docs, examples), added registery removal file, and updated the (un)install 
+batch files accordingly.
+
+For more info see http://arcmapbook.googlepages.com/
+-------------------------------------------------------------------------------
 Author: Reed Hunter, ESRI.
 
 Note: I will only be able to update this application within the context of a 
