@@ -16,3 +16,9 @@ Browse the [http://arcmapbook.googlecode.com/svn/trunk/docs/ Docs folder].
 Have a suggestion or bug report? See [http://code.google.com/p/arcmapbook/issues/list Issues]
 
 As the user base here is still tiny if you're looking for help it is a good idea to look through the [http://support.esri.com/ ESRI Support Site], especially the [http://forums.esri.com/Forums.asp?c=93 desktop forums], as most people will post there first -- understandably enough!
+
+== Trunk and Branches ==
+
+Many coming here are new to source code control in general, and subversion in particular, which is what is used here. The download packages are generally built from the [http://code.google.com/p/arcmapbook/source/browse/trunk trunk] -- the main distribution, a minimally altered DS Mapbook -- while some of the more interesting work like NW Mapbook and Chase's Customized Mapbook are in the [http://code.google.com/p/arcmapbook/source/browse/branches branches].
+
+At this time if you want to use this extra functionality you'll need to install a branch and not the trunk. Over time I hope we can merge the best of the branches with the mainline, which will require the aid of real developers and not wannabe programmers like matt! In the meantime read the [http://code.google.com/p/arcmapbook/source/checkout checkout instructions] and install you're favourite svn client. I find [http://tortoisesvn.net/ TortoiseSVN] in particular very easy to use.
