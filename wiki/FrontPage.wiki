@@ -1,4 +1,5 @@
 #summary about the Arcmapbook project
+#labels Featured
 = Introduction =
 
 I'd been delaying announcing this project until it was "ready", but I've come to realise that day is never going to happen. So here it is, not fully baked but still serviceable, I hope!
