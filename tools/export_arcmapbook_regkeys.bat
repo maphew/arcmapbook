@@ -19,9 +19,9 @@ for %%g in (AC7622A7-6D66-4D2B-9AE0-EB70BD262B53 E918E787-8B4E-4D51-877C-AD67905
    type "%temp%\%username%_%%g.txt" >> %username%_arcmapbook_registry.txt
    del "%temp%\%username%_%%g.txt"
    )
-   
+
 echo.
-echo. The following keys should match ..\Visual_Basic\register_component_category.reg:
+echo. Results are in %username%_arcmapbook_registry.txt
 echo.
 
-type %username%_arcmapbook_registry.txt
+pause
