@@ -16,7 +16,7 @@ echo +++ Registering mapbook DLLs...
 %WINDIR%\system32\regsvr32 %_opt% ".\Visual_Basic\NWMapBookUIPrj.dll"
 
 echo +++ Adding mapbook registry keys...
-%WINDIR%\regedit %_opt% ".\Visual_Basic\register_component_category.reg"
+%WINDIR%\regedit %_opt% ".\Visual_Basic\NWMapBookUIPrj.reg"
 
 echo.
 pause
