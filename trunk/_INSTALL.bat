@@ -15,7 +15,11 @@ echo +++ Registering mapbook DLLs...
 %WINDIR%\system32\regsvr32 %_opt% ".\Visual_Basic\DSMapBookUIPrj.dll"
 
 echo +++ Adding mapbook registry keys...
-%WINDIR%\regedit %_opt% ".\Visual_Basic\register_component_category.reg"
+if DEFINED ProgramFiles(x86) (
+   %WINDIR%\regedit %_opt% ".\Visual_Basic\register_component_category_x64.reg"
+   ) else (
+   %WINDIR%\regedit %_opt% ".\Visual_Basic\register_component_category.reg"
+   )
 
 echo.
 pause
