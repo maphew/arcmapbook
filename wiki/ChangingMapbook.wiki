@@ -10,3 +10,16 @@ This is a little difficult because Microsoft no longer sells or supports VB6, bu
 [http://shop.ebay.com/items/__visual-basic-6-professional?_trkparms=65%253A12%257C66%253A2%257C39%253A1%257C72%253A2125&_trksid=p3286.c0.m14&_sop=16&_sc=1 Ebay] regularily has _Visual Basic 6_ and _Visual Studio 6_ CDs on sale and auction. The buy-now prices range from ~$150-$350 (yes that much!). If the price is significantly less, read the description carefully to make sure the edition offered is not a learning-only version which has compile disabled. It may also be a good idea to make sure it has not been previously registered.
 
 I've read that if you buy a current Visual Studio license from Microsoft you can downgrade to VB6 for a fee.
+
+== Modifying and Activating Changes ==
+
+   # *Backup current configuration* - make a copy of or zip up `...\path\to\Mapbook\Visual_Basic`
+   # From !Visual_Basic folder *open DSMapBookPrj.vbp* and/or *DSMapBookUIPrj.vbp* in VB6
+   # *Make your changes* (a.k.a. _magic stuff happens here_ )
+   # *Save and compile* -
+     # _(File - Save Project)_ 
+     # save any edited class files _(File - Save DSMapPage.cls)_ 
+     # Create the DLL _(File - Make DSMapBookPrj.dll)_ and save over the existing file. 
+   # Re-register the DLLs (may not be necessary, close ArcMap first) - *run _INSTALL.BAT*
+  
+You will need to do this every time you make a change to the code.
