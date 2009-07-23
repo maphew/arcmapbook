@@ -1,4 +1,5 @@
 #summary Why does editing the code have no effect?
+#labels Featured
 
   _I am trying to edit the code in `form_foo.frm`. I changed lines 123 and 456, and then installed mapbook, but my changes are not there. Am I doing something wrong?_
 
