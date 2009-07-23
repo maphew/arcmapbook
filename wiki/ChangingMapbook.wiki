@@ -3,3 +3,10 @@
   _I am trying to edit the code in `form_foo.frm`. I changed lines 123 and 456, and then installed mapbook, but my changes are not there. Am I doing something wrong?_
 
 You can not alter the Map Book coding with VBA.  You must have VB6 to make any changes. Once you make the changes, you'll then need to recompile and reinstall Map Book.
+
+== Acquiring Visual Basic 6 ==
+This is a little difficult because Microsoft no longer sells or supports VB6, but not impossible. 
+
+[http://shop.ebay.com/items/__visual-basic-6-professional?_trkparms=65%253A12%257C66%253A2%257C39%253A1%257C72%253A2125&_trksid=p3286.c0.m14&_sop=16&_sc=1 Ebay] regularily has _Visual Basic 6_ and _Visual Studio 6_ CDs on sale and auction. The buy-now prices range from ~$150-$350 (yes that much!). If the price is significantly less, read the description carefully to make sure the edition offered is not a learning-only version which has compile disabled. It may also be a good idea to make sure it has not been previously registered.
+
+I've read that if you buy a current Visual Studio license from Microsoft you can downgrade to VB6 for a fee.
