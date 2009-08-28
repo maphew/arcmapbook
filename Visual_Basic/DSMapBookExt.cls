@@ -13,16 +13,16 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
 
 ' Copyright 2008 ESRI
-' 
+'
 ' All rights reserved under the copyright laws of the United States
 ' and applicable international laws, treaties, and conventions.
-' 
+'
 ' You may freely redistribute and use this sample code, with or
 ' without modification, provided you include the original copyright
 ' notice and use restrictions.
-' 
+'
 ' See use restrictions at <your ArcGIS install location>/developerkit/userestrictions.txt.
-' 
+'
 
 
 
@@ -55,7 +55,9 @@ End Property
 Private Sub IExtension_Startup(initializationData As Variant)
 On Error GoTo ErrHand:
   Dim pApp As IApplication
+If g_pFrmMapSeries Is Nothing Then
 40:   Set g_pFrmMapSeries = New frmMapSeries
+End If
 41:   Set g_pFrmMapSeries.m_pApp = initializationData
 42:   Set m_pMapBook = New DSMapBook
 43:   Set pApp = initializationData
@@ -274,7 +276,7 @@ On Error GoTo ErrorHand:
 256:     End If
 257:   Next i
   
-259:   If PagesToExport.count > 0 Then
+259:   If PagesToExport.Count > 0 Then
 260:     If pSeriesOpts2.ClipData > 0 Then
 261:       g_bClipFlag = True
 262:     End If
@@ -284,7 +286,7 @@ On Error GoTo ErrorHand:
 266:     If pSeriesOpts.LabelNeighbors Then
 267:       g_bLabelNeighbors = True
 268:     End If
-269:     For i = 1 To PagesToExport.count
+269:     For i = 1 To PagesToExport.Count
 270:       Set pMapPage = PagesToExport.Item(i)
 271:       pMapPage.DrawPage pMxDoc, pMapSeries, False
           
@@ -359,7 +361,7 @@ Private Function GetTheLastExport(sExportType As String) As IExport
   'Use a Category Factory object to create one instance of every class registered
   ' in the "ESRI Exports" category.
    'Component Category: "ESRI Exports" = {66A7ECF7-9BE1-4E77-A8C7-42D3C62A2590}
-344:   esriExportsCat.value = "{66A7ECF7-9BE1-4E77-A8C7-42D3C62A2590}"
+344:   esriExportsCat.Value = "{66A7ECF7-9BE1-4E77-A8C7-42D3C62A2590}"
 345:   Set pCategoryFactory = New CategoryFactory
 346:   pCategoryFactory.CategoryID = esriExportsCat
   
