@@ -13,16 +13,16 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = True
 
 ' Copyright 2008 ESRI
-' 
+'
 ' All rights reserved under the copyright laws of the United States
 ' and applicable international laws, treaties, and conventions.
-' 
+'
 ' You may freely redistribute and use this sample code, with or
 ' without modification, provided you include the original copyright
 ' notice and use restrictions.
-' 
+'
 ' See use restrictions at <your ArcGIS install location>/developerkit/userestrictions.txt.
-' 
+'
 
 
 
@@ -40,18 +40,18 @@ Implements IContentsView
 
 Private Sub Class_Initialize()
 13:   m_bIsVisible = True
-14:   Load g_pFrmMapSeries
+14:   'Load g_pFrmMapSeries
 End Sub
 
 Private Sub Class_Terminate()
-18:   Unload g_pFrmMapSeries
+18:   'Unload g_pFrmMapSeries
 19:   Set g_pFrmMapSeries = Nothing
 End Sub
 
 Private Sub IContentsView_Activate(ByVal parentHWND As esriSystem.OLE_HANDLE, ByVal Document As IMxDocument)
 
   'From Al
-25:   RemoveContextMenu g_pFrmMapSeries.tvwMapBook.hwnd
+25:   RemoveContextMenu g_pFrmMapSeries.tvwMapBook.hWnd
 End Sub
 
 Private Sub IContentsView_AddToSelectedItems(ByVal Item As Variant)
@@ -77,11 +77,11 @@ ErrHand:
 End Property
 
 Private Sub IContentsView_Deactivate()
-51:   RemoveContextMenuSink g_pFrmMapSeries.tvwMapBook.hwnd
+51:   RemoveContextMenuSink g_pFrmMapSeries.tvwMapBook.hWnd
 End Sub
 
 Private Property Get IContentsView_hWnd() As esriSystem.OLE_HANDLE
-55:   IContentsView_hWnd = g_pFrmMapSeries.tvwMapBook.hwnd
+55:   IContentsView_hWnd = g_pFrmMapSeries.tvwMapBook.hWnd
 End Property
 
 Private Property Get IContentsView_Name() As String
