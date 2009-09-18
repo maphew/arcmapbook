@@ -19,4 +19,20 @@ _in case the above doesn't work_
   # Uncheck all the classes, then click on just `DSMapBookTab` and click OK
 
 
-_manual install procedure courtesy of Larry Young in this thread: [http://forums.esri.com/Thread.asp?c=93&f=1147&t=183751 DS Mapbook Install on 64-Bit Machine]_
+_manual install procedure courtesy of Larry Young in this thread: [http://forums.esri.com/Thread.asp?c=93&f=1147&t=183751 DS Mapbook Install on 64-Bit Machine]
+
+== Under testing ===
+[http://forums.esri.com/Thread.asp?c=93&f=1147&t=183751#907647 Domenico Ciaverrella says:]
+
+Open and Run 32-bit Command Prompt in 64-bit (x64) Windows:
+
+  # click start 
+  # open run dialog and you type `%windir%\SysWoW64\cmd.exe` (or from search box type `%windir%\SysWoW64\cmd.exe`)
+  # Press Enter
+  # you test 32bit console (for instance `echo %programfiles%` you see `program files(x86)`)
+  # move in the folder where you have an install.bat (for instance `cd %programfiles%\yourdll`) and from prompt type `install.bat` 
+  # Press Enter
+
+same for uninstall
+
+-- 
