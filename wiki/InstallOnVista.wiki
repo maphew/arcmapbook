@@ -46,4 +46,4 @@ _See issue#40 for more details._
 
 "Map Series" should show up in the list of available toolbars. 
 
-_See issue#33_
+_See issue#33 for more details._
