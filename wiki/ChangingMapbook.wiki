@@ -12,6 +12,8 @@ This is a little difficult because Microsoft no longer sells or supports VB6, bu
 
 I've read that if you buy a current Visual Studio license from Microsoft you can downgrade to VB6 for a fee.
 
+If you're willing to take the legal and malware risk I'm told it's also possible to locate VB6 on file sharing sites, though be prepared to spend some time swatting popups and backing out of enticing blind alleys. The extracted cd contents will be ~170mb. You'll need a license key; chances are your organization will have one buried somewhere in the archives that is no longer in use.
+
 == Modifying and Activating Changes ==
 
    # *Backup current configuration* - make a copy of or zip up `...\path\to\Mapbook\Visual_Basic`
