@@ -1,0 +1,18 @@
+#summary what is the future of DS Mapbook?
+
+  _I was just curious what plans, if any, you know of for DS Mapbook for ArcGIS 10?  We use it from time to time and wonder whether it will be a going concern._
+  
+  _Thanks for any info and the effort you've put into it._
+
+DS Mapbook may continue to work in ArcGIS 10 (aka 9.4) but unlikely 
+beyond that. v10 has it's own officially supported Mapbook feature set 
+so this is the best place to focus efforts, see [http://help.arcgis.com/en/arcgisdesktop/10.0/help/index.html#//00s90000002s000000.htm Building map books with ArcGIS]
+
+I'll continue to maintain these Arcmapbook project pages for as long as I 
+can squirrel away the odd bit of time from my "real job". Perhaps it 
+will grow to encompass v10 mapbooks as well, I won't know until I play 
+with the new feature in depth.
+
+cheers,
+
+matt
