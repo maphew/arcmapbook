@@ -1,4 +1,5 @@
 #summary what is the future of DS Mapbook?
+#labels Featured
 
   _I was just curious what plans, if any, you know of for DS Mapbook for ArcGIS 10?  We use it from time to time and wonder whether it will be a going concern._
   
