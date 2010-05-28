@@ -1,9 +1,9 @@
 #labels Featured
-#Summary some workarounds for installing on Windows Vista
+#Summary some workarounds for installing on Windows Vista & 7
 
 = Introduction =
 
-Installation on Windows Vista is not yet reliably a straightfoward procedure. Some people have no troubles, others a lot. If you encounter difficulties here are some things you can try.
+Installation on Windows Vista and Windows 7 is not yet reliably a straightfoward procedure. Some people have no troubles, others a lot. If you encounter difficulties here are some things you can try.
 
 = Workarounds =
 
