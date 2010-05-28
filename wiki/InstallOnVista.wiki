@@ -1,5 +1,5 @@
+#summary some workarounds for installing on Windows Vista & 7
 #labels Featured
-#Summary some workarounds for installing on Windows Vista & 7
 
 = Introduction =
 
