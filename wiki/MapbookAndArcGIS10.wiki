@@ -1,5 +1,4 @@
-#summary what is the future of DS Mapbook?
-#labels Featured
+﻿#summary what is the future of DS Mapbook?
 
   _I was just curious what plans, if any, you know of for DS Mapbook for ArcGIS 10?  We use it from time to time and wonder whether it will be a going concern._
   
@@ -9,6 +8,22 @@ DS Mapbook may continue to work in ArcGIS 10 (aka 9.4) but unlikely
 beyond that. v10 has it's own officially supported Mapbook feature set 
 so this is the best place to focus efforts, see [http://help.arcgis.com/en/arcgisdesktop/10.0/help/index.html#//00s90000002s000000.htm Building map books with ArcGIS]
 
+[http://forums.arcgis.com/threads/9217-what-happeneded-to-DS-Map-Book-s-quot-Export-Map-Series-to-PDF-quot According to Kim Ollivier] there aren't any mapbook features missing, back end function or
+feature wise, in v10's Data Driven Pages at the Arcview license level,
+however those features are scattered throughout. John Sobetzer points
+out you'll want to make sure the DDP Toolbar is turned on for easy
+page-to-page navigation as there is no longer a Mapbook tab in the
+Table Of Contents). [http://forums.arcgis.com/threads/8253-Arc-GIS-10-and-Map-Book-DS?p=25220&viewfull=1#post25220 John also notes] that some features, like dynamic
+text, are a lot more work than previous.
+
+There is no migration path, old mapbooks will have to be recreated.
+For important mapbooks you may need to keep an old version of Arcmap
+around as at least one person has [http://forums.arcgis.com/threads/7126-existing-projects-using-DSmapbook-open-in-ArcGIS10-Or-recreate not been able to open the old mxd's]
+at all in v10 (The free [http://www.vmware.com/products/converter/ VMware Converter] and [http://www.vmware.com/products/player/ VMware Player] are very
+useful for this).
+
+I'm sure there's more, this is just a thumbnail sketch. 
+
 I'll continue to maintain these Arcmapbook project pages for as long as I 
 can squirrel away the odd bit of time from my "real job". Perhaps it 
 will grow to encompass v10 mapbooks as well, I won't know until I play 
@@ -17,3 +32,4 @@ with the new feature in depth.
 cheers,
 
 matt
+
