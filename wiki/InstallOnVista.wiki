@@ -16,6 +16,11 @@ click Install.bat then run as administrator). This is the case even when actuall
 
 _See issue#44 for background_
 
+== Don't run `install.bat` from C: ==
+
+Even with admin rights, the C: volume has some restrictions on what you can and can't do, and from where within the volume those restrictions are applied. Extract the mapbook archive to another drive if possible, or somewhere under your user folder, and run the install from there. 
+
+_thanks to Colleen, in comments below_
 
 == Turn off User Account Control ==
 Administrator rights are required for this solution.
