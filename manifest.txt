@@ -1,0 +1,9 @@
+ReadMe.txt
+License.txt
+_INSTALL.bat
+_UNINSTALL.bat
+Visual_Basic\DSMapBookPrj.dll
+Visual_Basic\DSMapBookUIPrj.dll
+Visual_Basic\register_component_category.reg
+Visual_Basic\register_component_category_x64.reg
+Visual_Basic\de-register_component_category.reg
