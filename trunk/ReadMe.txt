@@ -12,6 +12,14 @@ Docs: 			How to install and use Mapbook.
 Project homepage: http://arcmapbook.googlepages.com/
 
 -------------------------------------------------------------------------------
+Minimal Mapbook for ArcMap 9.3, Release 2010 Novemeber 30
+
+This is a minor release. It's main purpose is to test:
+
+    a) minimal packaging (no docs or examples or source code)
+    b) fix for missing toolbar issues on 64 bit systems
+
+-------------------------------------------------------------------------------
 Mapbook for ArcMap 9.3, Release 2009 February 11
 
 This is a fullscale merge with the upstream official ESRI release for ArcGIS 9.3.
