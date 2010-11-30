@@ -3,18 +3,28 @@
 
 = Introduction =
 
-Installation on Windows Vista and Windows 7 is not yet reliably a straightfoward procedure. Some people have no troubles, others a lot. If you encounter difficulties here are some things you can try.
+Installation on Windows Vista and Windows 7 is not yet reliably a straightforward procedure. Some people have no troubles, others a lot. Start with the following, and if you encounter difficulties look at the workarounds further down.
+
+  # Create a folder on your *`C:\`* drive called "Addons"
+  # Download a release file and extract the contents to *`C:\Addons`* (feel free to rename the default "mini-Mapbook_for_9.3_2010-Nov-30" to something simpler like "Mapbook")
+  # Click on the start menu and do a search for CMD
+  # Right click on the top result cmd.exe and choose "Run As Administrator" (At this point, you may need a system administrator to type in local administrator credentials if your own credentials do not give you administrative access to the computer you are using)
+  # Type in the command: *`C:`* and hit ENTER
+  # Type in the command: *`cd c:\Addons\Mapbook`*
+  # Make sure all ESRI Products are closed
+  # Type in the command: *`INSTALL.bat`*
+  # open !ArcMap and see if you see the Mapbook tab in the lower left and the !ArcMap Toolbar available to be turned on
+
+_Recipe courtesy of Aaron Hixson (hicksticks2001)_
+
+*Notes*
+
+It is not recommended to copy the files into your your user profile or `C:\Users\%USERNAME%` as other users won't be able to access the Mapbook files. You shouldn't need to turn off UAC (User Access Control) in Windows 7 or Windows Vista if you use the method of running the command prompt as an Administrator.
+
+Running the Install.bat as an administrator from Windows does _not_ work (ie right
+click Install.bat then run as administrator). This is the case even when actually logged on as an admin. _See issue#44 for background_
 
 = Workarounds =
-
-== Run CMD as Administrator _then_ `_install.bat` ==
-
-Run the *command prompt* as an administrator (ie right click - then run as administrator) and *_then_ run the updated Install.bat*.
-   
-Running the Install.bat as an administrator from Windows does _not_ work (ie right
-click Install.bat then run as administrator). This is the case even when actually logged on as an admin.
-
-_See issue#44 for background_
 
 == Don't run `install.bat` from C: ==
 
@@ -51,4 +61,4 @@ _See issue#40 for more details._
 
 "Map Series" should show up in the list of available toolbars. 
 
-_See issue#33 for more details._
+_See issue#33 for more details. Updated .reg files in r160 should fix this._
