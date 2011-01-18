@@ -1,35 +1,32 @@
 ﻿#summary what is the future of DS Mapbook?
+#labels Featured
 
-  _I was just curious what plans, if any, you know of for DS Mapbook for ArcGIS 10?  We use it from time to time and wonder whether it will be a going concern._
+  _I was just curious what plans, if any, you know of for DS Mapbook for ArcGIS 10?  We use it a lot and wonder whether it will be a going concern._
   
   _Thanks for any info and the effort you've put into it._
 
-DS Mapbook may continue to work in ArcGIS 10 (aka 9.4) but unlikely 
-beyond that. v10 has it's own officially supported Mapbook feature set 
-so this is the best place to focus efforts, see [http://help.arcgis.com/en/arcgisdesktop/10.0/help/index.html#//00s90000002s000000.htm Building map books with ArcGIS]
+ArcGIS 10 has it's own officially supported Mapbook feature set called [http://blogs.esri.com/Dev/blogs/arcgisdesktop/archive/2010/01/22/Data-Driven-Pages.aspx Data Driven Pages], so this is the best place to focus efforts; see [http://help.arcgis.com/en/arcgisdesktop/10.0/help/index.html#//00s90000002s000000.htm Building map books with ArcGIS].
 
-[http://forums.arcgis.com/threads/9217-what-happeneded-to-DS-Map-Book-s-quot-Export-Map-Series-to-PDF-quot According to Kim Ollivier] there aren't any mapbook features missing, back end function or
-feature wise, in v10's Data Driven Pages at the Arcview license level,
-however those features are scattered throughout. John Sobetzer points
-out you'll want to make sure the DDP Toolbar is turned on for easy
-page-to-page navigation as there is no longer a Mapbook tab in the
-Table Of Contents). [http://forums.arcgis.com/threads/8253-Arc-GIS-10-and-Map-Book-DS?p=25220&viewfull=1#post25220 John also notes] that some features, like dynamic
-text, are a lot more work than previous.
+The process of [http://blogs.esri.com/Dev/blogs/arcgisdesktop/archive/2010/12/29/Migrating-DSMapBooks-to-Data-Driven-Pages.aspx migrating from mapbook to data driven pages] is described as straightforward, though not automatic.
 
-There is no migration path, old mapbooks will have to be recreated.
-For important mapbooks you may need to keep an old version of Arcmap
-around as at least one person has [http://forums.arcgis.com/threads/7126-existing-projects-using-DSmapbook-open-in-ArcGIS10-Or-recreate not been able to open the old mxd's]
-at all in v10 (The free [http://www.vmware.com/products/converter/ VMware Converter] and [http://www.vmware.com/products/player/ VMware Player] are very
-useful for this).
+DS Mapbook may continue to work in ArcGIS 10 but very unlikely beyond that. It would require installing VBA support for v10 and then installing mapbook. I don't know of anyone who has tried it and if there are any additional tweaks necessary. Installing VBA support is a multi-step process:
 
-I'm sure there's more, this is just a thumbnail sketch. 
+    * Install ArcGIS Desktop
+    * Install ArcGIS VBA Resources
+    * Obtain a license for VBA (from ESRI customer service) 
 
-I'll continue to maintain these Arcmapbook project pages for as long as I 
-can squirrel away the odd bit of time from my "real job". Perhaps it 
-will grow to encompass v10 mapbooks as well, I won't know until I play 
-with the new feature in depth.
+See [http://www.google.com/url?sa=D&q=http://blogs.esri.com/dev/blogs/arcgisdesktop/archive/2009/10/28/arcgis-desktop-and-vba_3f00_.aspx Arcgis desktop and VBA] and [http://www.google.com/url?sa=D&q=http://help.arcgis.com/en/sdk/10.0/vba_desktop/conceptualhelp/index.html%23//000100000130000000 Installing and licensing VBA at ArcGIS 10].
+
+There are contrasting views on whether data driven pages do in fact subsume all of the mapbook functionality, particularly in the ease of use category. What is very clear though is that the potential of series maps in v10+ using python is much bigger and wider than it ever was with VBA.
+
+[http://forums.arcgis.com/threads/9217-what-happeneded-to-DS-Map-Book-s-quot-Export-Map-Series-to-PDF-quot According to Kim Ollivier] there aren't any mapbook features missing, back end function or feature wise, in v10's Data Driven Pages at the Arcview license level, however those features are scattered throughout. John Sobetzer points out you'll want to make sure the DDP Toolbar is turned on for easy page-to-page navigation as there is no longer a Mapbook tab in the Table Of Contents). [http://forums.arcgis.com/threads/8253-Arc-GIS-10-and-Map-Book-DS?p=25220&viewfull=1#post25220 John also notes] that some features, like dynamic text, are a lot more work than previous.
+
+Old mapbooks will have to be recreated. For important mapbooks you may need to keep an old version of Arcmap around as at least one person has [http://forums.arcgis.com/threads/7126-existing-projects-using-DSmapbook-open-in-ArcGIS10-Or-recreate not been able to open the old mxd's] at all in v10 (The free [http://www.vmware.com/products/converter/ VMware Converter] and [http://www.vmware.com/products/player/ VMware Player] are very useful for this).
+
+I'm sure there's more, this is just a thumbnail sketch.  Basically, DDP has a much bigger potential than mapbook but it will take awhile before the community puts together enough 3rd party scripts/add-ons to surpass mapbook in all areas. I have confidence this *will* happen, but it's going to take time.
+
+It will happen faster if someone collects the significant user DDP scripts into one place and integrates them into a package, along with docs, source code control and so on like I did here with Arcmapbbok. That project won't be spearheaded by me this time, though I'll be happy to play a supporting role. :-)
 
 cheers,
 
 matt
-
