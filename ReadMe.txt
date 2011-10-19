@@ -9,10 +9,22 @@ old version first; existing map series will be unaffected.
 Visual_Basic: 	The program
 Docs: 			How to install and use Mapbook.
 
-Project homepage: http://arcmapbook.googlepages.com/
+Project homepage: http://sites.google.com/site/arcmapbook/
+
 
 -------------------------------------------------------------------------------
-Minimal Mapbook for ArcMap 9.3, Release 2010 Novemeber 30
+Mapbook for ArcMap 9.3, Release 2011 October 19
+
+Improved installation for Windows 7 and Vista, plus including the documention
+and examples. There are no functional changes from the 2009 release, meaning
+there is no need to upgrade if you already have a working mapbook install. 
+
+This release doesn't contain source code. For that please see an older release,
+or (better) check out from subversion --
+http://code.google.com/p/arcmapbook/source/checkout
+
+-------------------------------------------------------------------------------
+Minimal Mapbook for ArcMap 9.3, Release 2010 November 30
 
 This is a minor release. It's main purpose is to test:
 
@@ -25,25 +37,39 @@ Mapbook for ArcMap 9.3, Release 2009 February 11
 This is a fullscale merge with the upstream official ESRI release for ArcGIS 9.3.
 The main differences between Arcmapbook and DS Mapbook in this release are:
 
- * _INSTALL and _UNINSTALL updated for Vista, though it still may not work reliably for everybody. Thank you drseb...@cinci.rr.com for providing a solution.
+ * _INSTALL and _UNINSTALL updated for Vista, though it still may not work
+   reliably for everybody. Thank you drseb...@cinci.rr.com for providing a
+   solution.
  * _UNINSTALL.bat removes mapbook registry entries
  * register_component_category.reg modified to accommodate 64bit Windows XP
  * More documentation and tutorials
- * Organised and searchable bug list (http://code.google.com/p/arcmapbook/issues/list) Don't forget to widen search to include closed issues when looking for solutions!
- 
+ * Organised and searchable bug list
+  (http://code.google.com/p/arcmapbook/issues/list) Don't forget to widen search
+  to include closed issues when looking for solutions!
  
 Upstream release: http://resources.esri.com/help/9.3/ArcGISDesktop/com/samples/Cartography/Map_Production/DSMapBook/9d2dafa6-fcae-4e3d-bd27-1f242b216452.htm
 
 -------------------------------------------------------------------------------
 Mapbook for ArcMap 9.2, Release 2007 October 26
 
-The main reason for this release is to bundle the slightly improved un/install with the main code. Changes from March release are:
+The main reason for this release is to bundle the slightly improved un/install
+with the main code. Changes from March release are:
 
 - improved installation and removal usability (moved un/install.bat to top folder)
 
-- initial check-in of Jerry Chase's customisation of Mapbook (Customized DS Map Book Manual.doc). NOTE: actual code is not yet implemented in arcmapbook, you'll have to pull it out of the doc yourself. Jerry's doc includes instruction and code. Outline of added functionality: 1. The ability to control the extent of the locator frames: a. Scaled Indicator: scale by the percentage of area of the record in focus b. Scaled Local Indicator: scaled by the percentage of the area which includes the record in focus and all records contiguous to it c. Index 2 Indicator: the ability to control extent of indicator frame by the area of a secondary index which is tied to the index of the record in focus (State in which a county is located). 
+- initial check-in of Jerry Chase's customisation of Mapbook (Customized DS Map
+  Book Manual.doc). NOTE: actual code is not yet implemented in arcmapbook,
+  you'll have to pull it out of the doc yourself. Jerry's doc includes
+  instruction and code. Outline of added functionality: 1. The ability to
+  control the extent of the locator frames: a. Scaled Indicator: scale by the
+  percentage of area of the record in focus b. Scaled Local Indicator: scaled by
+  the percentage of the area which includes the record in focus and all records
+  contiguous to it c. Index 2 Indicator: the ability to control extent of
+  indicator frame by the area of a secondary index which is tied to the index of
+  the record in focus (State in which a county is located). 
 
-- Added to pause to (un)install batch files so any error messages can be seen. _UNINSTALL.bat now deletes Mapbook registry keys
+- Added to pause to (un)install batch files so any error messages can be seen.
+  _UNINSTALL.bat now deletes Mapbook registry keys
 
 
 -------------------------------------------------------------------------------
