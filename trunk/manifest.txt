@@ -1,5 +1,6 @@
 ReadMe.txt
 License.txt
+Uninstall_ReadMe.txt
 _INSTALL.bat
 _UNINSTALL.bat
 Visual_Basic\DSMapBookPrj.dll
