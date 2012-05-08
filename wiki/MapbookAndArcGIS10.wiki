@@ -9,13 +9,30 @@ ArcGIS 10 has it's own officially supported Mapbook feature set called [http://b
 
 The process of [http://blogs.esri.com/Dev/blogs/arcgisdesktop/archive/2010/12/29/Migrating-DSMapBooks-to-Data-Driven-Pages.aspx migrating from mapbook to data driven pages] is described as straightforward, though not automatic.
 
-DS Mapbook may continue to work in ArcGIS 10 but very unlikely beyond that. It would require installing VBA support for v10 and then installing mapbook. I don't know of anyone who has tried it and if there are any additional tweaks necessary. Installing VBA support is a multi-step process:
+DS Mapbook *does* work in ArcGIS 10 but very unlikely beyond that. It requires installing VBA support for v10 and then installing mapbook. Installing VBA support is a multi-step process:
 
     * Install ArcGIS Desktop
     * Install ArcGIS VBA Resources
     * Obtain a license for VBA (from ESRI customer service) 
 
 See [http://www.google.com/url?sa=D&q=http://blogs.esri.com/dev/blogs/arcgisdesktop/archive/2009/10/28/arcgis-desktop-and-vba_3f00_.aspx Arcgis desktop and VBA] and [http://www.google.com/url?sa=D&q=http://help.arcgis.com/en/sdk/10.0/vba_desktop/conceptualhelp/index.html%23//000100000130000000 Installing and licensing VBA at ArcGIS 10].
+
+After this installing Mapbook consists of:
+
+ # Install Mapbook the usual way (run `_install.bat`)
+ # Run `...ArcGIS\Desktop10.0\Bin\` *Categories.exe*
+ # Scroll down to and select *ESRI Mx Extensions*
+  # click *Add Object* browse to and select `DSMapBookUIPrj.dll` (from where you unpacked the Mapbook package)
+  # uncheck all, and then click on just *DSMapBookExt*, click OK.
+ # While still in the _Component Category Manager_, scroll up to and select *ESRI Contents Views*
+  # Click *Add Object*, again browse for `DSMapBookUIPrj.dll`
+  # Uncheck all classes, click on just *DSMapBookTab*, click OK 
+
+This will add a button to the Table of Contents. The button will not show an icon but it works regardless.
+
+_Detailed v10 install recipe courtesy of [http://forums.arcgis.com/threads/8253-Arc-GIS-10-and-Map-Book-DS?p=196333&viewfull=1#post196333 Khaled Hussein]_
+
+-----
 
 There are contrasting views on whether data driven pages do in fact subsume all of the mapbook functionality, particularly in the ease of use category. What is very clear though is that the potential of series maps in v10+ using python is much bigger and wider than it ever was with VBA.
 
